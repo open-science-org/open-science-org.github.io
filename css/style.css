@@ -1,8 +1,6 @@
 /*
-    Theme Name: Medilab
-    Theme URL: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/
-    Author: BootstrapMade.com
-    Author URL: https://bootstrapmade.com
+ 
+ With courtesy of https://bootstrapmade.com [please support these amazing people]
 */
 
 body {
@@ -207,7 +205,7 @@ banner
 services
 ***************************************/
 .icon i{
-	color: #0cb8b6;
+	color: #ed7d32;
 	font-size: 45px;
 	margin-bottom: 25px;
 }
