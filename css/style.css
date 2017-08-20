@@ -508,7 +508,7 @@ footer
 @media (min-width: 551px) and (max-width: 980px){
 
 }
-@media (min-width: 220px) and (max-width: 700px){
+@media (min-width: 220px) and (max-width: 850px){
     .testi-info{
         margin-bottom: 20px;
     }
@@ -544,6 +544,6 @@ footer
         font-size: 20px;
     }
     .banner-text h1{
-		width: 95% !important;
+		width: 60% !important;
 	}	
 }
