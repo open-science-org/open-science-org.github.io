@@ -4,6 +4,40 @@
 */
 
 
+@import url(//fonts.googleapis.com/css?family=Open+Sans:700);
+
+
+canvas {
+  width: 100%;
+  height: 60%;
+  position: absolute;
+  z-index: 1
+  
+}
+
+
+
+
+.canvasText {
+  font-size: 7em;
+  color: white;
+  font-family: 'Open Sans', serif;
+  letter-spacing: 2px;
+  pointer-events: none;
+  font-weight: 700;
+  position: absolute;
+  top: 2%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+
+
+
+
+
 
 body {
 	font-family: 'Open Sans', sans-serif;
@@ -135,13 +169,13 @@ banner
 	display: block;
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
-    color: #fff;
+    color: #ed7d32;
     text-transform: uppercase;
     background-color: rgba(12, 184, 182, 0.21);
 }
 .navbar-default .navbar-nav > li > a
 {
-	color: #fff;
+	color: #ed7d32;
 	text-transform: uppercase;
 	font-size: 14px;
 	font-weight: 300;
@@ -159,15 +193,9 @@ banner
 {
     background-color: rgba(12, 184, 182) !important;
 }
-#banner{
-	background: url('../img/bg-banner.jpg') no-repeat fixed;
-	background-size: cover;
-	min-height: 650px;
-	position: relative;
-}
+
 .bg-color{
 	background-color: RGBA(13, 70, 83, 0.78);
-	min-height: 650px;
 }
 .banner-info{
 	padding-top: 190px;
