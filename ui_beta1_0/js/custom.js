@@ -1,15 +1,3 @@
-
-  $(function(){
-      $(".element").typed({
-        strings: ["<h1 class='black'>0pen ∫cience 0rganization</h1>", "<h1 class='black'>For Democratic Publishing<h1>"],
-        typeSpeed: 30
-		
-		
-      });
-  });
-
-
-
 (function ($) {
     
     // Add smooth scrolling to all links in navbar
