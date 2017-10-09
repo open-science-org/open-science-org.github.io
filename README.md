@@ -11,7 +11,9 @@
 
 2. Install dependencies:
     Install [https://yarnpkg.com/en/](yarn) package manager:
+
     If you don't have [https://brew.sh/](homebrew) installed then you should do that before installing yarn.
+
     Install yarn using homebrew: `brew install yarn`
 
     cd to project folder(if you are not already there).
