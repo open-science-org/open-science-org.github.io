@@ -16,7 +16,7 @@ jobs:
 
       - run:
           command: |
-            yarn global add mustache
+            yarn add mustache
             yarn install
             yarn run buildIndex
 
