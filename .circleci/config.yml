@@ -22,6 +22,8 @@ jobs:
 
       - run:
           command: |
+            git config --global user.email "oso.network.ci@gmail.com"
+            git config --global user.name "OSOCi"
             git add index.html
             git commit -m "CI Built index.html from partials"
             git push
