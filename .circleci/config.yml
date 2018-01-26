@@ -16,8 +16,8 @@ jobs:
 
       - run:
           command: |
-            yarn add mustache
             yarn install
+            yarn run buildFaq
             yarn run buildIndex
 
       - run:
@@ -25,5 +25,5 @@ jobs:
             git config --global user.email "oso.network.ci@gmail.com"
             git config --global user.name "OSOCi"
             git add index.html
-            git commit -m "CI Built index.html from partials"
+            git commit -m "CI Built index.html from partials [ci skip]"
             git push
