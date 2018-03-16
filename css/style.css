@@ -709,3 +709,9 @@ footer
         font-size: 24px;
     }
 }
+
+.imageContainer{
+    height:200px;
+    width:200px;
+    border-radius:50%;
+}
