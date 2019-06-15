@@ -1,745 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open Science Organization</title>
-  <meta name="description" content="Next generation research platform">
-  <meta property="og:image" content="http://www.oso.network/img/logolarge.png" />
-  
-  <link rel='shortcut icon' type='image/x-icon' href='img/favicon.png' />
-  <meta name="keywords" content="openScienceorganization, blockchain, science, research">
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
-  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="/typed.js" type="text/javascript"></script>
+  <head>
 
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Open Science Organization</title>
+    <meta name="description" content="Next generation research platform">
+	<link rel='shortcut icon' type='image/x-icon' href='images/favicon.png' />   
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,700" rel="stylesheet">
 
-  ga('create', 'UA-106180944-1', 'auto');
-  ga('send', 'pageview');
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+ <!--    <link rel="stylesheet" href="css/owl.theme.default.min.css"> -->
+    <link rel="stylesheet" href="css/magnific-popup.css">
 
-  </script>
-</head>
-  <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
-    <canvas id="banner" class="banner">
-    </canvas>
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <div class="col-md-12">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a href="#"><img src="img/logosmall.png" style="margin-top: -16px;"></a>
-      </div>
-      <div class="collapse navbar-collapse navbar-right" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#banner">Home</a></li>
-          <li class=""><a href="#coreConcept">Concept</a></li>
-          <li class=""><a href="#team">Team</a></li>
-          <li class=""><a href="#faq">FAQ</a></li>
-          <li class=""><a href="#contact">Contact</a></li>
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects
-              <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li class=""><a target="_blank" href="#uriConcept">Unique Researcher Identity (URI)</a></li>
-                <li class=""><a target="_blank" href="#ipisConcept">Interplanetary Idea System (IPIS)</a></li>
-                <li class=""><a target="_blank" href="#rrindexConcept">Researcher Index (RR-Index)</a></li>
-                <li class=""><a target="_blank" href="#storageConcept">Storage</a></li>
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+    
+    <link rel="stylesheet" href="css/flaticon.css">
+        
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-106180944-1', 'auto');
+      ga('send', 'pageview');
+    
+    </script>
+  </head>
+
+  <body>
+    <!-- <div class="KW_progressContainer">
+      <div class="KW_progressBar"></div>
+    </div> -->
+
+    
+        
+    <nav id="colorlib-main-nav" >
+      <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
+      <div class="js-fullheight colorlib-table">
+        <div class="img" style="background-image: url(images/logolarge.png);"></div>
+        <div class="colorlib-table-cell js-fullheight">
+            <div class="col-md-12 text-center">
+              <ul>
+                <li class="active"><a href="index.html"><span><small>01</small>Home</span></a></li>
+                <li><a href="features.html"><span><small>02</small>Features</span></a></li>
+                <li><a href="projects.html"><span><small>03</small>Projects</span></a></li>
+                <li><a href="teams.html"><span><small>04</small>Teams</span></a></li>
+                <li><a href="faqs.html"><span><small>05</small>FAQs</span></a></li>
+                <li><a href="contacts.html"><span><small>06</small>Contacts</span></a></li>
               </ul>
-            </li>
-        </ul>
+            </div>
+        </div>
       </div>
-    </div>
-  </div>
-</nav>    
-<div class="banner-info">
-  <div class="banner-logo text-center">
-    <img src="img/logoico.png" class="img-responsive">
-  </div>
-  <div class="banner-text text-center" style="width:58%;margin: 0 auto;">
+    </nav>
+    
+        <header class="shadow" style="background-color:#6a94a5;">
+        <div class="container">
+            <div class="col-md-12">
+              <div class="colorlib-navbar-brand">
+                <a class="colorlib-logo" href="index.html"><span class="logo-img" style="background-image: url(images/logosmall.png);"></a>
+              </div>
+              <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+            </div>
+        </div>
+      </header>
 
-    <h1 style="color:black;">0PEN ∫CIENCE 0RGANIZATION</h1>
-    <p style="color:black">Open, democratic, and efficient end-to-end scientific ecosystem managed by a flexible DAO jointly owned by scientific researchers and public.</p>
-    <a href="https://github.com/open-science-org/wiki/blob/master/OSO_white_paper.pdf" class="btn btn-appoint">Read our concept.</a>
-  </div>
+    <div style="background-color: #25146e;">
+      <div class="jumbotron">
+        <div style="background-color: #f0f0f0;">
+      <section class="home-slider owl-carousel">
+        <div class="slider-item big-height">
+          <div class="container">
+            <div class="row slider-text align-items-center text-center justify-content-center big-height" data-scrollax-parent="true">
+              <div class="col-md-12 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+                <!-- <p><a href="#" class="scroll">Hello! I'm</a></p> -->
+                <h1 class="mb-3 heading" style="color:black;" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><a href="">0PEN ∫CIENCE 0RGANIZATION</a></h1>
+                <p class="mb-3" style="color:black;" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Open, democratic, and efficient end-to-end scientific ecosystem managed by a flexible DAO jointly owned by scientific researchers and public.</p>
+                <button type="button" class="text-center btn-lg round shadow"><a href="#">
+                  </a><a href="http://www.oso.network/idea-hub/">Checkout our POC <i class="fa fa-flask"></i></a>
+             </button>
+
+             <button type="button" class="text-center btn-lg round shadow"><a href="#">
+              </a><a href="https://github.com/open-science-org/wiki/blob/master/OSO_white_paper.pdf">Checkout our White Paper <i class="fa fa-file-text faa-horizontal animated">&nbsp;</i></a>
+         </button>
+
+         <button type="button" class="text-center btn-lg round shadow"><a href="#">
+          </a><a href="https://github.com/open-science-org">Say Hi in Github <i class="fa fa-github"></i></a>
+     </button>
+
+         
+
+             
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <hr>
+    </div>
+   
+
+
+
+    
+      <div style="background-color: #f0f0f0;">
+      <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-5 pb-5">
+            <div class="col-md-6 text-center heading-section ftco-animate">
+              <h2 class="heading" data-scrollax=" properties: { translateY: '40%', opacity: 0.8 }" ><a href="">CORE CONCEPT</a></h2>
+
+            </div>
+          </div>
+                <p style="text-align:center; color: black; ">
+                  Modern day science has been a collective effort of different researchers and research groups.</p>
+                  <p class="mb-3 slider-text "  style="text-align:center; color: black;">
+                The collective intellectual power gathered by the scientific ecosystem is akin to the group intelligence (the “wisdom of crowds”) where a wise crowd is generally more intelligent compared to individual members in the group. The additional gain in intelligence is primarily dependent on the efficient flow of value (capital, information, etc.) among the members.</p>
+                <p  class="slider-text " style="text-align:center; color: black;">The scientific community is still dependent on the rudimentary system for value flow, which is highly centralized, opaque, and redundant. Thereby it suffers from several problems: funding agencies are controlled by a small number of people, majority of scientists’ time is consumed by grant application writing with small success rates, a slow publication process, institutional biases, underpaid researchers, irreproducible publications, high subscription fees for journals, and a general focus on quantity of scientific publications over quality.</p><p style="text-align:center; color: black;">
+                These problems can be solved and the overall efficiency of the scientific community can be improved by creating an open and decentralized scientific ecosystem based on blockchain technology (or its variants).</p><p style="text-align:center; color: black;">
+                <strong>Open Science Organization (OSO) </strong>will be a decentralized community that will create an open and democratic self-sustaining scientific ecosystem. </p>
+                  </div>
+               
+      </section>
+      <hr>
+    </div>
+    
+
+
+    <div style="background-color: #f0f0f0;">
+      <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-5 pb-5">
+            <div class="col-md-6 text-center heading-section ftco-animate">
+              <h2 class="heading" data-scrollax=" properties: { translateY: '40%', opacity: 0.8 }" ><a href="">FEATURES</a></h2>
+
+            </div>
+          </div>
+                  <p class="mb-3 slider-text "  style="text-align:center; color: black;">
+                <strong>Generalized Idea Protcol (GIP) </strong>will allow us to track the evolution of ideas over time as well as quantify the similarity of two ideas. GIP will facilitate the efficient sharing of the ideas and prevent the community from reinventing wheels, thereby accelerating the pace of the scientific research. </p>
+            <br/>
+            <a href="#">
+                  <div class="row justify-content-center">
+                    <button type="button" class="text-center btn-lg round shadow">
+                      <a href="features.html">Click to See more Features </a>    
+                    </button>
+                  </div>
+                  </a>     
+            </div>
+               
+      </section>
+      <hr>
+    </div>
   
 
-  <span id="typed"></span>
-  <div class="text-center">
-    <a href="#coreConcept"><i class="fa fa-angle-down" style="color:black; font-size:40px"></i></a>
-  </div>
-  <div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <p class="lead">We have a POC web app for our Idea Hub project--<a href="http://www.oso.network/idea-hub/">check it out!</a>.</p>
-    </div>
-  </div>
-</div>
+      <!-- END slider -->
+      
+      <div style="background-color: #f0f0f0;">
+     
+        <div class="container">
+           <section class="ftco-section">
+          <div class="row justify-content-center mb-5 pb-5">
+            <div class="col-md-6 text-center heading-section ftco-animate">
+              <h2 class="heading" data-scrollax=" properties: { translateY: '40%', opacity: 0.8 }" ><a href="">PROJECTS</a></h2>
 
-<section id="coreConcept" class="section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12 col-sm-6">
-        <h2 class="ser-title">Core Concept</h2>
-        <hr class="botm-line">
-        <p style="text-align:justify">Modern day science has been a collective effort of different researchers and research groups.
-          The collective intellectual power gathered by the scientific ecosystem is akin to the group intelligence (the “wisdom of crowds”) where a wise crowd is generally more intelligent compared to individual members in the group. The additional gain in intelligence is primarily dependent on the efficient flow of value (capital, information, etc.) among the members.
-          The scientific community is still dependent on the rudimentary system for value flow, which is highly centralized, opaque, and redundant. Thereby it suffers from several problems: funding agencies are controlled by a small number of people, majority of scientists’ time is consumed by grant application writing with small success rates, a slow publication process, institutional biases, underpaid researchers, irreproducible publications, high subscription fees for journals, and a general focus on quantity of scientific publications over quality.
-          These problems can be solved and the overall efficiency of the scientific community can be improved by creating an open and decentralized scientific ecosystem based on blockchain technology (or its variants).
-          Open Science Organization (OSO) will be a decentralized community that will create an open and democratic self-sustaining scientific ecosystem. </p>
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-6 col-sm-4">
-        <div class="service-info">
-          <div class="icon">
-            <i class="fa fa-flask"></i>
+            </div>
           </div>
-          <div class="icon-info">
-            <h4>GIP</h4>
-            <p>Generalized Idea Protcol (GIP) will allow us to track the evolution of ideas over time as well as quantify the similarity of two ideas. GIP will facilitate the efficient sharing of the ideas and prevent the community from reinventing wheels, thereby accelerating the pace of the scientific research.</p>
-          </div>
-        </div>
-        <div class="service-info">
-          <div class="icon">
-            <i class="fa fa-shopping-basket"></i>
-          </div>
-          <div class="icon-info">
-            <h4>Quantification of expertise </h4>
-            <p>The level of expertise or e-value of an entity (general individual, researcher, research group, organization, etc.) in a research domain D will be computed using e-function. </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-4">
-        <div class="service-info">
-          <div class="icon">
-            <i class="fa fa-users"></i>
-          </div>
-          <div class="icon-info">
-            <h4>Open and Democratic funding</h4>
-            <p>In OSO funding mechanism, there will be two voting stages: 1) Direction vote: the first voting stage decides the funding distribution to different research domains and projects, 2) Matching vote: the second stage decides the matching of the funded projects to the funding applicants.</p>
-          </div>
-        </div>
-        <div class="service-info">
-          <div class="icon">
-            <i class="fa fa-question-circle"></i>
-          </div>
-          <div class="icon-info">
-            <h4>Open and Democratic Review</h4>
-            <p>The review process will be open to the public. It will consist of two stages: initial review and perpetual review. </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3 col-sm-3 col-xs-6 col-md-offset-5">
-        <div class="icon">
-          <a href="https://github.com/open-science-org/wiki/blob/master/OSO_white_paper.pdf"><i class="fa fa-file-text faa-horizontal animated">&nbsp;</i><input class="btn btn-primary" type="button" value="Whitepaper" style="display: inline-block; background-color:rgba(12, 184, 182, 0.91); vertical-align:top; margin-top: 10px;"></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="uriConcept" class="section-padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-sm-6">
-          <h2 class="ser-title">Unique Researcher Identity(URI)
-              <a href="https://github.com/open-science-org/URI"><i class="fa fa-github"></i></a>
-          </h2>
-          <hr class="botm-line">
-          <p style="text-align:justify">
-            This project envisions the solution to the problem of unique researcher identity(URL). Our team is working on creating a unique research idenity
-            which can be stored, tracked, shared and audited levaraging the block chain technologies. This would include the complex mapping of 
-            researcher's profile with his/her ideas, publications and activities. Following is the visaulization of how URI can be realized through the combination of existing solutions.<br>
-            <div style="text-align:center">
-            <img width="70%" height=auto src="https://raw.githubusercontent.com/open-science-org/URI/master/open-science-org-network.png"><br>
-            <b>Find more about how we are progressing on this project through our  <a href="https://github.com/open-science-org/URI"> github <i class="fa fa-github"></i></a>.</b>
-          </div>
-          </p>
-        </div>
-      </div>
-      </div>
-</section>
-<section id="ipisConcept" class="section-padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-sm-6">
-          <h2 class="ser-title">Generalized Idea Protocol(GIP)
-              <a href="https://github.com/open-science-org/GIP"><i class="fa fa-github"></i></a>
-          </h2>
-          <hr class="botm-line">
-          <p style="text-align:justify">
-           GIP is a protocol that defines an idea and the relationship between two or more ideas. The relationship between two ideas will define:
-           <ul>
-          <li>the association strength between the ideas</li>
-           <li>the agreement between the owners of the ideas</li>
-           <li>the idea flow between them</li>
-           <li>the value flow between them.</li>
-           </ul>
-           If an idea B which is dependent on idea A generates value of $100, how is this value shared to the idea A? and how does the value shared to idea A (let's say $5) is shared to the ideas it was based upon? In other words, how does the value flow back? <br>
-
-          With GIP, each unique idea can be identified and its evolution over the time can be tracked. In addition, it will give us a framework to evaluate the relationship between two different ideas. One way of modeling GIP would be by a directed acyclic graph (DAG) that grows over time. Each node of the DAG will be an GIP object representing a unique idea. An GIP object will contain all the information required to represent a unique idea. If there is a publication or data (stored as an IPFS object) related to an idea, its GIP object will contain the cryptographic hash of the IPFS object.<br>
-
-          GIP will allow us to track the evolution of ideas over time as well as quantify the similarity of two ideas. The similarity score can be a hybrid of the market-driven score (decided by the scientific community via voting) and the algorithmic score generated from the GIP protocol. GIP will facilitate the efficient sharing of the ideas and prevent the community from reinventing wheels, thereby accelerating the pace of the scientific research. In addition, a good visualization of GIP objects will help the scientific community to identify the pain points of scientific research. Similarly, it can be used to find the optimal distribution of available resources (e.g. fund allocation) required in order to maximize scientific throughput. Loosely speaking, GIP will store the collective thought process of the whole scientific community.
-            <div style="text-align:center">
-              <b>Find more about how we are progressing on this project through our <a href="https://github.com/open-science-org/GIP">github <i class="fa fa-github"></i></a>.</b>
-              </div>
-          </p></div>
-      </div>
-      </div>
-</section>
-<section id="rrindexConcept" class="section-padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-sm-6">
-          <h2 class="ser-title">Researcher Index(RR-Index)
-              <a href="https://github.com/open-science-org/RR-index"><i class="fa fa-github"></i></a>
-          </h2>
-          <hr class="botm-line">
-          <p style="text-align:justify">
-            Researcher Index (RR-index), as its name suggests is a ranking mechanism for the researchers. This project aims to quanity the research impact of the research/project ideas using the existing block chain technologies. RR-index will be a data driven domain independent metric to compute the values created by the ideas and researchers in OSO ecosystem.
-            This technology will not only help to improve the quality of research contributions but will also set a benchmark for researchers away from our domain as well. RR-index will employ various methods like author-level metric, statistical model, machine learnings and blockchain technology to establish unbaised and robust indexing mechanism. 
-            <div style="text-align:center">
-                <b>Find more about how we are progressing on this project through our <a href="https://github.com/open-science-org/RR-index">github <i class="fa fa-github"></i></a>.</b>
+            <div class="block-3 d-md-flex ftco-animate" data-scrollax-parent="true">
+              <a href="#" target="_blank" class="image d-flex justify-content-center align-items-center" style="background-image: url('images/logolarge.png'); " data-scrollax=" properties: { translateY: '-20%'}">
+                <div class="icon d-flex text-center justify-content-center align-items-center">
+                  <span class="icon-search"></span>
                 </div>
-          </p>
-        </div>
-      </div>
-      </div>
-</section>
-<section id="storageConcept" class="section-padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-sm-6">
-          <h2 class="ser-title">Storage
-              <a href="https://github.com/open-science-org/pub-hub"><i class="fa fa-github"></i></a>
-          </h2>
-          <hr class="botm-line">
-          <p style="text-align:justify">The final block of the OSO platform is the storage. The storage itself has to be smart enough to support human readable queries. The existing decetralization file storage, Interplanetery File System (IPFS) only allows look-ups for the files using its hash generated while storing in the IPFS network. OSO's storage and query layer atops IPFS to support smart queries.
-              <div style="text-align:center">
-                  <b>Find more about how we are progressing on this project through our <a href="https://github.com/open-science-org/pub-hub"> github <i class="fa fa-github"></i></a>.</b>
+              </a>
+              <div class="text">
+                <h2 class="heading " style="color: black;" >Unique Researcher Identity (URI)</h2>
+                <p style="color: black;">
+                  This project envisions the solution to the problem of unique researcher identity(URL). Our team is working on creating a unique research idenity
+                  which can be stored, tracked, shared and audited levaraging the block chain technologies. This would include the complex mapping of 
+                  researcher's profile with his/her ideas, publications and activities.Following is the visaulization of how URI can be realized through the combination of existing solutions.</p>
+                    
                   </div>
-          </p>
-        </div>
-      </div>
-      </div>
-</section>
-
-<section id = "startUpBostonVideo" class="section-padding">
-<div class="embed-responsive ">
-  <iframe class="embed-responsive-item" src="https://www.youtube.com/watch?v=e0RSwn5Z1RQ&feature=youtu.be" allowfullscreen></iframe>
-</div>
-</section>
-
-<section id="team" class="section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2 class="ser-title">The team</h2>
-        <hr class="botm-line">
-      </div>
-      <div class="row">
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/gajen.jpg"  alt="Gajendra Jung Katuwal" class="team-img imageContainer">
-          <div id="gajenBio" class="caption">
-            <h4>Gajen J. Katuwal</h4>
-            <h5>Member (Vision, Research)</h5>
-            <h6>Scientist (Machine Learning + Blockchain), Philips Innovations Lab</h6>
-            <h6>PhD in Imaging Science (Machine Learning), Rochester Institute of Technology</h6>
-            <ul class="list-inline">
-              <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;GajenJung"><i class="fa fa-twitter"></i></a></li>
-              
-              <li><a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;gajendrakatuwal&#x2F;"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="https://github.com/himalayajung"><i class="fa fa-github"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/keith.jpg" alt="Keith Smith" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Keith Smith</h4>
-            <h5>Member (Developer, Research)</h5>
-            <h6>Solutions Architect, Cloudera</h6>
-            <h6>M.A. in Economics, University of Arizona</h6>
-            <ul class="list-inline">
-              
-              <li><a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;keith-smith-07477a25&#x2F;"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="https:&#x2F;&#x2F;github.com&#x2F;KeithSSmith"><i class="fa fa-github"></i></a></li>
-              
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/kirk.jpg" alt="Kirk Gosik" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Kirk Gosik</h4>
-            <h5>Member (Research)</h5>
-            <h6>Computational Biologist Post Doc, Broad Institute</h6>
-            <h6>PhD in Biostatistics (Statistical Genetics), Penn State University</h6>
-            <ul class="list-inline">
-              
-              
-              <li><a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;kirk-gosik-3214b717&#x2F;"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="https://github.com/kdgosik"><i class="fa fa-github"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/bikos.jpg" alt="Bikos" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Bikrant Gautam</h4>
-            <h5>Member (Developer)</h5>
-            <h6>Front-end Developer, Corvex Connected</h6>
-            <h6>M.S. in Computer Science and Information Security, St. Cloud State University</h6>
-            <ul class="list-inline">
-              
-              
-              
-              <li><a href="https:&#x2F;&#x2F;github.com&#x2F;bikos"><i class="fa fa-github"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/abinash.jpg" alt="Abinash Koirala" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Abinash Koirala</h4>
-            <h5>Member (Developer)</h5>
-            <h6>Software Engineer, Move Inc.</h6>
-            <h6>M.S. in Information Technology, Rensselaer Polytechnic Institute</h6>
-            <ul class="list-inline">
-              
-              
-              <li><a href="https://www.linkedin.com/in/abinash/"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="https:&#x2F;&#x2F;github.com&#x2F;abinashk"><i class="fa fa-github"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/chen_photo.jpg" alt="Robert Chen" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Robert Chen</h4>
-            <h5>Member (Developer)</h5>
-            <h6>Data Scientist, Flatiron Health</h6>
-            <h6>Ph.D. Computer Science (Machine Learning), Georgia Tech</h6>
-            <h6>B.S. Mathematics, Computer Science, Massachusetts Institute of Technology</h6>
-            <ul class="list-inline">
-              <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;blockchen0x"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="http:&#x2F;&#x2F;www.robchen.org"><i class="fa fa-globe"></i></a></li>
-              <li><a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;rchen99&#x2F;"><i class="fa fa-linkedin"></i></a></li>
-              
-            </ul>
-          </div>
-        </div>
-      </div>
-            <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/eric.jpeg" alt="Eric Gagnon" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Eric Gagnon</h4>
-            <h5>Member (Developer)</h5>
-            <h6>Data Scientist, Penn State Health</h6>
-            <h6>M.S. Applied Statistics, Penn State University</h6>
-            <ul class="list-inline">
-            <li><a href="https://github.com/ericsgagnon"><i class="fa fa-github"></i></a></li>
-              <li><a href="https://www.linkedin.com/in/eric-gagnon-3367b67b/"><i class="fa fa-linkedin"></i></a></li>
-              
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-            <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/netti.jpeg" alt="Joseph Netti" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Joseph Netti</h4>
-            <h5>Member (Developer)</h5>
-            <h6>Blockchain Researcher, Draper</h6>
-            <h6>President, RIT Blockchain Club</h6>
-            <ul class="list-inline">
-              <li><a href="https://www.linkedin.com/in/joseph-netti-a37a50104/"><i class="fa fa-linkedin"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/Zheng_liu.jpeg" alt="Can Jin" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Zheng Liu</h4>
-            <h5>Member (Research)</h5>
-            <h6>Associate Professor, The University of British Columbia</h6>
-            <ul class="list-inline">
-              <li><a href="https://www.linkedin.com/in/zhengliu6699/"><i class="fa fa-linkedin"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>  
-      
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/canJin.jpg" alt="Can Jin" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Can Jin</h4>
-            <h5>Member (Developer)</h5>
-            <h6>Engineer/Scientist, Apple</h6>
-            <h6>PhD in Imaging Science, Rochester Institute of Technology</h6>
-            <ul class="list-inline">
-              
-              
-              <li><a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;canjinroc&#x2F;"><i class="fa fa-linkedin"></i></a></li>
-              
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/gilairmay.png" alt="Guilherme Gervasio" class="team-img imageContainer">
-          <div class="caption">
-            <h4>Guilherme Gervasio</h4>
-            <h5>Member (Developer)</h5>
-            <h6>Full Stack Dev, Deli, BitBat Games</h6>
-            <h6>B.S in Chemical Engineering, UFPR</h6>
-            <ul class="list-inline">
-              <li><a href="https://github.com/gil-air-may"><i class="fa fa-github"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2 class="ser-title">Advisors</h2>
-        <hr class="botm-line">
-      </div>
-
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/prof_Radz.jpg"  alt="Stanislaw Radziszowski" class="team-img imageContainer">
-          <div id="radzBio" class="caption">
-            <h4>Stanislaw Radziszowski</h4>
-            <h6>Prof. of Computer Science, Rochester Institute of Technology</h6>
-            <h6>Mathematician and computer scientist, best known for his work in Ramsey theory.</h6>
-            <h6></h6>
-            <ul class="list-inline">
-              <li><a href="https://www.cs.rit.edu/~spr/homepage.html"><i class="fa fa-globe"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div style="height:410px !important" class="col-md-3 col-sm-3 col-xs-6">
-        <div class="thumbnail">
-          <img src="img/prof_stefi.jpeg"  alt="Prof. Stefi Baum" class="team-img imageContainer">
-          <div id="setfiBio" class="caption">
-            <h4>Prof. Stefi Baum</h4>
-            <h6>Dean, Faculty of Science at University of Manitoba</h6>
-            <h6>Helped to develop the Hubble telescope. </h6>
-            <h6></h6>
-            <ul class="list-inline">
-              <li><a href="http://umanitoba.ca/faculties/science/dean/2186.html"><i class="fa fa-globe"></i></a></li>
-              <li><a href="https://www.linkedin.com/in/stefi-baum-64185447/"><i class="fa fa-linkedin"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      </div>
-      </div>
-</section>
-
-<section id="contributors" class="section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2 class="ser-title">Contributors</h2>
-        <hr class="botm-line">
-      </div>
-
-
-<div class="col-md-3 col-sm-3 col-xs-6">
-  <div class="thumbnail">
-    <div class="caption">
-      <h5>Sujan Khadka</h5>
-      <h6>Software Engineer at Uber ATG</h6>
-      <ul class="list-inline">
-        
-        <li><a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;sujankhadka&#x2F;"><i class="fa fa-linkedin"></i></a></li>
-        <li><a href="https:&#x2F;&#x2F;github.com&#x2F;sujankh"><i class="fa fa-github"></i></a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="col-md-3 col-sm-3 col-xs-6">
-  <div class="thumbnail">
-    <div class="caption">
-      <h5>Kevin A Lyons</h5>
-      <h6>EECS @ MIT Full Stack Developer at Nodal</h6>
-      <ul class="list-inline">
-        <li><a href="https:&#x2F;&#x2F;kevinalyons.com"><i class="fa fa-globe"></i></a></li>
-        <li><a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;kevin-lyons&#x2F;"><i class="fa fa-linkedin"></i></a></li>
-        <li><a href="https:&#x2F;&#x2F;github.com&#x2F;kalyons11"><i class="fa fa-github"></i></a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="col-md-3 col-sm-3 col-xs-6">
-  <div class="thumbnail">
-    <div class="caption">
-      <h5>Oaponbc</h5>
-      <h6>Editor at a reputed scientific journal</h6>
-      <ul class="list-inline">
-        <li><a href="https://github.com/oaponbc"><i class="fa fa-github"></i></a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="col-md-3 col-sm-3 col-xs-6">
-  <div class="thumbnail">
-    <div class="caption">
-      <h5>Andrew Kang</h5>
-      <h6>Healthcare Consultant, ZS Associates</h6>
-      <ul class="list-inline">
-        <li><a href="https://www.linkedin.com/in/andrew-kang-94186468/"><i class="fa fa-linkedin"></i></a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="col-md-3 col-sm-3 col-xs-6">
-  <div class="thumbnail">
-    <div class="caption">
-      <h5>James Ding</h5>
-      <h6>Forward Deployed Engineer, Palantir</h6>
-      <ul class="list-inline">
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="col-md-3 col-sm-3 col-xs-6">
-  <div class="thumbnail">
-    <div class="caption">
-      <h5>Enbo Zhao</h5>
-      <h6>PhD candidate in Material Science and Engineering, Georgia Tech (5th year)</h6>
-      <ul class="list-inline">
-        
-        
-        <li><a href="https:&#x2F;&#x2F;github.com&#x2F;zebgleaner"><i class="fa fa-github"></i></a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-
-<div class="col-md-3 col-sm-3 col-xs-6">
-  <div class="thumbnail">
-    <div class="caption">
-      <h5>Neha Mittoor Changappa</h5>
-      <h6>Entrepreneur (https:&#x2F;&#x2F;www.digitallisto.com&#x2F;), Full Stack Web Developer, Blockchain Technology Enthusiast</h6>
-      <ul class="list-inline">
-        
-        <li><a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;neha-mittoor-changappa-6b3752101&#x2F;"><i class="fa fa-linkedin"></i></a></li>
-        <li><a href="https:&#x2F;&#x2F;github.com&#x2F;nehamchangappa"><i class="fa fa-github"></i></a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="col-md-3 col-sm-3 col-xs-6">
-  <div class="thumbnail">
-    <div class="caption">
-      <h5>Noman Land</h5>
-      <h6></h6>
-      <ul class="list-inline">
-        <li><a href="https:&#x2F;&#x2F;github.com&#x2F;orgs&#x2F;open-science-org&#x2F;people&#x2F;noman-land"><i class="fa fa-github"></i></a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-
-
-</div>
-</div>
-</section>
-
-
-
-<section id="faq" class="section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2 class="ser-title">FAQ</h2>
-        <hr class="botm-line">
-      </div>
-    </div>
-    <div class="panel-group" id="faqAccordion">
-        <div class="panel panel-default ">
-            <div class="panel-heading accordion-toggle question-toggle collapsed" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question1">
-              <h4 class="panel-title">What is OSO?</h4>
-            </div>
-            <div id="question1" class="panel-collapse collapse" style="height: 0px;">
-                <div class="panel-body">
-                    <p>Modern day science has been a collective effort of different researchers and research groups. The collective intellectual power gathered by the scientific ecosystem is akin to the group intelligence (the “wisdom of crowds”) where a wise crowd is generally more intelligent compared to individual members in the group. The additional gain in intelligence is primarily dependent on the efficient flow of value (capital, information, etc.) among the members. The scientific community is still dependent on the rudimentary system for value flow, which is highly centralized, opaque, and redundant. Thereby it suffers from several problems like funding agencies are controlled by a small number of people, majority of scientists’ time is consumed by grant application writing with small success rates, a slow publication process, institutional biases, underpaid researchers, irreproducible publications, high subscription fees for journals, and a general focus on quantity of scientific publications over quality. These problems can be solved and the overall efficiency of the scientific community can be improved by creating an open and decentralized scientific ecosystem based on blockchain technology (or its variants). Open Science Organization (OSO) will be a decentralized community that will create an open and democratic self-sustaining scientific ecosystem.</p>
                 </div>
-            </div>
-        </div>
-        <div class="panel panel-default ">
-            <div class="panel-heading accordion-toggle question-toggle collapsed" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question2">
-              <h4 class="panel-title">What is IPIS?</h4>
-            </div>
-            <div id="question2" class="panel-collapse collapse" style="height: 0px;">
-                <div class="panel-body">
-                    <p>Inter Planetery Idea System (IPIS) will allow us to track the evolution of ideas over time as well as quantify the similarity of two ideas. IPIS will facilitate the efficient sharing of the ideas and prevent the community from reinventing wheels, thereby accelerating the pace of the scientific research.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--/panel-group-->
-  </div>
-</section>
-<section id="contact" class="section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2 class="ser-title">Contact us</h2>
-        <hr class="botm-line">
-      </div>
-      <div class="col-md-4 col-sm-4">
-        <div class="space"></div>
-        <p><i class="fa fa-envelope-o fa-fw pull-left fa-2x"></i>contact@oso.network</p>
-        <div class="space"></div>
-        <p><i class="fa fa-slack fa-fw pull-left fa-2x"></i>#osoNetwork</p>
-      </div>
-      <div class="col-md-4 col-sm-4">
-        <div class="space"></div>
-        <p><i class="fa fa-facebook fa-fw pull-left fa-2x"></i>osoNetwork</p>
-        <div class="space"></div>
-        <p><i class="fa fa-twitter fa-fw pull-left fa-2x"></i><a href="https://twitter.com/OpenScienceOrg">OpenScienceOrg</a></p>
-      </div>
-      <div class="col-md-4 col-sm-4">
-        <div class="space"></div>
-        <p><i class="fa fa-linkedin fa-fw pull-left fa-2x"></i>osoNetwork</p>
-        <div class="space"></div>
-        <p><i class="fa fa-github-alt fa-fw pull-left fa-2x"></i><a href="https://github.com/open-science-org">open-science-org</a></p>
-      </div>
-      <div class="col-md-4 col-sm-4"><br>
-        <h3>WANT TO CONTRIBUTE?</h3> 
-        Email us at <b>contact@oso.network</b>
-      </div>
-    </div>
-  </div>
-</section>
+                    
+                  <a href="#">
+                  <div class="row justify-content-center">
+                    <button type="button" class="text-center btn-lg round shadow">
+                         <a href="projects.html"> Click to See more projects</a>
+                    </button>
+                  </div>
+                  </a>
 
-<footer id="footer">
-  <div class="top-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 col-sm-4 marb20">
-          <div class="ftr-tle">
-            <h4 class="white no-padding">White paper</h4>
-          </div>
-          <div class="info-sec">
-            <p>Follow <a href="https://github.com/open-science-org/wiki/blob/master/OSO_white_paper.pdf">this Link.</a></p>
-          </div>
+              </div>
+      </section>
+      <hr>
+      </div>
+
+  
+
+
+<div style="background-color: #f0f0f0;">
+      <div class="row text-center d-flex justify-content-center pt-5 mb-3">
+        <div class="col-md-2 mb-3">
+          <h6 class="text-uppercase font-weight-bold">
+            <a href="index.html">About us</a>
+          </h6>
         </div>
-        <div class="col-md-4 col-sm-4 marb20">
-          <div class="ftr-tle">
-            <h4 class="white no-padding">Quick Links</h4>
-          </div>
-          <div class="info-sec">
-            <ul class="quick-info">
-              <li><a href="index.html"><i class="fa fa-circle"></i>Home</a></li>
-              <li><a href="#coreConcept"><i class="fa fa-circle"></i>Concept</a></li>
-              <li><a href="#team"><i class="fa fa-circle"></i>Team</a></li>
+        <div class="col-md-2 mb-3">
+          <h6 class="text-uppercase font-weight-bold">
+            <a href="features.html">Features</a>
+          </h6>
+        </div>
+        <div class="col-md-2 mb-3">
+          <h6 class="text-uppercase font-weight-bold">
+            <a href="projects.html">Projects</a>
+          </h6>
+        </div>
+        <div class="col-md-2 mb-3">
+          <h6 class="text-uppercase font-weight-bold">
+            <a href="teams.html">Teams</a>
+          </h6>
+        </div>
+        <div class="col-md-2 mb-3">
+          <h6 class="text-uppercase font-weight-bold">
+            <a href="contacts.html">Contact</a>
+          </h6>
+        </div>
+        <div class="col-md-2 mb-3">
+          <h6 class="text-uppercase font-weight-bold">
+            <a href="faqs.html">FAQs</a>
+          </h6>
+        </div>
+      </div>
+      <hr class="rgba-white-light" style="margin: 0 15%;">
+      <div class="row d-flex text-center justify-content-center mb-md-0 mb-4">
+        <div class="col-md-8 col-12 mt-5">
+          <p style="line-height: 1.7rem">Open, democratic, and efficient end-to-end scientific ecosystem managed by a flexible DAO jointly owned by scientific researchers and public.</p>
+        </div>
+      </div>
+    <div class="row mb-5 justify-content-center">
+        <div class="col-md-4 text-center">
+          <div class="ftco-footer-widget mb-5">
+            <ul class="ftco-footer-social list-unstyled mt-0">
+              <li><a href="https://twitter.com/OpenScienceOrg"><span class="icon-twitter"></span></a></li>
+              <li><a href="https://github.com/open-science-org"><span class="icon-github"></span></a></li>
+              <li><a href="https://www.linkedin.com"><span class="icon-linkedin"></span></a></li>
+              <li><a href="https://www.facebook.com"><span class="icon-facebook"></span></a></li>
             </ul>
-          </div>
+            <div>
+                contact@oso.network
+              </div>
         </div>
-        <div class="col-md-4 col-sm-4 marb20">
-          <div class="ftr-tle">
-            <h4 class="white no-padding">Follow us</h4>
-          </div>
-          <div class="info-sec">
-            <ul class="social-icon">
-              <li class="bglight-blue"><i class="fa fa-facebook"></i></li>
-              <li class="bgred"><i class="fa fa-google-plus"></i></li>
-              <li class="bgdark-blue"><i class="fa fa-linkedin"></i></li>
-              <li class="bglight-blue"><i class="fa fa-twitter"></i></li>
-            </ul>
-          </div>
-        </div>
+      </div>
       </div>
     </div>
   </div>
-  <div class="footer-line">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          © Team OSO
-          <div class="credits">
-            Credits:
-            <a href="https://bootstrapmade.com/">BootstrapMade</a> /
-          </div>
+    <!-- <div style="background-color: #25146e;">
+        <div class="footer-copyright text-center py-3">All Right Reserved.
+        <a href="#"> © OSO Minneapolis, MN</a>
         </div>
-      </div>
+    </div> -->
+
+
+    <div id="ftco-loader" class="show fullscreen">
+      <svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg>
     </div>
-  </div>
-</footer>
-
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.easing.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/custom.js"></script>
-<script src="contactform/contactform.js"></script>
-<script src="js/typed.js"></script>
-
-<script>
-var typed = new Typed('.element', {
-  stringsElement: '#typed-strings',
-  loop: true,
-  typeSpeed: 150, // typing speed
-  backDelay: 2500, // pause before backspacing
-  backSpeed: 100,
-  showCursor: false,
-});
-</script>
-
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.easing.1.3.js"></script>
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/jquery.animateNumber.min.js"></script>
+    <script src="js/scrollax.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/jquery.timepicker.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="js/google-map.js"></script>
+    <script src="js/main.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
+    
   </body>
 </html>
+
+
+
+
