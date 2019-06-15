@@ -7,23 +7,23 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
+    #  - image: circleci/node:7.10
 
-    working_directory: ~/repo
+ #   working_directory: ~/repo
 
     steps:
-      - checkout
+   #   - checkout
 
-      - run:
-          command: |
-            yarn install
-            yarn run buildFaq
-            yarn run buildIndex
+    #  - run:
+       #   command: |
+         #   yarn install
+         #   yarn run buildFaq
+         #   yarn run buildIndex
 
-      - run:
-          command: |
-            git config --global user.email "oso.network.ci@gmail.com"
-            git config --global user.name "OSOCi"
-            git add index.html
-            git commit -m "CI Built index.html from partials [ci skip]"
-            git push
+   #   - run:
+       #   command: |
+         #   git config --global user.email "oso.network.ci@gmail.com"
+         #   git config --global user.name "OSOCi"
+          #  git add index.html
+          #  git commit -m "CI Built index.html from partials [ci skip]"
+          #  git push
