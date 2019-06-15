@@ -1,0 +1,18 @@
+{
+  "name": "oso.github.io",
+  "version": "1.0.1",
+  "description": "Open Science Organization's website",
+  "main": "index.js",
+  "repository": "https://github.com/open-science-org/oso.github.io.git",
+  "author": "koirala.abinash@gmail.com",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "buildFaq": "mustache texts/faq.json partials/faq.template.mustache > partials/faq.html.mustache",
+    "buildIndex": "mustache -p partials/banner.html.mustache -p partials/contacts.html.mustache -p partials/contributors.html.mustache -p partials/core_concept.html.mustache -p partials/core_team.html.mustache -p partials/footer_scripts.html.mustache -p partials/footer.html.mustache -p partials/header.html.mustache -p partials/navigation.html.mustache -p partials/faq.html.mustache texts/indexText.json index.html.mustache > index.html"
+  },
+  "dependencies": {
+    "markdown-to-json": "^0.5.1",
+    "mustache": "^2.3.0"
+  }
+}
