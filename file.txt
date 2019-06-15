@@ -1,0 +1,135 @@
+<% include ./partials/header %>
+<br class="my-4">
+ <!--<div class = "container">-->
+      <header class = "jumbotron">
+        <div class="display-4">
+            <h1 >Welcome to SCSU CSCI-CLUB</h1>
+            <hr class="my-4">
+            <p class="lead"><strong>FUN, KNOWLEDGE, SEMINARS, HACKATHONS, EXPOSURE AND NETWORK AT ONE PLACE</strong></p>
+        </div>
+    </header>
+ <!--</div>-->
+    <div class = "container">
+        <!--<div class="shadow-sm p-3 mb-5 bg-white rounded">-->
+        <div class="row" style = "display:flex; flex-wrap: wrap;">
+            <div class = "col-sm-9 col-md-6 col-lg-4">
+                    <div class="card mt-4 " style="width: 22rem;">
+                      <img src="/images/kush.jpg" width="300" class="card-img-top " alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">Kushal Singh</h5>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Web Master
+                        </a>
+                        </p>
+                            <div class="collapse" id="collapseExample1">
+                              <div class="card card-body">
+                                I am Kushal Singh, junior in computer science, originally from Nepal. I am serving as a web master for computer Science Club for 2018/19. My Responsibility is to maintain the club's website
+                                and update the website with all the necessary events and meetings time. Also, help my officers and club to 
+                                achieve the primary goal.
+                              </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "col-sm-9 col-md-6 col-lg-4">
+                    <div class="card mt-4 " style="width: 22rem;">
+                      <img src="/images/kushal.jpg" width="300" class="card-img-top " alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">Kushal Singh</h5>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Web Master
+                        </a>
+                        </p>
+                            <div class="collapse" id="collapseExample2">
+                              <div class="card card-body">
+                                I am Kushal Singh, junior in computer science, originally from Nepal. I am serving as a web master for computer Science Club for 2018/19. My Responsibility is to maintain the club's website
+                                and update the website with all the necessary events and meetings time. Also, help my officers and club to 
+                                achieve the primary goal.
+                              </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "col-sm-9 col-md-6 col-lg-4">
+                    <div class="card mt-4 " style="width: 22rem;">
+                      <img src="/images/author_1.jpg" width="300" class="card-img-top " alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">Kushal Singh</h5>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Web Master
+                        </a>
+                        </p>
+                            <div class="collapse" id="collapseExample3">
+                              <div class="card card-body">
+                                I am Kushal Singh, junior in computer science, originally from Nepal. I am serving as a web master for computer Science Club for 2018/19. My Responsibility is to maintain the club's website
+                                and update the website with all the necessary events and meetings time. Also, help my officers and club to 
+                                achieve the primary goal.
+                              </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "col-sm-9 col-md-6 col-lg-4">
+                    <div class="card mt-4 " style="width: 22rem;">
+                      <img src="/images/kus1h.jpg" width="300" class="card-img-top " alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">Kushal Singh</h5>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Web Master
+                        </a>
+                        </p>
+                            <div class="collapse" id="collapseExample4">
+                              <div class="card card-body">
+                                I am Kushal Singh, junior in computer science, originally from Nepal. I am serving as a web master for computer Science Club for 2018/19. My Responsibility is to maintain the club's website
+                                and update the website with all the necessary events and meetings time. Also, help my officers and club to 
+                                achieve the primary goal.
+                              </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "col-sm-9 col-md-6 col-lg-4">
+                    <div class="card mt-4 " style="width: 22rem;">
+                      <img src="/images/new.jpg" width="300" class="card-img-top " alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">Kushal Singh</h5>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Web Master
+                        </a>
+                        </p>
+                            <div class="collapse" id="collapseExample5">
+                              <div class="card card-body">
+                                I am Kushal Singh, junior in computer science, originally from Nepal. I am serving as a web master for computer Science Club for 2018/19. My Responsibility is to maintain the club's website
+                                and update the website with all the necessary events and meetings time. Also, help my officers and club to 
+                                achieve the primary goal.
+                              </div>
+                            </div>
+                      </div>
+                </div>
+            </div>
+            <div class = "col-sm-9 col-md-6 col-lg-4">
+                    <div class="card mt-4 " style="width: 22rem;">
+                      <img src="https://images.unsplash.com/photo-1550599092-2a050d84e9f5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1332&q=80" class="card-img-top " alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">Kushal Singh</h5>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample6" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Web Master
+                        </a>
+                        </p>
+                            <div class="collapse" id="collapseExample6">
+                              <div class="card card-body">
+                                I am Kushal Singh, junior in computer science, originally from Nepal. I am serving as a web master for computer Science Club for 2018/19. My Responsibility is to maintain the club's website
+                                and update the website with all the necessary events and meetings time. Also, help my officers and club to 
+                                achieve the primary goal.
+                              </div>
+                            </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% include ./partials/footer %>
+
+
+
+    
