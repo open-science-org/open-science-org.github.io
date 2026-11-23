@@ -8,109 +8,24 @@
 <link rel="icon" href="images/favicon.png">
 <link rel="stylesheet" href="site.css">
 <style>
-  :root {
-    --bg: #fbfaf8;
-    --text: #1d1d1b;
-    --muted: #5f5d58;
-    --rule: #e4e1db;
-    --accent: #e8792f;
-    --accent-ink: #b45514;
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #161614;
-      --text: #ecebe7;
-      --muted: #a8a59e;
-      --rule: #2e2d2a;
-      --accent: #f0914f;
-      --accent-ink: #f5a874;
-      color-scheme: dark;
-    }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font: 18px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  }
-  main {
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 64px 24px 80px;
-  }
-  main > header { text-align: center; margin-bottom: 56px; }
-  main > header img { width: 120px; height: auto; }
-  main > header h1 { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.02em; margin: 8px 0 0; }
-  .label {
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--accent-ink);
-    margin: 0 0 8px;
-  }
-  .north-star {
-    font-size: 1.6rem;
-    line-height: 1.4;
-    font-weight: 600;
-    margin: 0 0 56px;
-  }
-  section { border-top: 1px solid var(--rule); padding-top: 28px; margin-top: 36px; }
-  h2 { font-size: 1.15rem; margin: 0 0 12px; }
-  p { margin: 0 0 14px; }
+  .story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 48px; }
+  .story h2 { margin: 0; }
+  .story p { margin: 0 0 14px; }
   .muted { color: var(--muted); }
-  a { color: var(--accent-ink); text-underline-offset: 3px; }
-  .status {
-    list-style: none;
-    padding: 0;
-    margin: 16px 0 0;
+  .timeline { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .timeline li { padding: 0 24px 0 0; }
+  .timeline .n { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font: 500 0.8rem var(--mono); color: var(--muted); }
+  .timeline .n::before { content: ""; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--muted); background: var(--bg); flex: none; }
+  .timeline .n::after { content: ""; flex: 1; height: 2px; background: var(--rule); }
+  .timeline li.done .n, .timeline li.now .n { color: var(--accent-ink); }
+  .timeline li.done .n::before { background: var(--accent); border-color: var(--accent); }
+  .timeline li.now .n::before { border-color: var(--accent); }
+  .timeline h3 { font: 500 1.2rem/1.3 var(--serif); margin: 0 0 6px; }
+  .timeline p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  @media (max-width: 900px) {
+    .story { grid-template-columns: 1fr; gap: 14px; }
+    .timeline { grid-template-columns: 1fr; gap: 28px; }
   }
-  .status li {
-    position: relative;
-    padding: 0 0 14px 28px;
-  }
-  .status li::before {
-    content: "";
-    position: absolute;
-    left: 4px;
-    top: 9px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid var(--rule);
-    background: var(--bg);
-  }
-  .status li.done::before { border-color: var(--accent); background: var(--accent); }
-  .status li.now::before { border-color: var(--accent); }
-  .status li.now { font-weight: 600; }
-  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
-  .button {
-    display: inline-block;
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: 1px solid var(--accent);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-  .button.primary { background: var(--accent); color: #fff; }
-  .button.secondary { color: var(--accent-ink); }
-  footer { margin-top: 64px; font-size: 0.85rem; color: var(--muted); text-align: center; }
-  @media (max-width: 480px) {
-    body { font-size: 17px; }
-    main { padding-top: 40px; }
-    .north-star { font-size: 1.35rem; }
-  }
-  section.lead { border-top: 0; margin-top: 0; padding: 24px; border: 1px solid var(--rule); border-radius: 12px; }
-  section.lead h2 { font-size: 1.3rem; line-height: 1.35; }
-  body { font-family: var(--sans); }
-  .north-star, h2 { font-family: var(--serif); font-weight: 400; }
-  .north-star { font-size: 2rem; line-height: 1.25; }
-  h2 { font-size: 1.6rem; }
-  .label { font-family: var(--mono); font-weight: 500; }
-  main { max-width: 760px; }
 </style>
 </head>
 <body>
@@ -119,53 +34,82 @@
   <nav aria-label="Site"><a href="live.html">Live</a><a href="experiment/">All results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="about.html" aria-current="page">About</a><a href="https://github.com/open-science-org">GitHub</a></nav>
   <a class="cta" href="live.html#fund">Fund a run</a>
 </header>
+
 <main>
-  <header>
-    <img src="images/logo.png" alt="OSO logo">
-    <h1>Open Science Organization</h1>
-  </header>
+  <div class="wrap page-hero">
+    <p class="eyebrow">Our north star</p>
+    <h1>A self-governing, self-sustaining organization that stewards humanity's <em>collective intelligence</em>.</h1>
+    <p class="sub">It rewards every idea for what it makes possible, and keeps opening new frontiers of research.</p>
+    <p class="facts"><b>Since 2017</b> · restarted <b>October 2026</b></p>
+  </div>
 
-  <p class="label">Our north star</p>
-  <p class="north-star">A self-governing, self-sustaining organization that stewards humanity's collective intelligence, rewards every idea for what it makes possible, and keeps opening new frontiers of research.</p>
-
-  <section>
-    <h2>How we started</h2>
-    <p>OSO began in 2017 with a simple observation: science is a collective effort, yet the way it is funded, reviewed and published is closed, slow and controlled by a few intermediaries. We proposed an open, community-owned alternative in which every intellectual contribution is an idea, ideas are connected to the ideas they build on, and value flows back to the work that made new work possible.</p>
-    <p>Between 2017 and 2020, a group of researchers and engineers wrote the founding papers and built early prototypes. In 2020 the project went quiet.</p>
-    <p class="muted">See <a href="2017.html">the original website (2017–2020)</a>, with its team, projects and FAQ.</p>
-  </section>
-
-  <section>
-    <h2>Why we are restarting</h2>
-    <p>In 2026 we decided to restart. AI can now do much of the judgment work our design needed: understanding how one piece of work depends on another, screening submissions, and helping reviewers. Open research data lets us start from the existing literature instead of an empty network. And as AI begins to produce research at scale, open and accountable attribution matters more than ever.</p>
-  </section>
-
-  <section>
-    <h2>Where we are</h2>
-    <ul class="status">
-      <li class="done">Founding ideas and early prototypes, 2017–2020</li>
-      <li class="done">Restart and a draft design, October 2026</li>
-      <li class="now">Now: reviewing the design and building the first working prototype</li>
-      <li>Then: a first community, an open and funded network, and step by step, governance by the community itself</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Read the design</h2>
-    <p>The design doc sets out the vision, the principles and the plan, and links to the detailed proposals.</p>
-    <div class="actions">
-      <a class="button primary" href="https://github.com/open-science-org/OSO/blob/master/docs/design-v1.md">Read the design doc</a>
-      <a class="button secondary" href="https://github.com/open-science-org/OIPs">Browse the proposals</a>
+  <section class="block">
+    <div class="wrap story" style="padding:0">
+      <div><p class="eyebrow">2017 – 2020</p><h2>How we started</h2></div>
+      <div>
+        <p>OSO began in 2017 with a simple observation: science is a collective effort, yet the way it is funded, reviewed and published is closed, slow and controlled by a few intermediaries. We proposed an open, community-owned alternative in which every intellectual contribution is an idea, ideas are connected to the ideas they build on, and value flows back to the work that made new work possible.</p>
+        <p>Between 2017 and 2020, a group of researchers and engineers wrote the founding papers and built early prototypes. In 2020 the project went quiet.</p>
+        <p class="muted">See <a href="2017.html">the original website (2017–2020)</a>, with its team, projects and FAQ.</p>
+      </div>
     </div>
   </section>
 
-  <section>
-    <h2>Help us build it</h2>
-    <p>We are looking for researchers, engineers, designers and funders who want research to be open and fair. Read the design and challenge it, take up an open question, or propose an idea of your own.</p>
-    <p class="muted">Write to us at <strong>contact@oso.network</strong> (<a href="mailto:contact@oso.network">email</a>) or join the discussion on <a href="https://github.com/open-science-org">GitHub</a>.</p>
+  <section class="block">
+    <div class="wrap story" style="padding:0">
+      <div><p class="eyebrow">2026</p><h2>Why we are restarting</h2></div>
+      <div>
+        <p>In 2026 we decided to restart. AI can now do much of the judgment work our design needed: understanding how one piece of work depends on another, screening submissions, and helping reviewers. Open research data lets us start from the existing literature instead of an empty network. And as AI begins to produce research at scale, open and accountable attribution matters more than ever.</p>
+      </div>
+    </div>
   </section>
 
-  <footer>Open Science Organization · since 2017 · <a href="./">Home</a> · <a href="live.html">Live</a> · <a href="experiment/">All results</a> · <a href="2017.html">Previous website</a></footer>
+  <section class="block">
+    <div class="wrap" style="padding:0">
+      <p class="eyebrow">Where we are</p>
+      <h2>From founding ideas to a community that runs itself.</h2>
+      <ol class="timeline" style="margin-top:36px">
+        <li class="done"><div class="n">2017 – 2020</div><h3>Founding ideas</h3><p>Founding papers and early prototypes.</p></li>
+        <li class="done"><div class="n">Oct 2026</div><h3>Restart</h3><p>The restart, and a draft design.</p></li>
+        <li class="now"><div class="n">Now</div><h3>First prototype</h3><p>Reviewing the design and building the first working prototype.</p></li>
+        <li><div class="n">Then</div><h3>An open network</h3><p>A first community, an open and funded network, and step by step, governance by the community itself.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="dark">
+    <section class="block">
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">Read the design</p>
+        <h2>The vision, the principles and the plan.</h2>
+        <p class="lede">The design doc sets them out and links to the detailed proposals.</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/open-science-org/OSO/blob/master/docs/design-v1.md">Read the design doc</a>
+          <a class="button" href="https://github.com/open-science-org/OIPs">Browse the proposals</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="block">
+    <div class="wrap" style="padding:0">
+      <p class="eyebrow">Help us build it</p>
+      <h2>We are looking for researchers, engineers, designers and funders.</h2>
+      <p class="lede">People who want research to be open and fair. Read the design and challenge it, take up an open question, or propose an idea of your own.</p>
+      <div class="grid3">
+        <a class="card" href="mailto:contact@oso.network"><div class="tag">Write</div><h3>contact@oso.network</h3><p>Tell us what you would build, test or fund.</p></a>
+        <a class="card" href="https://github.com/open-science-org"><div class="tag">Discuss</div><h3>Join on GitHub</h3><p>The design, the proposals and the experiments are all open there.</p></a>
+        <a class="card" href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml"><div class="tag">Propose</div><h3>Propose an experiment</h3><p>Write down a question and your prediction; we run it in public.</p></a>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="wrap site-foot">
+  <span>Open Science Organization · since 2017</span>
+  <a href="./">Home</a>
+  <a href="live.html">Live</a>
+  <a href="experiment/">All results</a>
+  <a href="2017.html">Previous website</a>
+</footer>
 </body>
 </html>

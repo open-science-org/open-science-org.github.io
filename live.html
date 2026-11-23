@@ -8,70 +8,47 @@
 <link rel="icon" href="images/favicon.png">
 <link rel="stylesheet" href="site.css">
 <style>
-  :root {
-    --bg: #fbfaf8; --text: #1d1d1b; --muted: #5f5d58; --rule: #e4e1db; --soft: #f1efea;
-    --accent: #e8792f; --accent-ink: #b45514;
-    --traditional: #2a78d6; --oso: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #8a8984;
-    --ok: #1baf7a; --fail: #c9c7c0;
-    color-scheme: light;
-  }
+  :root { --traditional: #2a78d6; --oso: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #8a8984; --ok: #1baf7a; --fail: #c9c7c0; }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #161614; --text: #ecebe7; --muted: #a8a59e; --rule: #2e2d2a; --soft: #1f1f1c;
-      --accent: #f0914f; --accent-ink: #f5a874;
-      --traditional: #3987e5; --oso: #d95926; --s3: #199e70; --s4: #c98500; --s5: #8f8d86;
-      --ok: #199e70; --fail: #4a4945;
-      color-scheme: dark;
-    }
+    :root:not([data-theme="light"]) { --traditional: #3987e5; --oso: #d95926; --s3: #199e70; --s4: #c98500; --s5: #8f8d86; --ok: #199e70; --fail: #4a4945; }
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-  main { max-width: 1040px; margin: 0 auto; padding: 40px 16px 80px; }
-  main > header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
-  main > header img { width: 44px; height: auto; }
-  main > header a { color: var(--text); text-decoration: none; font-weight: 600; }
-  h1 { font-size: 1.6rem; line-height: 1.3; margin: 0 0 8px; }
-  h2 { font-size: 1.1rem; margin: 0 0 12px; }
   p { margin: 0 0 12px; }
-  a { color: var(--accent-ink); text-underline-offset: 3px; }
   .muted { color: var(--muted); }
   .small { font-size: 0.85rem; }
-  section { border-top: 1px solid var(--rule); padding-top: 24px; margin-top: 32px; }
-  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-ink); }
-  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
-  .pill.on .dot { animation: pulse 1.6s infinite; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; }
+  .pill .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); }
+  .pill.on .dot { background: var(--accent); animation: pulse 1.6s infinite; }
   @keyframes pulse { 50% { opacity: 0.25; } }
   @media (prefers-reduced-motion: reduce) { .pill.on .dot { animation: none; } }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
-  .card { border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; }
-  .card .name { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  #updated { margin-top: 18px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .cards:empty { display: none; }
+  .cards .card .name { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.95rem; }
   .swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
-  .card .big { font-size: 1.7rem; font-weight: 600; margin-top: 6px; font-variant-numeric: tabular-nums; }
-  .chart { position: relative; }
+  .cards .card .big { font: 400 2.2rem/1.1 var(--serif); margin: 10px 0 4px; font-variant-numeric: tabular-nums; }
+  .cards .card .small { font: 0.75rem/1.5 var(--mono); color: var(--muted); }
+  .chart { position: relative; background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 18px 8px; }
   .chart svg { width: 100%; height: auto; display: block; overflow: visible; }
   .chart text { fill: var(--muted); font-size: 12px; }
-  .tip { position: absolute; pointer-events: none; background: var(--bg); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; font-size: 0.82rem; line-height: 1.45; box-shadow: 0 4px 16px rgba(0,0,0,.08); display: none; white-space: nowrap; }
-  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 4px 0 8px; font-size: 0.88rem; }
+  .tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; font-size: 0.82rem; line-height: 1.45; box-shadow: 0 4px 16px rgba(0,0,0,.08); display: none; white-space: nowrap; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 14px; font-size: 0.88rem; }
   .legend span { display: inline-flex; align-items: center; gap: 6px; }
-  .grid-wrap { overflow-x: auto; }
+  .grid-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 14px; }
   table { border-collapse: collapse; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
   th, td { padding: 4px 6px; text-align: center; }
-  th { font-weight: 600; color: var(--muted); }
+  th { font: 500 0.72rem var(--mono); color: var(--muted); }
   td.setup { text-align: left; white-space: nowrap; }
   .cell { width: 26px; height: 22px; border-radius: 4px; display: inline-block; line-height: 22px; font-size: 0.75rem; }
-  ul.feed { list-style: none; padding: 0; margin: 0; font-size: 0.9rem; }
-  ul.feed li { display: grid; grid-template-columns: 84px 1fr; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--rule); }
-  ul.feed .when { color: var(--muted); font-variant-numeric: tabular-nums; }
+  ul.feed { list-style: none; padding: 0; margin: 0; font-size: 0.92rem; max-width: 60em; }
+  ul.feed li { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--rule); }
+  ul.feed .when { color: var(--muted); font: 0.78rem/1.9 var(--mono); font-variant-numeric: tabular-nums; }
   .tag { font-weight: 600; }
   .tag.ok { color: var(--ok); }
   .tag.no { color: var(--muted); }
-  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
-  .button { display: inline-block; padding: 11px 18px; border-radius: 8px; border: 1px solid var(--accent); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
-  .button.primary { background: var(--accent); color: #fff; }
-  .button.secondary { color: var(--accent-ink); }
-  footer { margin-top: 56px; font-size: 0.85rem; color: var(--muted); text-align: center; }
-  body { font-family: var(--sans); }
-  h1, h2 { font-family: var(--serif); font-weight: 400; }
+  .dark ul.feed li { border-color: #34322d; }
+  .dark ul.feed b { color: #f6f3ec; }
+  .total { font: 400 1.6rem/1.2 var(--serif); color: #f6f3ec !important; margin: 0 0 12px; }
+  #data[hidden], #idle[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -81,55 +58,95 @@
   <a class="cta" href="live.html#fund">Fund a run</a>
 </header>
 <main>
-  
-  <p class="pill" id="pill"><span class="dot"></span><span id="state">Loading…</span></p>
-  <h1 id="title">Live experiment</h1>
-  <p class="muted">Teams of AI labs (language models) prove maths problems in Lean, where a computer checks every proof. Each team works under different rules: when results go public, and how much of a result's credit flows back to the results it used (α). Everything here is what the checker decided, nothing an AI said about itself.</p>
-  <p class="muted small" id="updated"></p>
+  <div class="wrap page-hero">
+    <p class="eyebrow pill" id="pill"><span class="dot"></span><span id="state">Loading…</span></p>
+    <h1 id="title">Watch the experiment, <em>live</em>.</h1>
+    <p class="sub">Teams of AI labs prove maths problems in Lean, where a computer checks every proof.</p>
+    <p class="body">Each team works under different rules: when results go public, and how much of a result's credit flows back to the results it used (α). Everything here is what the checker decided, nothing an AI said about itself.</p>
+    <p class="facts" id="updated"></p>
+  </div>
 
-  <div class="cards" id="cards"></div>
-
-  <section>
-    <h2>Problems proved for the money spent</h2>
-    <p class="muted small">Mean over the runs so far of each setup. Each run of a setup has the same money.</p>
-    <div class="legend" id="legend"></div>
-    <div class="chart" id="chart"></div>
-  </section>
-
-  <section>
-    <h2>Which problems each setup proved</h2>
-    <p class="muted small">Number of runs that proved each problem. Problems go from easiest to hardest; the bounty doubles with each step of depth.</p>
-    <div class="grid-wrap" id="grid"></div>
-  </section>
-
-  <section>
-    <h2>Latest checker verdicts</h2>
-    <ul class="feed" id="feed"></ul>
-  </section>
-
-  <section id="fund">
-    <h2>Fund the experiments</h2>
-    <p>Each run costs money in model fees. Pledge any amount from $5: nothing is charged now, and when payments open we post a payment link in your pledge. Every dollar in and out goes on a <a href="https://github.com/open-science-org/experiment/blob/master/ledger.md">public ledger</a> with receipts. Sponsors back the work, never the verdict: every result is still checked by Lean, in the open.</p>
-    <p class="muted small" id="pledge-total">Loading pledges…</p>
-    <ul class="feed" id="sponsors"></ul>
-    <div class="actions">
-      <a class="button primary" href="https://github.com/open-science-org/experiment/issues/new?template=pledge.yml">Pledge</a>
-    </div>
-    <p class="muted small" style="margin-top:12px">A pledge is a GitHub issue, so it needs a GitHub account. This is a paid listing that supports OSO's experiments, not a donation, and not tax-deductible.</p>
-  </section>
-
-  <section>
-    <h2>Take part</h2>
-    <p>Have a question this experiment could answer? Propose a setup and we will run it in public.</p>
-    <div class="actions">
-      <a class="button primary" href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose an experiment</a>
-      <a class="button secondary" href="https://github.com/open-science-org/experiment/blob/master/docs/ai-agent-results.md">Past results</a>
-      <a class="button secondary" href="experiment/">Explore all results</a>
+  <section class="block" id="idle" hidden>
+    <div class="wrap" style="padding:0">
+      <p class="eyebrow">Next run</p>
+      <h2>27 harder maths problems, three designs, four AI labs each.</h2>
+      <p class="lede">It streams here as it runs: problems proved for the money spent, which problems each design reached, and every checker verdict. It starts once it is funded.</p>
+      <div class="actions">
+        <a class="button primary" href="#fund">Help fund it</a>
+        <a class="button" href="experiment/">See past results</a>
+      </div>
     </div>
   </section>
 
-  <footer>Open Science Organization · <a href="./">Home</a> · Data: <a id="src-link" href="#">live.json</a></footer>
+  <div id="data" hidden>
+    <section class="block" style="padding-top:0;border-top:0">
+      <div class="wrap" style="padding:0"><div class="cards" id="cards"></div></div>
+    </section>
+
+    <section class="block">
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">Progress</p>
+        <h2>Problems proved for the money spent</h2>
+        <p class="lede">Mean over the runs so far of each setup. Each run of a setup has the same money.</p>
+        <div class="legend" id="legend"></div>
+        <div class="chart" id="chart"></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">Coverage</p>
+        <h2>Which problems each setup proved</h2>
+        <p class="lede">Number of runs that proved each problem. Problems go from easiest to hardest; the bounty doubles with each step of depth.</p>
+        <div class="grid-wrap" id="grid"></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">Feed</p>
+        <h2>Latest checker verdicts</h2>
+        <ul class="feed" id="feed"></ul>
+      </div>
+    </section>
+  </div>
+
+  <div class="dark" id="fund">
+    <section class="block">
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">Fund the experiments</p>
+        <h2>Every dollar in and out, in public.</h2>
+        <p class="lede">Each run costs money in model fees. Pledge any amount from $5: nothing is charged now, and when payments open we post a payment link in your pledge. Every dollar goes on a <a href="https://github.com/open-science-org/experiment/blob/master/ledger.md">public ledger</a> with receipts. Sponsors back the work, never the verdict: every result is still checked by Lean, in the open.</p>
+        <p class="total" id="pledge-total">Loading pledges…</p>
+        <ul class="feed" id="sponsors"></ul>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/open-science-org/experiment/issues/new?template=pledge.yml">Pledge</a>
+          <a class="button" href="https://github.com/open-science-org/experiment/blob/master/ledger.md">See the ledger</a>
+        </div>
+        <p class="small" style="margin-top:18px">A pledge is a GitHub issue, so it needs a GitHub account. This is a paid listing that supports OSO's experiments, not a donation, and not tax-deductible.</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="block">
+    <div class="wrap" style="padding:0">
+      <p class="eyebrow">Take part</p>
+      <h2>Have a question this experiment could answer?</h2>
+      <div class="grid3">
+        <a class="card" href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml"><div class="tag">Propose</div><h3>Propose an experiment</h3><p>Write down a setup and your prediction; we run it in public.</p></a>
+        <a class="card" href="https://github.com/open-science-org/experiment/blob/master/docs/ai-agent-results.md"><div class="tag">Read</div><h3>Past results</h3><p>Every finding so far, with its 95% range.</p></a>
+        <a class="card" href="experiment/"><div class="tag">Explore</div><h3>All results</h3><p>Every simulation and every run with real AI labs, in the browser.</p></a>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="wrap site-foot">
+  <span>Open Science Organization</span>
+  <a href="./">Home</a>
+  <a href="about.html">About</a>
+  <span>Data: <a id="src-link" href="#">live.json</a></span>
+</footer>
 <script>
 const SRC = new URLSearchParams(location.search).get('src') || 'https://raw.githubusercontent.com/open-science-org/experiment/live/live.json';
 document.getElementById('src-link').href = SRC;
@@ -157,6 +174,7 @@ function name(s) {
 
 function render(d) {
   const running = d.setups.some((s) => s.runs.running > 0 || s.runs.done < s.runs.total);
+  $('data').hidden = false; $('idle').hidden = true;
   $('pill').classList.toggle('on', running);
   $('state').textContent = running ? 'Live' : 'Finished';
   $('title').textContent = d.title;
@@ -231,7 +249,7 @@ async function load() {
     render(await r.json());
   } catch (e) {
     $('state').textContent = 'No experiment is streaming right now';
-    $('updated').textContent = 'Results of past experiments are on the results page below.';
+    $('idle').hidden = false;
   }
 }
 load();
