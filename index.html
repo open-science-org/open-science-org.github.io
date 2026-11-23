@@ -111,10 +111,13 @@
   .plot text { fill: var(--muted); font: 11px var(--mono); }
   .keys { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 10px 0 12px; font-size: 0.85rem; }
   .keys span { display: inline-flex; align-items: center; gap: 6px; }
+  .keys span[hidden] { display: none; }
   .keys i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
   .keys b { font: 500 0.85rem var(--mono); font-variant-numeric: tabular-nums; }
   .replay figcaption { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
-  .head-dot { transition: none; }
+  .switch { display: inline-flex; gap: 4px; padding: 3px; border: 1px solid var(--rule); border-radius: 999px; margin: 10px 0 4px; }
+  .switch button { font: 500 0.78rem var(--sans); padding: 5px 12px; border-radius: 999px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+  .switch button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
   .dial-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; margin-top: 64px; }
   .dial-title { font: 400 1.9rem/1.2 var(--serif); margin: 0 0 12px; }
   .muted { color: var(--muted); }
@@ -148,14 +151,18 @@
         <p class="eyebrow">Replay · a real experiment</p>
         <span class="spent" id="spent">$0.00 spent</span>
       </div>
+      <div class="switch" role="group" aria-label="Which designs to show">
+        <button id="sw-off" aria-pressed="true">No central planner</button>
+        <button id="sw-on" aria-pressed="false">With a planner</button>
+      </div>
       <div class="plot" id="plot"></div>
       <div class="keys">
         <span><i style="background:var(--oso)"></i>OSO, α 0.2 <b id="v-oso-0.2">0</b></span>
         <span><i style="background:var(--grey)"></i>Shared library <b id="v-shared">0</b></span>
         <span><i style="background:var(--trad)"></i>Traditional <b id="v-traditional">0</b></span>
-        <span><i style="background:var(--text)"></i>One lab plans <b id="v-planner">0</b></span>
+        <span id="k-planner" hidden><i style="background:var(--text)"></i>One lab plans <b id="v-planner">0</b></span>
       </div>
-      <figcaption>Four AI labs (DeepSeek) on 11 hard Lean problems, with the same money in each design. The lines show problems proved, out of 11, as the money is spent: the mean of 5 runs per design. Sharing early beat keeping work until a target is done, and a design where one lab plans and three prove did best. This is a lead from one small experiment, not yet a settled finding. <a href="experiment/#/doc/results/community/lean-hard-2/summary.md">The full result →</a></figcaption>
+      <figcaption>Four AI labs (DeepSeek) on 11 hard Lean problems, with the same money in each design. The lines show problems proved, out of 11, as the money is spent: the mean of 5 runs per design. <span id="cap-off">With no one in charge, sharing early beat keeping work until a target is done.</span><span id="cap-on" hidden>A design where one lab plans and three prove did best, but a planner is not always available when coordination is decentralized.</span> This is a lead from one small experiment, not yet a settled finding. <a href="experiment/#/doc/results/community/lean-hard-2/summary.md">The full result →</a></figcaption>
     </figure>
   </div>
 
@@ -258,9 +265,12 @@
   for (const v of [0, 3, 6, 9, 11]) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--rule)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
   for (const m of [0, 0.4, 0.8, 1.2]) g += `<text x="${x(m)}" y="${H - 6}" text-anchor="middle">$${m.toFixed(2)}</text>`;
   g += order.map(([k, c]) => `<path id="p-${k}" fill="none" stroke="var(${c})" stroke-width="2.25" stroke-linejoin="round"/><circle id="d-${k}" r="4.5" fill="var(${c})" stroke="var(--panel)" stroke-width="2"/>`).join('');
-  document.getElementById('plot').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Problems proved out of 11 against money spent: a planner design reaches 11, OSO alpha 0.2 10.8, the shared library 10.4, traditional 7.6">${g}</svg>`;
+  document.getElementById('plot').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Problems proved out of 11 against money spent: OSO alpha 0.2 reaches 10.8, the shared library 10.4, traditional 7.6; with a planner, 11">${g}</svg>`;
+  let planner = false;
   const draw = (m) => {
     for (const [k] of order) {
+      const off = k === 'planner' && !planner;
+      document.getElementById('p-' + k).style.display = document.getElementById('d-' + k).style.display = off ? 'none' : '';
       const v = at(C[k], m);
       document.getElementById('p-' + k).setAttribute('d', path(C[k], m));
       const dot = document.getElementById('d-' + k); dot.setAttribute('cx', x(m)); dot.setAttribute('cy', y(v));
@@ -268,9 +278,19 @@
     }
     document.getElementById('spent').textContent = '$' + m.toFixed(2) + ' spent';
   };
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { draw(XMAX); return; }
-  const RUN = 7000, HOLD = 3500;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const set = (on) => {
+    planner = on;
+    document.getElementById('sw-on').setAttribute('aria-pressed', on); document.getElementById('sw-off').setAttribute('aria-pressed', !on);
+    document.getElementById('k-planner').hidden = !on;
+    document.getElementById('cap-on').hidden = !on; document.getElementById('cap-off').hidden = on;
+    start = null; if (still) draw(XMAX);
+  };
+  document.getElementById('sw-on').onclick = () => set(true);
+  document.getElementById('sw-off').onclick = () => set(false);
   let start = null;
+  if (still) { draw(XMAX); return; }
+  const RUN = 7000, HOLD = 3500;
   const tick = (t) => {
     if (start === null) start = t;
     const e = (t - start) % (RUN + HOLD);
