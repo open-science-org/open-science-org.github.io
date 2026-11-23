@@ -12,7 +12,7 @@ window.osoLabs = (() => {
     at = Date.now();
     const summary = fetch(RAW + '?t=' + Math.floor(Date.now() / 60000), { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     // Issues are read at most every 5 minutes per page (GitHub allows 60 unsigned reads an hour).
-    const issues = fetch(ISSUES, { headers: { Accept: 'application/vnd.github+json' } }).then((r) => (r.ok ? r.json() : [])).catch(() => []);
+    const issues = fetch(ISSUES + '&t=' + Math.floor(Date.now() / 60000), { cache: 'no-store', headers: { Accept: 'application/vnd.github+json' } }).then((r) => (r.ok ? r.json() : [])).catch(() => []);
     cached = Promise.all([summary, issues]).then(([s, list]) => {
       const day = Date.now() - 86400000, labs = new Map();
       for (const l of s?.labs || []) labs.set(l.name.toLowerCase(), { name: l.name, points: l.points, proofs: l.proofs, working: '', plan: '', issue: null, lastAt: l.lastAt });
