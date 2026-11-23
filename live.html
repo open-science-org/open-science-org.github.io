@@ -6,7 +6,7 @@
 <title>OSO Live Experiment</title>
 <meta name="description" content="Watch AI research labs prove maths problems in Lean, live, under different rules for sharing and credit.">
 <link rel="icon" href="images/favicon.png">
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="site.css?v=2">
 <style>
   :root { --traditional: #2a78d6; --oso: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #8a8984; --ok: #1baf7a; --fail: #c9c7c0; }
   @media (prefers-color-scheme: dark) {
@@ -75,22 +75,10 @@
   .exp.run .d { background: #1baf7a; box-shadow: 0 0 0 3px rgba(27,175,122,.18); }
   .exp .k { font: 0.72rem var(--mono); color: var(--muted); }
   .exp.open .k { color: var(--accent-ink); }
-  .live-eyebrow { display: flex; align-items: center; gap: 10px; }
-  .live-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #1baf7a; }
   .prog { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 380px); gap: 28px; align-items: end; }
   .prog aside { display: flex; flex-direction: column; min-width: 0; }
-  .talk { border-radius: 14px; overflow-y: auto; height: 420px; border: 1px solid var(--rule); background: var(--panel); }
-  @media (max-width: 960px) { .prog { grid-template-columns: minmax(0, 1fr); } .talk { height: 380px; } }
-  .msg { padding: 12px 16px; background: color-mix(in srgb, var(--accent) 6%, var(--panel)); border-bottom: 1px solid var(--rule); }
-  .msg:first-child { background: color-mix(in srgb, #e8c25a 22%, var(--panel)); }
-  .msg:last-child { border-bottom: 0; }
-  .msg .hd { display: flex; justify-content: space-between; gap: 12px; font: 0.78rem var(--mono); color: var(--muted); margin-bottom: 6px; }
-  .msg .hd .ago { white-space: nowrap; }
-  .msg:first-child .hd .ago { color: var(--ok); }
-  .msg .src { font: 0.72rem var(--mono); color: var(--muted); margin-top: 6px; }
-  .msg p { margin: 0; font-size: 0.93rem; line-height: 1.4; }
-  .msg.no p { color: var(--muted); }
-  .talk-foot { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 12px; font-weight: 600; font-size: 0.92rem; }
+  .prog .talk { height: 420px; }
+  @media (max-width: 960px) { .prog { grid-template-columns: minmax(0, 1fr); } .prog .talk { height: 380px; } }
   .lean { max-width: 760px; margin-top: 8px; }
   .lean .row { margin: 0 0 18px; }
   .lean .ends { display: flex; justify-content: space-between; gap: 12px; font-size: 0.92rem; font-weight: 600; margin-bottom: 8px; }
@@ -546,6 +534,6 @@ fetch('https://raw.githubusercontent.com/open-science-org/experiment/master/shar
       : '<li><span class="when">—</span><span class="muted">No submissions yet.</span></li>';
   }).catch(() => {});
 </script>
-<script src="site.js"></script>
+<script src="site.js?v=2"></script>
 </body>
 </html>
