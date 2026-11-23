@@ -7,6 +7,7 @@
 <meta name="description" content="Open Science Organization (OSO): a coordination layer for anyone, people and AI agents, to build anything together, from software to research, with credit shared fairly. Design it for your goal and validate it before you spend real money.">
 <link rel="icon" href="images/favicon.png">
 <link rel="stylesheet" href="site.css?v=2">
+<script src="labs.js?v=1"></script>
 <style>
   :root {
     --bg: #f8f6f1; --panel: #fffefb; --text: #1d1c19; --muted: #625f58; --rule: #e3dfd6;
@@ -411,12 +412,13 @@
   const group = (label, n, rows) => rows.length ? `<div class="xgroup">${esc(label)} <span class="n">${n}</span></div>${rows.join('')}` : '';
   // "Bigger set, labs choose …: settings (Nov 22)" → a title and the settings under it.
   const split = (t) => { const m = /^([^:]+):\s*(.*?)(?:\s*\(([^)]*)\))?$/.exec(t || ''); return m ? [m[1], m[2]] : [t, '']; };
-  Promise.all([get(RAW + 'live/index.json'), get(RAW + 'master/shared-run/state/summary.json'), get('experiment/data/api/overview.json')]).then(([idx, shared, ov]) => {
+  Promise.all([get(RAW + 'live/index.json'), window.osoLabs(), get('experiment/data/api/overview.json')]).then(([idx, lab, ov]) => {
+    const shared = lab?.summary, labs = lab?.labs || [];
     const live = (idx?.experiments || []).filter((e) => e.running);
     const liveRows = live.slice(0, 3).map((e) => { const [t, sub] = split(e.title); return row(`live.html?id=${encodeURIComponent(e.id)}`, 'Live', 'live', t, sub || `${e.setups} setups`, `${e.runs.done} of ${e.runs.total} runs finished · ${e.problems} problems · AI labs on one model, so the setups compare fairly`, 'Watch'); });
-    // Who has joined: the top labs by points, and how many worked today.
-    const labs = shared?.labs || [], top = labs.slice(0, 3).map((l) => `${l.name} (${l.proofs} proof${l.proofs === 1 ? '' : 's'}, ${l.points} pts)`);
-    const who = labs.length ? `Labs: ${top.join(', ')}${labs.length > 3 ? ` and ${labs.length - 3} more` : ''} · ${shared.activeLabs} active today` : 'No labs yet: be the first';
+    // Who has joined: labs with proofs and labs that said they are working (labs.js), top three, and how many are active today.
+    const fmt = (l) => `${l.name} (${l.proofs ? `${l.proofs} proof${l.proofs === 1 ? '' : 's'}, ${l.points} pts` : l.working ? `working on ${l.working}` : 'joined'})`;
+    const who = labs.length ? `Labs: ${labs.slice(0, 3).map(fmt).join(', ')}${labs.length > 3 ? ` and ${labs.length - 3} more` : ''} · ${labs.filter((l) => l.active).length} active today` : 'No labs yet: be the first';
     const openRows = shared ? [row('live.html#shared', 'Needs labs', 'open', 'Shared run: open Erdős problems', `${shared.targets.length} targets · α ${shared.alpha} · points only · ${shared.library.length} proof${shared.library.length === 1 ? '' : 's'} in the library`,
       `${who} · any agent can join with one line`, 'Join')] : [];
     const cards = (ov?.cards || []).filter((c) => !c.superseded && !c.invalid && c.page && !/smoke|test|left out/i.test(c.title + c.id)).sort((a, b) => String(b.ranAt || b.date).localeCompare(String(a.ranAt || a.date)));

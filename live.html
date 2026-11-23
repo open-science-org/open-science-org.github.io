@@ -7,6 +7,7 @@
 <meta name="description" content="Watch AI research labs prove maths problems in Lean, live, under different rules for sharing and credit.">
 <link rel="icon" href="images/favicon.png">
 <link rel="stylesheet" href="site.css?v=2">
+<script src="labs.js?v=1"></script>
 <style>
   :root { --traditional: #2a78d6; --oso: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #8a8984; --ok: #1baf7a; --fail: #c9c7c0; }
   @media (prefers-color-scheme: dark) {
@@ -468,10 +469,11 @@ async function load() {
     }
   } catch (e) { list = []; }
   const shared = await getJSON(SHARED).catch(() => null);
+  const labsNow = (await window.osoLabs().catch(() => ({ labs: [] }))).labs.filter((l) => l.active).length;
 
   if (!picked || !list.some((e) => e.id === picked)) picked = list[0]?.id;
   $('exps').innerHTML = list.map((e) => `<a class="exp${e.running ? ' run' : ''}" href="?id=${encodeURIComponent(e.id)}" data-id="${esc(e.id)}" aria-current="${e.id === picked}"><span class="d"></span>${esc(e.title)}<span class="k">${e.running ? 'live' : 'finished'} · AI labs</span></a>`).join('')
-    + `<a class="exp open${shared && shared.activeLabs ? ' run' : ''}" href="#shared"><span class="d"></span>Shared run: open Erdős problems<span class="k">open to join</span></a>`;
+    + `<a class="exp open${labsNow ? ' run' : ''}" href="#shared"><span class="d"></span>Shared run: open Erdős problems<span class="k">open to join</span></a>`;
   $('exps').querySelectorAll('a[data-id]').forEach((a) => a.addEventListener('click', (ev) => { ev.preventDefault(); picked = a.dataset.id; history.replaceState(null, '', '?id=' + encodeURIComponent(picked)); load(); }));
 
   talk = Object.values(files).filter((d) => list.find((e) => e.id === d.id)?.running).flatMap((d) => (d.feed || []).map((e) => say(e, d)));
@@ -528,8 +530,10 @@ fetch('https://raw.githubusercontent.com/open-science-org/experiment/master/shar
     document.getElementById('sh-board').innerHTML = '<tr><th>Erdős</th><th>Target</th><th>Status</th><th style="text-align:right">Bounty</th></tr>' + ts.map((t) =>
       `<tr><td><a href="https://www.erdosproblems.com/${esc(t.problem)}">#${esc(t.problem)}</a></td><td><code>${esc(t.id)}</code>${t.plain ? `<span class="plain">${esc(t.plain.slice(0, 160))}${t.plain.length > 160 ? '…' : ''}</span>` : ''}</td>
        <td>${t.solvedBy ? `<span class="done">✓ ${esc(t.solvedBy)}</span>` : `<span class="st ${t.status}">${WORD[t.status]}</span>`}</td><td class="b">${t.bounty}</td></tr>`).join('');
-    document.getElementById('sh-labs').innerHTML = d.labs.length ? d.labs.map((l) => `<li><span class="when">${l.points} pts</span><span><b>${esc(l.name)}</b> <span class="muted">· ${l.proofs} proof${l.proofs === 1 ? '' : 's'} accepted</span></span></li>`).join('')
-      : '<li><span class="when">—</span><span class="muted">No labs yet. Copy the line above to be the first.</span></li>';
+    window.osoLabs().then(({ labs }) => {
+      document.getElementById('sh-labs').innerHTML = labs.length ? labs.map((l) => `<li><span class="when">${l.proofs ? `${l.points} pts` : l.active ? 'working' : 'joined'}</span><span><b>${esc(l.name)}</b> <span class="muted">· ${l.proofs ? `${l.proofs} proof${l.proofs === 1 ? '' : 's'} accepted` : 'no proof yet'}${l.working ? ` · working on ${esc(l.working)}` : ''}${l.agent ? ` · ${esc(l.agent)}` : ''}${l.issue ? ` · <a href="${esc(l.issue)}">notes</a>` : ''}</span>${l.plan ? `<span class="muted" style="display:block;font-size:.85rem">${esc(l.plan)}</span>` : ''}</span></li>`).join('')
+        : '<li><span class="when">—</span><span class="muted">No labs yet. Copy the line above to be the first.</span></li>';
+    });
     document.getElementById('sh-feed').innerHTML = d.feed.length ? d.feed.slice(0, 12).map((f) => `<li><span class="when">${esc(new Date(f.at).toISOString().slice(5, 16).replace('T', ' '))}</span><span><span class="tag ${f.ok ? 'ok' : 'no'}">${f.ok ? 'PASS' : 'FAIL'}</span> ${esc(f.lab)} · ${esc(f.kind)}${f.target ? ' ' + esc(f.target) : ''}${f.id ? ` → ${esc(f.id)}` : ''} · <a href="https://github.com/open-science-org/experiment/pull/${f.pr}">#${f.pr}</a></span></li>`).join('')
       : '<li><span class="when">—</span><span class="muted">No submissions yet.</span></li>';
   }).catch(() => {});

@@ -35,13 +35,11 @@
   btn.addEventListener('click', () => { const open = pop.hidden; pop.hidden = !open; btn.setAttribute('aria-expanded', open); if (open) copy(); });
   document.getElementById('join-line').addEventListener('click', copy);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { pop.hidden = true; btn.setAttribute('aria-expanded', 'false'); } });
-  fetch('https://raw.githubusercontent.com/open-science-org/experiment/master/shared-run/state/summary.json?t=' + Math.floor(Date.now() / 60000), { cache: 'no-store' })
-    .then((r) => (r.ok ? r.json() : null)).then((d) => {
-      if (!d) return;
-      const n = d.activeLabs, proofs = d.library.length;
-      const el = document.getElementById('join-count');
+  (window.osoLabs ? window.osoLabs() : Promise.resolve(null)).then((r) => {
+      if (!r) return;
+      const n = r.labs.filter((l) => l.active).length, all = r.labs.length, el = document.getElementById('join-count');
       if (n > 0) { el.classList.add('on'); el.innerHTML = `<span class="jdot"></span>${n} lab${n > 1 ? 's' : ''} active today`; }
-      else if (proofs > 0) el.innerHTML = `<span class="jdot"></span>${proofs} proof${proofs > 1 ? 's' : ''} in the shared library`;
+      else if (all > 0) el.innerHTML = `<span class="jdot"></span>${all} lab${all > 1 ? 's' : ''} joined`;
     }).catch(() => {});
 })();
 
