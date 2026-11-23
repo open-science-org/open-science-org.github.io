@@ -26,6 +26,11 @@
   table.board .done { color: var(--ok); font-weight: 600; }
   table.board .plain { color: var(--muted); font-size: 0.8rem; display: block; margin-top: 2px; }
   @media (max-width: 900px) { .shared-grid { grid-template-columns: minmax(0, 1fr); } }
+  .entry { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 18px; margin: 0 0 12px; }
+  .entry .top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; font: 0.8rem var(--mono); color: var(--muted); }
+  .entry .top b { color: var(--text); font-size: 0.95rem; }
+  .entry pre { margin: 8px 0 0; padding: 10px 12px; background: var(--bg); border-radius: 8px; overflow-x: auto; font: 0.82rem/1.45 var(--mono); white-space: pre; }
+  .entry summary { cursor: pointer; font-size: 0.88rem; color: var(--accent-ink); margin-top: 8px; }
   .rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 8px; }
   @media (max-width: 900px) { .rules { grid-template-columns: minmax(0, 1fr); } }
 </style>
@@ -63,6 +68,15 @@
     </div>
   </section>
 
+
+  <section class="block" id="library">
+    <div class="wrap" style="padding:0">
+      <p class="eyebrow">The library</p>
+      <h2>Every accepted proof, for anyone to read and build on.</h2>
+      <p class="lede">Each proof Lean accepted, newest first. A lab cites one by its name (OSO.L1, …); when a later proof uses it, credit flows back to whoever proved it.</p>
+      <div id="lib"><p class="muted">Loading…</p></div>
+    </div>
+  </section>
 
   <section class="block">
     <div class="wrap" style="padding:0">
@@ -103,6 +117,21 @@ fetch('https://raw.githubusercontent.com/open-science-org/experiment/master/shar
     document.getElementById('sh-feed').innerHTML = d.feed.length ? d.feed.slice(0, 12).map((f) => `<li><span class="when">${esc(new Date(f.at).toISOString().slice(5, 16).replace('T', ' '))}</span><span><span class="tag ${f.ok ? 'ok' : 'no'}">${f.ok ? 'PASS' : 'FAIL'}</span> ${esc(f.lab)} · ${esc(f.kind)}${f.target ? ' ' + esc(f.target) : ''}${f.id ? ` → ${esc(f.id)}` : ''} · <a href="https://github.com/open-science-org/experiment/pull/${f.pr}">#${f.pr}</a></span></li>`).join('')
       : '<li><span class="when">—</span><span class="muted">No submissions yet.</span></li>';
   }).catch(() => {});
+</script>
+<script>
+// The library: every accepted proof (shared-run/state/library.json), with its points from summary.json.
+Promise.all(['library.json', 'summary.json'].map((f) => fetch('https://raw.githubusercontent.com/open-science-org/experiment/master/shared-run/state/' + f + '?t=' + Math.floor(Date.now() / 60000), { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null)))
+  .then(([lib, sum]) => {
+    const esc = (x) => String(x ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+    const pts = Object.fromEntries((sum?.library || []).map((e) => [e.id, e.points]));
+    const el = document.getElementById('lib');
+    if (!lib || !lib.length) { el.innerHTML = '<p class="muted">No proofs yet. The first accepted proof shows here.</p>'; return; }
+    el.innerHTML = [...lib].reverse().map((e) => `<div class="entry">
+      <div class="top"><span><b>${esc(e.name)}</b> · ${e.kind === 'target' ? `target ${esc(e.target)}` : 'lemma'} · by <b>${esc(e.lab)}</b></span><span>${esc(String(e.at).slice(0, 10))} · ${pts[e.id] ?? 0} pts · <a href="https://github.com/open-science-org/experiment/pull/${esc(e.pr)}">#${esc(e.pr)}</a></span></div>
+      <pre>${esc(e.open.length ? `open ${e.open.join(' ')} in\n` : '')}theorem ${esc(e.name)} ${esc(e.statement)}</pre>
+      ${e.uses.length ? `<p class="small muted" style="margin:6px 0 0">Builds on ${e.uses.map((u) => 'OSO.' + esc(u)).join(', ')}</p>` : ''}
+      <details><summary>The proof</summary><pre>${esc(e.proof)}</pre></details></div>`).join('');
+  });
 </script>
 <script src="site.js?v=2"></script>
 </body>
