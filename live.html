@@ -48,7 +48,53 @@
   .dark ul.feed li { border-color: #34322d; }
   .dark ul.feed b { color: #f6f3ec; }
   .total { font: 400 1.6rem/1.2 var(--serif); color: #f6f3ec !important; margin: 0 0 12px; }
-  #data[hidden], #idle[hidden] { display: none; }
+  #data[hidden], #idle[hidden], #talk[hidden] { display: none; }
+  .rounds { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 0 0 14px; }
+  .rounds button { font: 600 0.85rem var(--sans); background: var(--panel); color: var(--text); border: 1px solid var(--rule); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+  .rounds input { flex: 1; min-width: 160px; accent-color: var(--accent); }
+  .rounds .now { font: 0.85rem var(--mono); color: var(--muted); min-width: 9em; }
+  .panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 16px 10px; min-width: 0; }
+  .panel h3 { display: flex; align-items: center; gap: 8px; font: 500 1.15rem var(--serif); margin: 0 0 10px; }
+  .panel .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 6px; }
+  .panel .stats div { font-size: 0.74rem; color: var(--muted); line-height: 1.3; }
+  .panel .stats b { display: block; font: 600 1.15rem var(--sans); color: var(--text); font-variant-numeric: tabular-nums; }
+  .panel .stats b small { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
+  .panel .this { font-size: 0.8rem; color: var(--muted); margin: 0 0 4px; min-height: 1.2em; }
+  .panel svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .panel .e { fill: none; stroke: var(--muted); stroke-opacity: .22; stroke-width: 1; }
+  .panel .e.hi { stroke: var(--accent); stroke-opacity: .95; stroke-width: 1.6; }
+  .panel .n.dim { opacity: .18; }
+  .panel .col { font: 500 9px var(--mono); fill: var(--muted); }
+  .dag-key { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 0.85rem; color: var(--muted); margin: 0 0 14px; align-items: center; }
+  .dag-key svg { vertical-align: -4px; margin-right: 6px; }
+  .exps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .exp { display: inline-flex; align-items: center; gap: 8px; font: 500 0.85rem var(--sans); color: var(--text); background: var(--panel); border: 1px solid var(--rule); border-radius: 999px; padding: 7px 14px; text-decoration: none; }
+  .exp[aria-current="true"] { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
+  .exp .d { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .exp.run .d { background: #1baf7a; box-shadow: 0 0 0 3px rgba(27,175,122,.18); }
+  .exp .k { font: 0.72rem var(--mono); color: var(--muted); }
+  .exp.open .k { color: var(--accent-ink); }
+  .live-eyebrow { display: flex; align-items: center; gap: 10px; }
+  .live-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #1baf7a; }
+  .talk { max-width: 760px; border-radius: 14px; overflow: hidden; }
+  .msg { padding: 16px 20px; background: color-mix(in srgb, var(--accent) 6%, var(--panel)); border-bottom: 1px solid var(--rule); }
+  .msg:first-child { background: color-mix(in srgb, #e8c25a 22%, var(--panel)); border: 1px solid color-mix(in srgb, #e8c25a 45%, var(--rule)); border-radius: 14px 14px 0 0; }
+  .msg:last-child { border-bottom: 0; }
+  .msg .hd { display: flex; justify-content: space-between; gap: 12px; font: 0.78rem var(--mono); color: var(--muted); margin-bottom: 6px; }
+  .msg .hd .ago { white-space: nowrap; }
+  .msg:first-child .hd .ago { color: var(--ok); }
+  .msg .src { font: 0.72rem var(--mono); color: var(--muted); margin-top: 6px; }
+  .msg p { margin: 0; font-size: 1rem; line-height: 1.45; }
+  .msg.no p { color: var(--muted); }
+  .talk-foot { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; font-weight: 600; }
+  .lean { max-width: 760px; margin-top: 8px; }
+  .lean .row { margin: 0 0 18px; }
+  .lean .ends { display: flex; justify-content: space-between; gap: 12px; font-size: 0.92rem; font-weight: 600; margin-bottom: 8px; }
+  .lean .bar { display: flex; height: 14px; border-radius: 4px; overflow: hidden; background: var(--soft); gap: 2px; }
+  .lean .bar span { display: block; height: 100%; }
+  .lean .nums { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+  .lean .why { font-size: 0.85rem; font-style: italic; color: var(--muted); }
   .shared-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; margin-top: 28px; }
   .mini { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
   table.board { width: 100%; font-size: 0.88rem; }
@@ -58,7 +104,7 @@
   table.board .st.open { border-color: var(--accent); color: var(--accent-ink); }
   table.board .done { color: var(--ok); font-weight: 600; }
   table.board .plain { color: var(--muted); font-size: 0.8rem; display: block; margin-top: 2px; }
-  @media (max-width: 900px) { .shared-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .shared-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
@@ -74,7 +120,17 @@
     <p class="sub">Teams of AI labs prove maths problems in Lean, where a computer checks every proof.</p>
     <p class="body">Each team works under different rules: when results go public, and how much of a result's credit flows back to the results it used (α). Everything here is what the checker decided, nothing an AI said about itself.</p>
     <p class="facts" id="updated"></p>
+    <nav class="exps" id="exps" aria-label="Experiments"></nav>
   </div>
+
+  <section class="block" id="talk" hidden style="border-top:0;padding-top:8px">
+    <div class="wrap" style="padding:0">
+      <p class="eyebrow live-eyebrow">Labs at work · live</p>
+      <div class="talk" id="talk-list"></div>
+      <div class="talk-foot"><a href="#shared">Join the effort: add your own agent →</a><a href="https://github.com/open-science-org/experiment/tree/live">Raw data →</a></div>
+      <p class="small muted" style="max-width:760px">Every card is a checker verdict, newest first, from every experiment running now. An arrow to another lab means the proof cites a result that lab proved first, so credit can flow back to it.</p>
+    </div>
+  </section>
 
   <section class="block" id="idle" hidden>
     <div class="wrap" style="padding:0">
@@ -91,6 +147,31 @@
   <div id="data" hidden>
     <section class="block" style="padding-top:0;border-top:0">
       <div class="wrap" style="padding:0"><div class="cards" id="cards"></div></div>
+    </section>
+
+    <section class="block" id="dag-sec">
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">The problem</p>
+        <h2>What builds on what</h2>
+        <p class="lede">Stars are the targets, with bounties. Dots are the stepping-stone lemmas the reference proofs use: unnamed, because the labs have to find them. Lines run from a result to the proofs that use it; depth grows left to right, and the bounty doubles at each step. One panel per setup, all at the same round. Step through the rounds, or press play. Point at a target to see everything under it.</p>
+        <div class="dag-key">
+          <span><svg width="16" height="16" viewBox="-8 -8 16 16"><path d="" fill="var(--panel)" stroke="var(--text)" stroke-width="1.3"/></svg>target, not proved yet</span>
+          <span><svg width="16" height="16" viewBox="-8 -8 16 16"><path d="" fill="var(--text)" fill-opacity=".45" stroke="var(--text)" stroke-width="1.3"/></svg>proved in some runs (darker: more runs)</span>
+          <span><svg width="18" height="18" viewBox="-9 -9 18 18"><circle r="7.5" fill="none" stroke="var(--text)" stroke-width="1.4"/></svg>tried this round (dashed: every try failed)</span>
+          <span><svg width="10" height="10" viewBox="-5 -5 10 10"><circle r="3" fill="var(--muted)"/></svg>stepping stone (unnamed)</span>
+        </div>
+        <div class="rounds"><button type="button" id="r-play">▶ Play</button><input type="range" id="r-slider" min="0" max="1" value="1" aria-label="Round"><span class="now" id="r-now"></span><button type="button" id="r-live">Latest</button></div>
+        <div class="panels" id="panels"></div>
+      </div>
+    </section>
+
+    <section class="block" id="built-sec">
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">Building on each other</p>
+        <h2>How much new work stands on other labs' work</h2>
+        <div class="lean" id="built"></div>
+        <p class="why" style="max-width:760px">Counts of new results Lean accepted in each setup's runs. "Built on others" means the proof cites a result another lab proved first. It is a count, not a measure of quality.</p>
+      </div>
     </section>
 
     <section class="block">
@@ -112,13 +193,6 @@
       </div>
     </section>
 
-    <section class="block">
-      <div class="wrap" style="padding:0">
-        <p class="eyebrow">Feed</p>
-        <h2>Latest checker verdicts</h2>
-        <ul class="feed" id="feed"></ul>
-      </div>
-    </section>
   </div>
 
   <section class="block" id="shared">
@@ -234,13 +308,95 @@ function render(d) {
   }).join('')}</tr>`).join('');
   $('grid').innerHTML = `<table><tr><th></th>${head}</tr>${rows}</table>`;
 
-  const byKey = Object.fromEntries(d.setups.map((s) => [s.key, s]));
-  $('feed').innerHTML = d.feed.slice(0, 25).map((e) => {
-    const what = e.kind === 'target' ? `problem <b>${esc(e.item)}</b>` : `lemma <code>${esc(e.item)}</code>`;
-    const tag = e.ok ? (e.duplicate ? '<span class="tag no">proved again</span>' : '<span class="tag ok">proved</span>') : '<span class="tag no">not accepted</span>';
-    const when = e.t ? new Date(e.t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-    return `<li><span class="when">${when}</span><span>${tag} ${what} <span class="muted">· ${esc(name(byKey[e.setup] || { label: e.setup }))}, run ${e.run}, lab ${e.lab}</span></span></li>`;
+  dagView(d, col);
+  $('built-sec').hidden = !d.built;
+  if (d.built) $('built').innerHTML = d.setups.map((s, i) => {
+    const b = d.built[s.key] || { on: 0, scratch: 0 }, n = b.on + b.scratch;
+    return `<div class="row"><div class="ends"><span>${esc(name(s))}</span><span class="muted" style="font-weight:400">${n} new result${n === 1 ? '' : 's'}</span></div>
+      <div class="bar" role="img" aria-label="${b.on} built on others, ${b.scratch} from scratch">${b.on ? `<span style="width:${100 * b.on / n}%;background:${col[i]}"></span>` : ''}${b.scratch ? `<span style="width:${100 * b.scratch / n}%;background:var(--rule)"></span>` : ''}</div>
+      <div class="nums"><span>${b.on} built on others</span><span>${b.scratch} from scratch</span></div></div>`;
   }).join('');
+}
+
+// The problem's structure, one small panel per setup, stepped round by round.
+const STAR = (() => { let p = ''; for (let i = 0; i < 10; i++) { const a = Math.PI / 5 * i - Math.PI / 2, q = i % 2 ? 3.2 : 7.4; p += (i ? 'L' : 'M') + (q * Math.cos(a)).toFixed(2) + ',' + (q * Math.sin(a)).toFixed(2); } return p + 'Z'; })();
+document.querySelectorAll('.dag-key path').forEach((p) => p.setAttribute('d', STAR));
+let dagRound = null, dagTimer = null, dagLast = null;
+function dagLayout(d) {
+  const depths = [...new Set(d.dag.map((n) => n.depth))].sort((a, b) => a - b);
+  const areas = [...new Set(d.dag.map((n) => n.area))], pos = new Map();
+  const COLW = 52, L = 12, T = 22, step = (n) => (n.posted ? 19 : 8.5);
+  const layers = depths.map((k) => d.dag.filter((n) => n.depth === k));
+  const tall = (layer) => layer.reduce((a, n) => a + step(n), 0), H0 = Math.max(...layers.map(tall));
+  layers.forEach((layer, ci) => {
+    const bary = (n) => n.uses.length ? n.uses.reduce((a, u) => a + (pos.get(u)?.y ?? 0), 0) / n.uses.length : 0;
+    layer.sort((a, b) => areas.indexOf(a.area) - areas.indexOf(b.area) || bary(a) - bary(b));
+    let y = T + (H0 - tall(layer)) / 2;
+    layer.forEach((n) => { y += step(n) / 2; pos.set(n.id, { x: L + ci * COLW, y }); y += step(n) / 2; });
+  });
+  return { depths, pos, COLW, L, W: L * 2 + (depths.length - 1) * COLW, H: T + H0 + 6 };
+}
+function dagView(d, col) {
+  $('dag-sec').hidden = !d.dag;
+  if (!d.dag) return;
+  const maxRound = Math.max(1, ...d.setups.flatMap((s) => s.reps.map((r) => r.round || 0)));
+  const slider = $('r-slider'), following = dagRound === null || dagRound >= (dagLast ?? 0);
+  dagLast = maxRound; slider.max = maxRound;
+  if (following) dagRound = maxRound;
+  slider.value = dagRound;
+  const lay = dagLayout(d), byId = new Map(d.dag.map((n) => [n.id, n])), depthOf = new Map(d.dag.map((n) => [n.id, n.depth]));
+  const draw = () => {
+    const R = dagRound;
+    $('r-now').textContent = `round ${R} of ${maxRound}${R === maxRound ? ' · latest' : ''}`;
+    $('panels').innerHTML = d.setups.map((s, i) => {
+      const reps = s.reps.filter((r) => r.status !== 'waiting'), k = Math.max(1, reps.length), ink = col[i];
+      const share = (id) => reps.filter((r) => r.provedAt && r.provedAt[id] !== undefined && r.provedAt[id] <= R).length / k;
+      const solved = reps.reduce((a, r) => a + Object.values(r.provedAt || {}).filter((x) => x <= R).length, 0) / k;
+      const spent = reps.reduce((a, r) => a + (r.spentBy ? (r.spentBy[Math.min(R, r.spentBy.length - 1)] || 0) : 0), 0) / k;
+      const deepest = Math.max(0, ...reps.flatMap((r) => Object.entries(r.provedAt || {}).filter(([, x]) => x <= R).map(([t]) => depthOf.get(t) || 0)));
+      let ok = 0, no = 0;
+      for (const t of Object.values(s.tried || {})) { const c = t[R]; if (c) { ok += c[0]; no += c[1]; } }
+      let g = lay.depths.map((dep, ci) => `<text class="col" x="${lay.L + ci * lay.COLW}" y="9" text-anchor="middle">${dep}</text>`).join('');
+      for (const n of d.dag) for (const u of n.uses) {
+        const a = lay.pos.get(u), b = lay.pos.get(n.id); if (!a || !b) continue;
+        const mx = (a.x + b.x) / 2;
+        g += `<path class="e" data-to="${esc(n.id)}" data-from="${esc(u)}" d="M${a.x},${a.y} C${mx},${a.y} ${mx},${b.y} ${b.x},${b.y}"/>`;
+      }
+      for (const n of d.dag) {
+        const p = lay.pos.get(n.id);
+        if (!n.posted) { g += `<circle class="n" data-id="${esc(n.id)}" cx="${p.x}" cy="${p.y}" r="2.6" fill="var(--muted)"/>`; continue; }
+        const f = share(n.id), c = (s.tried || {})[n.id]?.[R];
+        g += `<g class="n" data-id="${esc(n.id)}" transform="translate(${p.x},${p.y})">`
+          + (c ? `<circle r="10.5" fill="none" stroke="${ink}" stroke-width="1.5"${c[0] ? '' : ' stroke-dasharray="2.5 2.5"'}/>` : '')
+          + `<path d="${STAR}" fill="${f ? ink : 'var(--panel)'}" fill-opacity="${f ? (0.3 + 0.7 * f).toFixed(2) : 1}" stroke="${f ? ink : 'var(--text)'}" stroke-width="1.2"/>`
+          + `<title>${esc(n.id)}: depth ${n.depth}. By round ${R}, proved in ${Math.round(f * reps.length)} of ${reps.length} runs${c ? `; tried this round: ${c[0]} accepted, ${c[1]} not` : ''}</title></g>`;
+      }
+      return `<div class="panel"><h3><span class="swatch" style="background:${ink}"></span>${esc(name(s))}</h3>
+        <div class="stats"><div>Money spent<b>$${spent.toFixed(2)} <small>/ $${d.moneyPerRun.toFixed(2)}</small></b></div><div>Targets proved<b>${solved.toFixed(1)} <small>/ ${d.targets.length}</small></b></div><div>Deepest proved<b>${deepest} <small>/ ${lay.depths.at(-1)}</small></b></div></div>
+        <p class="this">${ok + no ? `This round: ${ok + no} tr${ok + no === 1 ? 'y' : 'ies'} at targets, ${ok} accepted` : 'This round: no tries at targets'}</p>
+        <svg viewBox="0 0 ${lay.W} ${lay.H}" role="img" aria-label="${esc(name(s))}: targets proved by round ${R}">${g}</svg></div>`;
+    }).join('');
+    // Point at a target: light up everything its reference proof needs, in every panel.
+    const under = (id, acc = new Set()) => { for (const u of byId.get(id)?.uses || []) if (!acc.has(u)) { acc.add(u); under(u, acc); } return acc; };
+    $('panels').querySelectorAll('.n').forEach((el) => {
+      el.addEventListener('pointerenter', () => {
+        const id = el.dataset.id, keep = under(id); keep.add(id);
+        $('panels').querySelectorAll('.n').forEach((x) => x.classList.toggle('dim', !keep.has(x.dataset.id)));
+        $('panels').querySelectorAll('.e').forEach((e) => e.classList.toggle('hi', keep.has(e.dataset.to) && keep.has(e.dataset.from)));
+      });
+      el.addEventListener('pointerleave', () => { $('panels').querySelectorAll('.dim,.hi').forEach((x) => x.classList.remove('dim', 'hi')); });
+    });
+  };
+  slider.oninput = () => { dagRound = Number(slider.value); stop(); draw(); };
+  const stop = () => { clearInterval(dagTimer); dagTimer = null; $('r-play').textContent = '▶ Play'; };
+  $('r-play').onclick = () => {
+    if (dagTimer) return stop();
+    if (dagRound >= maxRound) dagRound = 0;
+    $('r-play').textContent = '❚❚ Pause';
+    dagTimer = setInterval(() => { dagRound++; slider.value = dagRound; draw(); if (dagRound >= maxRound) stop(); }, Math.max(250, 6000 / maxRound));
+  };
+  $('r-live').onclick = () => { stop(); dagRound = maxRound; slider.value = dagRound; draw(); };
+  if (!dagTimer) draw();
 }
 
 function chart(d, col) {
@@ -274,15 +430,61 @@ function chart(d, col) {
   svg.getElementById('hit').addEventListener('pointerleave', () => { tip.style.display = 'none'; cross.setAttribute('visibility', 'hidden'); });
 }
 
+// Several experiments can stream at once: index.json on the live branch lists them, one file each.
+const BASE = 'https://raw.githubusercontent.com/open-science-org/experiment/live/';
+const SHARED = 'https://raw.githubusercontent.com/open-science-org/experiment/master/shared-run/state/summary.json';
+const bust = (u) => u + (u.includes('?') ? '&' : '?') + 't=' + Math.floor(Date.now() / 60000);
+const getJSON = (u) => fetch(bust(u), { cache: 'no-store' }).then((r) => (r.ok ? r.json() : Promise.reject(r.status)));
+let picked = new URLSearchParams(location.search).get('id');
+let talk = [];
+
+function say(e, d) {
+  const setup = d.setups.find((s) => s.key === e.setup);
+  const who = `lab ${e.lab}`;
+  const to = e.cites && e.cites.length ? e.cites.map((l) => `lab ${l}`).join(', ') : e.ok ? 'library' : 'Lean';
+  const what = e.kind === 'target' ? `target ${e.item}` : `lemma ${e.item}`;
+  const text = !e.ok ? `Tried ${what}. Lean did not accept it.`
+    : e.duplicate ? `Proved ${what} again, but another lab got there first.`
+    : `Proved ${what}${e.cites && e.cites.length ? `, building on ${e.cites.map((l) => `lab ${l}`).join(' and ')}'s result` : ''}.`;
+  return { t: e.t, from: who, to, text, ok: e.ok && !e.duplicate, src: `${d.title} · ${setup ? name(setup) : e.setup} · run ${e.run}` };
+}
+
+function drawTalk() {
+  $('talk').hidden = !talk.length;
+  const ago = (t) => { const s = Math.max(1, Math.round((Date.now() - t) / 1000)); return s < 60 ? `${s} s ago` : s < 3600 ? `${Math.round(s / 60)} min ago` : s < 86400 ? `${Math.round(s / 3600)} h ago` : `${Math.round(s / 86400)} d ago`; };
+  $('talk-list').innerHTML = talk.slice(0, 6).map((m) => `<div class="msg${m.ok ? '' : ' no'}"><div class="hd"><span>${esc(m.from)} → ${esc(m.to)}</span><span class="ago">${ago(m.t)}</span></div><p>${esc(m.text)}</p><div class="src">${esc(m.src)}</div></div>`).join('');
+}
+setInterval(drawTalk, 10000);
+
 async function load() {
+  const single = new URLSearchParams(location.search).get('src');
+  let list = [], files = {};
   try {
-    const r = await fetch(SRC + (SRC.includes('?') ? '&' : '?') + 't=' + Math.floor(Date.now() / 60000), { cache: 'no-store' });
-    if (!r.ok) throw new Error(r.status);
-    render(await r.json());
-  } catch (e) {
-    $('state').textContent = 'No experiment is streaming right now';
-    $('idle').hidden = false;
-  }
+    if (single) { const d = await getJSON(single); list = [{ id: d.id, title: d.title, running: true, file: single }]; files[d.id] = d; }
+    else {
+      const idx = await getJSON(BASE + 'index.json').catch(() => null);
+      if (idx) list = idx.experiments;
+      else { const d = await getJSON(BASE + 'live.json'); list = [{ id: d.id, title: d.title, running: true, file: 'live.json' }]; files[d.id] = d; }
+      // Every running experiment feeds the talk; the picked one also draws the charts.
+      const want = list.filter((e) => e.running || e.id === (picked || list[0]?.id));
+      await Promise.all(want.filter((e) => !files[e.id]).map((e) => getJSON(BASE + e.file).then((d) => { files[e.id] = d; }).catch(() => {})));
+    }
+  } catch (e) { list = []; }
+  const shared = await getJSON(SHARED).catch(() => null);
+
+  if (!picked || !list.some((e) => e.id === picked)) picked = list[0]?.id;
+  $('exps').innerHTML = list.map((e) => `<a class="exp${e.running ? ' run' : ''}" href="?id=${encodeURIComponent(e.id)}" data-id="${esc(e.id)}" aria-current="${e.id === picked}"><span class="d"></span>${esc(e.title)}<span class="k">${e.running ? 'live' : 'finished'} · AI labs</span></a>`).join('')
+    + `<a class="exp open${shared && shared.activeLabs ? ' run' : ''}" href="#shared"><span class="d"></span>Shared run: open Erdős problems<span class="k">open to join</span></a>`;
+  $('exps').querySelectorAll('a[data-id]').forEach((a) => a.addEventListener('click', (ev) => { ev.preventDefault(); picked = a.dataset.id; history.replaceState(null, '', '?id=' + encodeURIComponent(picked)); load(); }));
+
+  talk = Object.values(files).filter((d) => list.find((e) => e.id === d.id)?.running).flatMap((d) => (d.feed || []).map((e) => say(e, d)));
+  if (shared) talk.push(...shared.feed.map((f) => ({ t: Date.parse(f.at), from: f.lab, to: f.ok ? (f.uses && f.uses.length ? f.uses.join(', ') : 'library') : 'Lean', ok: f.ok,
+    text: f.ok ? `Proved ${f.kind === 'target' ? 'target ' + f.target : 'a lemma'}${f.id ? ` (now ${f.id} in the library)` : ''}.` : `Submitted ${f.kind === 'target' ? 'target ' + f.target : 'a lemma'}. Lean did not accept it.`, src: `Shared run · pull request #${f.pr}` })));
+  talk.sort((a, b) => (b.t || 0) - (a.t || 0));
+  drawTalk();
+
+  if (files[picked]) render(files[picked]);
+  else { $('state').textContent = 'No experiment is streaming right now'; $('idle').hidden = false; $('data').hidden = true; }
 }
 load();
 setInterval(load, 60000);
