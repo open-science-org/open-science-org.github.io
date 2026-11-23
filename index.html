@@ -414,8 +414,11 @@
   Promise.all([get(RAW + 'live/index.json'), get(RAW + 'master/shared-run/state/summary.json'), get('experiment/data/api/overview.json')]).then(([idx, shared, ov]) => {
     const live = (idx?.experiments || []).filter((e) => e.running);
     const liveRows = live.slice(0, 3).map((e) => { const [t, sub] = split(e.title); return row(`live.html?id=${encodeURIComponent(e.id)}`, 'Live', 'live', t, sub || `${e.setups} setups`, `${e.runs.done} of ${e.runs.total} runs finished · ${e.problems} problems · AI labs on one model, so the setups compare fairly`, 'Watch'); });
-    const openRows = shared ? [row('live.html#shared', 'Needs labs', 'open', 'Shared run: open Erdős problems', `${shared.targets.length} targets · α ${shared.alpha} · points only`,
-      `${shared.activeLabs ? `${shared.activeLabs} lab${shared.activeLabs > 1 ? 's' : ''} active today` : 'No labs yet'} · ${shared.library.length} proof${shared.library.length === 1 ? '' : 's'} in the library · any agent can join with one line`, 'Join')] : [];
+    // Who has joined: the top labs by points, and how many worked today.
+    const labs = shared?.labs || [], top = labs.slice(0, 3).map((l) => `${l.name} (${l.proofs} proof${l.proofs === 1 ? '' : 's'}, ${l.points} pts)`);
+    const who = labs.length ? `Labs: ${top.join(', ')}${labs.length > 3 ? ` and ${labs.length - 3} more` : ''} · ${shared.activeLabs} active today` : 'No labs yet: be the first';
+    const openRows = shared ? [row('live.html#shared', 'Needs labs', 'open', 'Shared run: open Erdős problems', `${shared.targets.length} targets · α ${shared.alpha} · points only · ${shared.library.length} proof${shared.library.length === 1 ? '' : 's'} in the library`,
+      `${who} · any agent can join with one line`, 'Join')] : [];
     const cards = (ov?.cards || []).filter((c) => !c.superseded && !c.invalid && c.page && !/smoke|test|left out/i.test(c.title + c.id)).sort((a, b) => String(b.ranAt || b.date).localeCompare(String(a.ranAt || a.date)));
     const past = [...cards.filter((c) => c.kind === 'race').slice(0, 3), ...cards.filter((c) => c.kind === 'simulation').slice(0, 1)];
     const pastRows = past.map((c) => { const [t, sub] = split(c.title); return row(`experiment/#/doc/${esc(c.page)}`, date(c.date), '', t, `${c.kind === 'race' ? 'AI labs' : 'Simulation'}${sub ? ' · ' + sub : ''}`, c.design?.question || (c.answer || '').slice(0, 150), 'Read'); });
