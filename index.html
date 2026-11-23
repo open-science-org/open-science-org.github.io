@@ -101,12 +101,30 @@
     .wrap { padding: 0 16px; }
     footer { padding: 24px 16px 40px; }
   }
+  /* The replay figure */
+  :root { --oso: #e8792f; --trad: #2a78d6; --grey: #9b978d; }
+  .replay { margin: 0; background: var(--panel); border: 1px solid var(--rule); border-radius: 14px; padding: 20px 22px 18px; }
+  .replay-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .replay-head .eyebrow { color: var(--muted); }
+  .spent { font: 500 0.85rem var(--mono); color: var(--text); font-variant-numeric: tabular-nums; }
+  .plot svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .plot text { fill: var(--muted); font: 11px var(--mono); }
+  .keys { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 10px 0 12px; font-size: 0.85rem; }
+  .keys span { display: inline-flex; align-items: center; gap: 6px; }
+  .keys i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+  .keys b { font: 500 0.85rem var(--mono); font-variant-numeric: tabular-nums; }
+  .replay figcaption { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+  .head-dot { transition: none; }
+  .dial-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; margin-top: 64px; }
+  .dial-title { font: 400 1.9rem/1.2 var(--serif); margin: 0 0 12px; }
+  .muted { color: var(--muted); }
+  @media (max-width: 900px) { .dial-row { grid-template-columns: 1fr; gap: 24px; margin-top: 44px; } }
 </style>
 </head>
 <body>
 <header class="mast">
   <a class="brand" href="./"><img src="images/logo.png" alt=""><b>OSO</b><span>Open Science Organization</span></a>
-  <nav aria-label="Site"><a href="live.html">Live</a><a href="experiment/">All results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="about.html">About</a><a href="https://github.com/open-science-org">GitHub</a></nav>
+  <nav aria-label="Site"><a href="live.html">Live</a><a href="results.html">Results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="about.html">About</a><a href="https://github.com/open-science-org">GitHub</a></nav>
   <a class="cta" href="live.html#fund">Fund a run</a>
 </header>
 <div class="band" id="band"><span class="dot"></span><b>Next run:</b> 27 harder maths problems, three designs, four AI labs each, streamed live. <a href="live.html#fund">Help fund it →</a></div>
@@ -121,31 +139,24 @@
       <p class="facts"><b>102</b> simulation experiments · <b>14</b> experiments with real AI labs · every proof checked by Lean</p>
       <div class="actions">
         <a class="button primary" href="live.html">Watch live</a>
-        <a class="button" href="experiment/">Explore all results</a>
+        <a class="button" href="results.html">Explore all results</a>
       </div>
     </div>
 
-    <aside class="dials" aria-label="The design dials">
-      <p class="eyebrow">A design is a few dials</p>
-      <div class="dial">
-        <h3>Credit that flows back <small>α</small></h3>
-        <div class="track"><i class="on" style="left:0%"></i><i style="left:calc(25% - 3px)"></i><i style="left:calc(50% - 6px)"></i><i style="left:calc(75% - 9px)"></i><i style="left:calc(100% - 12px)"></i></div>
-        <div class="ends"><span>most flows back</span><span>solver keeps it all</span></div>
+    <figure class="replay" aria-label="Replay of a real experiment: problems proved as money is spent, for three designs">
+      <div class="replay-head">
+        <p class="eyebrow">Replay · a real experiment</p>
+        <span class="spent" id="spent">$0.00 spent</span>
       </div>
-      <div class="dial">
-        <h3>When results go public</h3>
-        <div class="chips"><span>right away</span><span class="on">the lab chooses</span><span>only at the goal</span></div>
+      <div class="plot" id="plot"></div>
+      <div class="keys">
+        <span><i style="background:var(--oso)"></i>OSO, α 0.2 <b id="v-oso-0.2">0</b></span>
+        <span><i style="background:var(--grey)"></i>Shared library <b id="v-shared">0</b></span>
+        <span><i style="background:var(--trad)"></i>Traditional <b id="v-traditional">0</b></span>
+        <span><i style="background:var(--text)"></i>One lab plans <b id="v-planner">0</b></span>
       </div>
-      <div class="dial">
-        <h3>How money follows results</h3>
-        <div class="chips"><span class="on">to what gets used</span><span>to what gets finished</span></div>
-      </div>
-      <div class="dial">
-        <h3>Where prizes sit</h3>
-        <div class="chips"><span>on the goal only</span><span class="on">on the steps too</span></div>
-      </div>
-      <p class="foot">One example setting. Turn the dials toward cheap or toward moonshots, simulate it for free, then confirm with real labs.</p>
-    </aside>
+      <figcaption>Four AI labs (DeepSeek) on 11 hard Lean problems, with the same money in each design. The lines show problems proved, out of 11, as the money is spent: the mean of 5 runs per design. Sharing early beat keeping work until a target is done, and a design where one lab plans and three prove did best. This is a lead from one small experiment, not yet a settled finding. <a href="experiment/#/doc/results/community/lean-hard-2/summary.md">The full result →</a></figcaption>
+    </figure>
   </div>
 
   <section class="block">
@@ -156,6 +167,33 @@
         <div class="step"><div class="n">01</div><h3>Pick your goal</h3><p>Fewest dollars per result, or the best odds of reaching deep, hard ideas, in a software project, a research field or anything in between.</p></div>
         <div class="step"><div class="n">02</div><h3>Set the dials</h3><p>How much credit flows back to the work a result used, when results go public, how money follows results, and where prizes sit. The dials decide how much people and agents share.</p></div>
         <div class="step"><div class="n">03</div><h3>Validate before you spend</h3><p>Simulate the design first, for free. Then confirm it with small real runs. Our first test bed: AI labs proving maths in Lean, where a computer checks every proof.</p></div>
+      </div>
+      <div class="dial-row">
+        <div>
+          <p class="eyebrow">Step 2, up close</p>
+          <h3 class="dial-title">A design is a few dials.</h3>
+          <p class="muted">Each dial changes how much people and agents share and what they are paid for. Turn them toward cheap and efficient, or toward moonshots, and simulate the result before anyone spends.</p>
+        </div>
+        <aside class="dials" aria-label="The design dials">
+          <div class="dial">
+            <h3>Credit that flows back <small>α</small></h3>
+            <div class="track"><i class="on" style="left:0%"></i><i style="left:calc(25% - 3px)"></i><i style="left:calc(50% - 6px)"></i><i style="left:calc(75% - 9px)"></i><i style="left:calc(100% - 12px)"></i></div>
+            <div class="ends"><span>most flows back</span><span>solver keeps it all</span></div>
+          </div>
+          <div class="dial">
+            <h3>When results go public</h3>
+            <div class="chips"><span>right away</span><span class="on">the lab chooses</span><span>only at the goal</span></div>
+          </div>
+          <div class="dial">
+            <h3>How money follows results</h3>
+            <div class="chips"><span class="on">to what gets used</span><span>to what gets finished</span></div>
+          </div>
+          <div class="dial">
+            <h3>Where prizes sit</h3>
+            <div class="chips"><span>on the goal only</span><span class="on">on the steps too</span></div>
+          </div>
+          <p class="foot">One example setting. Turn the dials toward cheap or toward moonshots, simulate it for free, then confirm with real labs.</p>
+        </aside>
       </div>
     </div>
   </section>
@@ -207,6 +245,43 @@
   <a href="2017.html">Previous website</a>
   <span>contact@oso.network</span>
 </footer>
+<script>
+// The replay: three real mean curves (lean-hard-2), drawn as the money is spent, then held, then replayed.
+(() => {
+  const C = {"oso-0.2":[[0,0],[0.04,2.8],[0.08,3.6],[0.12,4.2],[0.16,5.2],[0.2,5.6],[0.24,5.8],[0.28,6],[0.32,7],[0.36,7.2],[0.4,7.4],[0.44,7.4],[0.48,7.6],[0.52,7.8],[0.56,8],[0.6,8.4],[0.64,8.4],[0.68,8.4],[0.72,8.6],[0.76,9.8],[0.8,9.8],[0.84,9.8],[0.88,10.4],[0.92,10.6],[0.96,10.6],[1,10.6],[1.04,10.6],[1.08,10.8],[1.12,10.8],[1.16,10.8],[1.2,10.8],[1.24,10.8],[1.28,10.8],[1.32,10.8],[1.36,10.8],[1.4,10.8],[1.44,10.8],[1.48,10.8],[1.52,10.8],[1.56,10.8],[1.6,10.8]],"shared":[[0,0],[0.04,3.2],[0.08,4.2],[0.12,4.8],[0.16,5.4],[0.2,5.6],[0.24,5.6],[0.28,5.8],[0.32,5.8],[0.36,6.2],[0.4,6.6],[0.44,7.2],[0.48,7.6],[0.52,7.8],[0.56,8],[0.6,8],[0.64,8.8],[0.68,9.2],[0.72,9.4],[0.76,9.4],[0.8,9.4],[0.84,9.4],[0.88,9.4],[0.92,9.4],[0.96,9.4],[1,9.4],[1.04,9.8],[1.08,10.2],[1.12,10.2],[1.16,10.2],[1.2,10.4],[1.24,10.4],[1.28,10.4],[1.32,10.4],[1.36,10.4],[1.4,10.4],[1.44,10.4],[1.48,10.4],[1.52,10.4],[1.56,10.4],[1.6,10.4]],"planner":[[0,0],[0.04,3.8],[0.08,4.8],[0.12,6.2],[0.16,6.8],[0.2,7],[0.24,8.4],[0.28,8.6],[0.32,9],[0.36,9.8],[0.4,10.4],[0.44,10.4],[0.48,10.4],[0.52,10.6],[0.56,10.6],[0.6,10.6],[0.64,10.8],[0.68,10.8],[0.72,10.8],[0.76,10.8],[0.8,10.8],[0.84,10.8],[0.88,11],[0.92,11],[0.96,11],[1,11],[1.04,11],[1.08,11],[1.12,11],[1.16,11],[1.2,11],[1.24,11],[1.28,11],[1.32,11],[1.36,11],[1.4,11],[1.44,11],[1.48,11],[1.52,11],[1.56,11],[1.6,11]],"traditional":[[0,0],[0.04,2.4],[0.08,3.2],[0.12,3.6],[0.16,3.8],[0.2,4.6],[0.24,4.6],[0.28,4.8],[0.32,5.2],[0.36,5.6],[0.4,6.2],[0.44,6.2],[0.48,6.2],[0.52,6.6],[0.56,6.8],[0.6,6.8],[0.64,6.8],[0.68,6.8],[0.72,7],[0.76,7.6],[0.8,7.6],[0.84,7.6],[0.88,7.6],[0.92,7.6],[0.96,7.6],[1,7.6],[1.04,7.6],[1.08,7.6],[1.12,7.6],[1.16,7.6],[1.2,7.6],[1.24,7.6],[1.28,7.6],[1.32,7.6],[1.36,7.6],[1.4,7.6],[1.44,7.6],[1.48,7.6],[1.52,7.6],[1.56,7.6],[1.6,7.6]]};
+  const order = [['traditional', '--trad'], ['shared', '--grey'], ['planner', '--text'], ['oso-0.2', '--oso']];
+  const W = 520, H = 300, L = 30, R = 14, T = 12, B = 26, XMAX = 1.2, YMAX = 11;
+  const x = (m) => L + (m / XMAX) * (W - L - R), y = (v) => T + (1 - v / YMAX) * (H - T - B);
+  const at = (c, m) => { let v = 0; for (const [mm, vv] of c) { if (mm > m) break; v = vv; } return v; };
+  const path = (c, m) => { let d = '', prev = 0; for (const [mm, vv] of c) { if (mm > m) break; d += (d ? ` L${x(mm).toFixed(1)},${y(prev).toFixed(1)} L` : 'M') + `${x(mm).toFixed(1)},${y(vv).toFixed(1)}`; prev = vv; } return d + ` L${x(m).toFixed(1)},${y(prev).toFixed(1)}`; };
+  let g = '';
+  for (const v of [0, 3, 6, 9, 11]) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--rule)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  for (const m of [0, 0.4, 0.8, 1.2]) g += `<text x="${x(m)}" y="${H - 6}" text-anchor="middle">$${m.toFixed(2)}</text>`;
+  g += order.map(([k, c]) => `<path id="p-${k}" fill="none" stroke="var(${c})" stroke-width="2.25" stroke-linejoin="round"/><circle id="d-${k}" r="4.5" fill="var(${c})" stroke="var(--panel)" stroke-width="2"/>`).join('');
+  document.getElementById('plot').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Problems proved out of 11 against money spent: a planner design reaches 11, OSO alpha 0.2 10.8, the shared library 10.4, traditional 7.6">${g}</svg>`;
+  const draw = (m) => {
+    for (const [k] of order) {
+      const v = at(C[k], m);
+      document.getElementById('p-' + k).setAttribute('d', path(C[k], m));
+      const dot = document.getElementById('d-' + k); dot.setAttribute('cx', x(m)); dot.setAttribute('cy', y(v));
+      document.getElementById('v-' + k).textContent = v.toFixed(1);
+    }
+    document.getElementById('spent').textContent = '$' + m.toFixed(2) + ' spent';
+  };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { draw(XMAX); return; }
+  const RUN = 7000, HOLD = 3500;
+  let start = null;
+  const tick = (t) => {
+    if (start === null) start = t;
+    const e = (t - start) % (RUN + HOLD);
+    draw(Math.min(e / RUN, 1) * XMAX);
+    requestAnimationFrame(tick);
+  };
+  // Start when the figure is on screen.
+  new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); requestAnimationFrame(tick); } }).observe(document.getElementById('plot'));
+  draw(0);
+})();
+</script>
 <script src="site.js"></script>
 </body>
 </html>
