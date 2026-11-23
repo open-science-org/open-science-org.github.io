@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OSO Live Experiment</title>
+<meta name="description" content="Watch AI research labs prove maths problems in Lean, live, under different rules for sharing and credit.">
+<link rel="icon" href="images/favicon.png">
+<style>
+  :root {
+    --bg: #fbfaf8; --text: #1d1d1b; --muted: #5f5d58; --rule: #e4e1db; --soft: #f1efea;
+    --accent: #e8792f; --accent-ink: #b45514;
+    --traditional: #2a78d6; --oso: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #8a8984;
+    --ok: #1baf7a; --fail: #c9c7c0;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161614; --text: #ecebe7; --muted: #a8a59e; --rule: #2e2d2a; --soft: #1f1f1c;
+      --accent: #f0914f; --accent-ink: #f5a874;
+      --traditional: #3987e5; --oso: #d95926; --s3: #199e70; --s4: #c98500; --s5: #8f8d86;
+      --ok: #199e70; --fail: #4a4945;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 40px 16px 80px; }
+  header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  header img { width: 44px; height: auto; }
+  header a { color: var(--text); text-decoration: none; font-weight: 600; }
+  h1 { font-size: 1.6rem; line-height: 1.3; margin: 0 0 8px; }
+  h2 { font-size: 1.1rem; margin: 0 0 12px; }
+  p { margin: 0 0 12px; }
+  a { color: var(--accent-ink); text-underline-offset: 3px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 0.85rem; }
+  section { border-top: 1px solid var(--rule); padding-top: 24px; margin-top: 32px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-ink); }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+  .pill.on .dot { animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { opacity: 0.25; } }
+  @media (prefers-reduced-motion: reduce) { .pill.on .dot { animation: none; } }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+  .card { border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; }
+  .card .name { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+  .card .big { font-size: 1.7rem; font-weight: 600; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .chart { position: relative; }
+  .chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .chart text { fill: var(--muted); font-size: 12px; }
+  .tip { position: absolute; pointer-events: none; background: var(--bg); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; font-size: 0.82rem; line-height: 1.45; box-shadow: 0 4px 16px rgba(0,0,0,.08); display: none; white-space: nowrap; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 4px 0 8px; font-size: 0.88rem; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .grid-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+  th, td { padding: 4px 6px; text-align: center; }
+  th { font-weight: 600; color: var(--muted); }
+  td.setup { text-align: left; white-space: nowrap; }
+  .cell { width: 26px; height: 22px; border-radius: 4px; display: inline-block; line-height: 22px; font-size: 0.75rem; }
+  ul.feed { list-style: none; padding: 0; margin: 0; font-size: 0.9rem; }
+  ul.feed li { display: grid; grid-template-columns: 84px 1fr; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--rule); }
+  ul.feed .when { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .tag { font-weight: 600; }
+  .tag.ok { color: var(--ok); }
+  .tag.no { color: var(--muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+  .button { display: inline-block; padding: 11px 18px; border-radius: 8px; border: 1px solid var(--accent); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+  .button.primary { background: var(--accent); color: #fff; }
+  .button.secondary { color: var(--accent-ink); }
+  footer { margin-top: 56px; font-size: 0.85rem; color: var(--muted); text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <header><img src="images/logo.png" alt=""><a href="./">Open Science Organization</a></header>
+
+  <p class="pill" id="pill"><span class="dot"></span><span id="state">Loading…</span></p>
+  <h1 id="title">Live experiment</h1>
+  <p class="muted">Teams of AI labs (language models) prove maths problems in Lean, where a computer checks every proof. Each team works under different rules: when results go public, and how much of a result's credit flows back to the results it used (α). Everything here is what the checker decided, nothing an AI said about itself.</p>
+  <p class="muted small" id="updated"></p>
+
+  <div class="cards" id="cards"></div>
+
+  <section>
+    <h2>Problems proved for the money spent</h2>
+    <p class="muted small">Mean over the runs so far of each setup. Each run of a setup has the same money.</p>
+    <div class="legend" id="legend"></div>
+    <div class="chart" id="chart"></div>
+  </section>
+
+  <section>
+    <h2>Which problems each setup proved</h2>
+    <p class="muted small">Number of runs that proved each problem. Problems go from easiest to hardest; the bounty doubles with each step of depth.</p>
+    <div class="grid-wrap" id="grid"></div>
+  </section>
+
+  <section>
+    <h2>Latest checker verdicts</h2>
+    <ul class="feed" id="feed"></ul>
+  </section>
+
+  <section>
+    <h2>Take part</h2>
+    <p>Have a question this experiment could answer? Propose a setup and we will run it in public.</p>
+    <div class="actions">
+      <a class="button primary" href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose an experiment</a>
+      <a class="button secondary" href="https://github.com/open-science-org/experiment/blob/master/docs/ai-agent-results.md">Past results</a>
+      <a class="button secondary" href="https://www.oso.network/experiment/">How it works</a>
+    </div>
+  </section>
+
+  <footer>Open Science Organization · <a href="./">Home</a> · Data: <a id="src-link" href="#">live.json</a></footer>
+</main>
+<script>
+const SRC = new URLSearchParams(location.search).get('src') || 'https://raw.githubusercontent.com/open-science-org/experiment/live/live.json';
+document.getElementById('src-link').href = SRC;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const money = (x) => '$' + x.toFixed(2);
+const ago = (t) => { const m = Math.round((Date.now() - t) / 60000); return m < 1 ? 'just now' : m < 60 ? `${m} min ago` : `${Math.round(m / 60)} h ago`; };
+// Colour follows the setup: traditional blue, OSO (low α) orange, then fixed order.
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function colours(setups) {
+  const rest = ['--s3', '--s4', '--s5'];
+  return setups.map((s) => /at target|traditional/i.test(s.label) ? css('--traditional') : /α=0\.[0-4]/.test(s.label) ? css('--oso') : css(rest.shift() || '--s5'));
+}
+// Plain names from the OSO parameters.
+function name(s) {
+  const p = s.label;
+  if (/at target/.test(p)) return 'Traditional';
+  const a = (p.match(/α=([\d.]+)/) || [])[1];
+  if (/lab chooses/.test(p)) return `Labs choose, α ${a}`;
+  if (/never/.test(p)) return 'Independent labs';
+  if (/lab 1 plans/.test(s.params)) return /same information/.test(s.params) ? 'Planner, plain' : 'Planner';
+  if (/m=1/.test(p)) return 'Pay for lemmas';
+  return a === '1' ? 'Shared library' : `OSO, α ${a}`;
+}
+
+function render(d) {
+  const running = d.setups.some((s) => s.runs.running > 0 || s.runs.done < s.runs.total);
+  $('pill').classList.toggle('on', running);
+  $('state').textContent = running ? 'Live' : 'Finished';
+  $('title').textContent = d.title;
+  const done = d.setups.reduce((a, s) => a + s.runs.done, 0), total = d.setups.reduce((a, s) => a + s.runs.total, 0);
+  $('updated').textContent = `Updated ${ago(d.updatedAt)} · ${done} of ${total} runs finished · ${d.targets.length} problems · ${money(d.moneyPerRun)} per run`;
+  const col = colours(d.setups);
+
+  $('cards').innerHTML = d.setups.map((s, i) => {
+    const started = s.reps.filter((r) => r.status !== 'waiting');
+    const mean = started.length ? started.reduce((a, r) => a + r.targets.length, 0) / started.length : 0;
+    const spent = started.length ? started.reduce((a, r) => a + r.spent, 0) / started.length : 0;
+    return `<div class="card"><div class="name"><span class="swatch" style="background:${col[i]}"></span>${esc(name(s))}</div>
+      <div class="big">${mean.toFixed(1)} <span class="muted small">of ${d.targets.length} proved</span></div>
+      <div class="muted small">${money(spent)} spent a run · ${s.runs.done} done, ${s.runs.running} running of ${s.runs.total}</div>
+      <div class="muted small">${esc(s.params)}</div></div>`;
+  }).join('');
+
+  $('legend').innerHTML = d.setups.map((s, i) => `<span><span class="swatch" style="background:${col[i]}"></span>${esc(name(s))}</span>`).join('');
+  chart(d, col);
+
+  const head = d.targets.map((t) => `<th title="depth ${t.depth}, bounty ${t.bounty}">${esc(t.id)}</th>`).join('');
+  const rows = d.setups.map((s, i) => `<tr><td class="setup">${esc(name(s))}</td>${d.targets.map((t) => {
+    const n = s.proved[t.id] || 0, k = s.runs.total, f = n / k;
+    return `<td><span class="cell" title="${esc(t.id)}: ${n} of ${k} runs" style="background:${n ? col[i] : 'var(--soft)'};opacity:${n ? 0.25 + 0.75 * f : 1};color:${f > 0.5 ? '#fff' : 'var(--text)'}">${n || ''}</span></td>`;
+  }).join('')}</tr>`).join('');
+  $('grid').innerHTML = `<table><tr><th></th>${head}</tr>${rows}</table>`;
+
+  const byKey = Object.fromEntries(d.setups.map((s) => [s.key, s]));
+  $('feed').innerHTML = d.feed.slice(0, 25).map((e) => {
+    const what = e.kind === 'target' ? `problem <b>${esc(e.item)}</b>` : `lemma <code>${esc(e.item)}</code>`;
+    const tag = e.ok ? (e.duplicate ? '<span class="tag no">proved again</span>' : '<span class="tag ok">proved</span>') : '<span class="tag no">not accepted</span>';
+    const when = e.t ? new Date(e.t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+    return `<li><span class="when">${when}</span><span>${tag} ${what} <span class="muted">· ${esc(name(byKey[e.setup] || { label: e.setup }))}, run ${e.run}, lab ${e.lab}</span></span></li>`;
+  }).join('');
+}
+
+function chart(d, col) {
+  const W = 760, H = 320, L = 44, R = 16, T = 12, B = 40;
+  const xmax = d.moneyPerRun, ymax = Math.max(4, Math.ceil(Math.max(...d.setups.flatMap((s) => s.curve.map((p) => p[1]))) + 0.5));
+  const x = (v) => L + (W - L - R) * v / xmax, y = (v) => T + (H - T - B) * (1 - v / ymax);
+  let g = '';
+  const ystep = ymax > 16 ? 5 : ymax > 8 ? 2 : 1;
+  for (let v = 0; v <= ymax; v += ystep) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--rule)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  for (let k = 0; k <= 4; k++) { const v = xmax * k / 4; g += `<text x="${x(v)}" y="${H - B + 18}" text-anchor="middle">${money(v)}</text>`; }
+  g += `<text x="${(L + W - R) / 2}" y="${H - 4}" text-anchor="middle">money spent per run</text>`;
+  g += `<text x="12" y="${(T + H - B) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(T + H - B) / 2})">problems proved</text>`;
+  d.setups.forEach((s, i) => {
+    if (!s.curve.length) return;
+    const pts = s.curve.map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+    g += `<polyline points="${pts}" fill="none" stroke="${col[i]}" stroke-width="2" stroke-linejoin="round"/>`;
+  });
+  g += `<line id="cross" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>`;
+  $('chart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Problems proved for the money spent, by setup">${g}<rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
+  const svg = $('chart').querySelector('svg'), tip = $('tip'), cross = svg.getElementById('cross');
+  svg.getElementById('hit').addEventListener('pointermove', (ev) => {
+    const r = svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * W / r.width;
+    const k = Math.max(0, Math.min(40, Math.round((sx - L) / (W - L - R) * 40)));
+    const m = xmax * k / 40;
+    cross.setAttribute('x1', x(m)); cross.setAttribute('x2', x(m)); cross.setAttribute('visibility', 'visible');
+    tip.innerHTML = `<b>${money(m)} spent</b><br>` + d.setups.map((s, i) => s.curve.length ? `<span class="swatch" style="display:inline-block;background:${col[i]}"></span> ${esc(name(s))}: ${s.curve[k][1].toFixed(1)}` : '').filter(Boolean).join('<br>');
+    tip.style.display = 'block';
+    const px = (ev.clientX - r.left), w = tip.offsetWidth;
+    tip.style.left = (px + 14 + w > r.width ? px - w - 14 : px + 14) + 'px'; tip.style.top = '8px';
+  });
+  svg.getElementById('hit').addEventListener('pointerleave', () => { tip.style.display = 'none'; cross.setAttribute('visibility', 'hidden'); });
+}
+
+async function load() {
+  try {
+    const r = await fetch(SRC + (SRC.includes('?') ? '&' : '?') + 't=' + Math.floor(Date.now() / 60000), { cache: 'no-store' });
+    if (!r.ok) throw new Error(r.status);
+    render(await r.json());
+  } catch (e) {
+    $('state').textContent = 'No experiment is streaming right now';
+    $('updated').textContent = 'Results of past experiments are on the results page below.';
+  }
+}
+load();
+setInterval(load, 60000);
+</script>
+</body>
+</html>
