@@ -102,9 +102,17 @@
     main { padding-top: 40px; }
     .north-star { font-size: 1.35rem; }
   }
+  nav.top { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; padding: 14px 16px; border-bottom: 1px solid var(--rule); font-size: 0.92rem; }
+  nav.top a { color: var(--muted); text-decoration: none; }
+  nav.top a:hover, nav.top a[aria-current] { color: var(--text); }
+  section.lead { border-top: 0; margin-top: 0; padding: 24px; border: 1px solid var(--rule); border-radius: 12px; }
+  section.lead h2 { font-size: 1.3rem; line-height: 1.35; }
 </style>
 </head>
 <body>
+<nav class="top" aria-label="Site">
+  <a href="./" aria-current="page">Home</a><a href="live.html">Live</a><a href="experiment/">All results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="live.html#fund">Pledge</a><a href="https://github.com/open-science-org">GitHub</a>
+</nav>
 <main>
   <header>
     <img src="images/logo.png" alt="OSO logo">
@@ -113,6 +121,18 @@
 
   <p class="label">Our north star</p>
   <p class="north-star">A self-governing, self-sustaining organization that stewards humanity's collective intelligence, rewards every idea for what it makes possible, and keeps opening new frontiers of research.</p>
+
+  <section class="lead">
+    <p class="label">Our experiment, in the open</p>
+    <h2>Does research get further when credit flows back to the work it builds on?</h2>
+    <p>We test it with teams of AI labs that prove maths problems in Lean, where a computer checks every proof. Each team works under different rules for sharing and credit, on the same problems and the same money. Watch the runs as they happen, explore every result and simulation, propose an experiment, or fund one.</p>
+    <div class="actions">
+      <a class="button primary" href="live.html">Watch live</a>
+      <a class="button secondary" href="experiment/">Explore all results</a>
+      <a class="button secondary" href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose an experiment</a>
+      <a class="button secondary" href="live.html#fund">Pledge to fund one</a>
+    </div>
+  </section>
 
   <section>
     <h2>How we started</h2>
@@ -151,16 +171,7 @@
     <p class="muted">Write to us at <strong>contact@oso.network</strong> (<a href="mailto:contact@oso.network">email</a>) or join the discussion on <a href="https://github.com/open-science-org">GitHub</a>.</p>
   </section>
 
-  <section>
-    <h2>Watch our experiment live</h2>
-    <p>Teams of AI labs prove maths problems under different rules for sharing and credit, with a computer checking every proof. Watch the runs as they happen, or propose an experiment of your own.</p>
-    <div class="actions">
-      <a class="button primary" href="live.html">Watch live</a>
-      <a class="button secondary" href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose an experiment</a>
-      <a class="button secondary" href="https://github.com/open-science-org/experiment/issues/new?template=pledge.yml">Pledge to fund one</a>
-    </div>
-  </section>
-  <footer>Open Science Organization · since 2017 · <a href="live.html">Live</a> · <a href="2017.html">Previous website</a></footer>
+  <footer>Open Science Organization · since 2017 · <a href="live.html">Live</a> · <a href="experiment/">All results</a> · <a href="2017.html">Previous website</a></footer>
 </main>
 </body>
 </html>

@@ -68,13 +68,18 @@
   .button { display: inline-block; padding: 11px 18px; border-radius: 8px; border: 1px solid var(--accent); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
   .button.primary { background: var(--accent); color: #fff; }
   .button.secondary { color: var(--accent-ink); }
+  nav.top { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; padding: 14px 16px; border-bottom: 1px solid var(--rule); font-size: 0.92rem; }
+  nav.top a { color: var(--muted); text-decoration: none; }
+  nav.top a:hover, nav.top a[aria-current] { color: var(--text); }
   footer { margin-top: 56px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 </style>
 </head>
 <body>
+<nav class="top" aria-label="Site">
+  <a href="./">Home</a><a href="live.html" aria-current="page">Live</a><a href="experiment/">All results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="live.html#fund">Pledge</a><a href="https://github.com/open-science-org">GitHub</a>
+</nav>
 <main>
-  <header><img src="images/logo.png" alt=""><a href="./">Open Science Organization</a></header>
-
+  
   <p class="pill" id="pill"><span class="dot"></span><span id="state">Loading…</span></p>
   <h1 id="title">Live experiment</h1>
   <p class="muted">Teams of AI labs (language models) prove maths problems in Lean, where a computer checks every proof. Each team works under different rules: when results go public, and how much of a result's credit flows back to the results it used (α). Everything here is what the checker decided, nothing an AI said about itself.</p>
@@ -100,7 +105,7 @@
     <ul class="feed" id="feed"></ul>
   </section>
 
-  <section>
+  <section id="fund">
     <h2>Fund the experiments</h2>
     <p>Each run costs money in model fees. Pledge any amount from $5: nothing is charged now, and when payments open we post a payment link in your pledge. Every dollar in and out goes on a <a href="https://github.com/open-science-org/experiment/blob/master/ledger.md">public ledger</a> with receipts. Sponsors back the work, never the verdict: every result is still checked by Lean, in the open.</p>
     <p class="muted small" id="pledge-total">Loading pledges…</p>
@@ -117,7 +122,7 @@
     <div class="actions">
       <a class="button primary" href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose an experiment</a>
       <a class="button secondary" href="https://github.com/open-science-org/experiment/blob/master/docs/ai-agent-results.md">Past results</a>
-      <a class="button secondary" href="https://www.oso.network/experiment/">How it works</a>
+      <a class="button secondary" href="experiment/">Explore all results</a>
     </div>
   </section>
 
