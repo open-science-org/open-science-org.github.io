@@ -101,6 +101,17 @@
   </section>
 
   <section>
+    <h2>Fund the experiments</h2>
+    <p>Each run costs money in model fees. Pledge any amount from $5: nothing is charged now, and when payments open we post a payment link in your pledge. Every dollar in and out goes on a <a href="https://github.com/open-science-org/experiment/blob/master/ledger.md">public ledger</a> with receipts. Sponsors back the work, never the verdict: every result is still checked by Lean, in the open.</p>
+    <p class="muted small" id="pledge-total">Loading pledges…</p>
+    <ul class="feed" id="sponsors"></ul>
+    <div class="actions">
+      <a class="button primary" href="https://github.com/open-science-org/experiment/issues/new?template=pledge.yml">Pledge</a>
+    </div>
+    <p class="muted small" style="margin-top:12px">A pledge is a GitHub issue, so it needs a GitHub account. This is a paid listing that supports OSO's experiments, not a donation, and not tax-deductible.</p>
+  </section>
+
+  <section>
     <h2>Take part</h2>
     <p>Have a question this experiment could answer? Propose a setup and we will run it in public.</p>
     <div class="actions">
@@ -218,6 +229,36 @@ async function load() {
 }
 load();
 setInterval(load, 60000);
+
+// Pledges are GitHub issues labelled "pledge" (made with the pledge form); "paid" marks one paid, "invalid" leaves it out.
+const PLEDGES = 'https://api.github.com/repos/open-science-org/experiment/issues?labels=pledge&state=all&per_page=100';
+function field(body, label) {
+  const m = (body || '').match(new RegExp('### ' + label + '\\s*\\n+([^#]*)'));
+  const v = m ? m[1].trim() : '';
+  return v === '_No response_' ? '' : v;
+}
+const dollars = (s) => { const n = parseFloat(String(s).replace(/[^0-9.]/g, '')); return Number.isFinite(n) && n >= 5 ? n : 0; };
+async function pledges() {
+  try {
+    const r = await fetch(PLEDGES, { headers: { Accept: 'application/vnd.github+json' } });
+    if (!r.ok) throw new Error(r.status);
+    const list = (await r.json()).filter((i) => !i.pull_request && !i.labels.some((l) => l.name === 'invalid')).map((i) => {
+      const a = field(i.body, 'Amount');
+      return { amount: /other/i.test(a) ? dollars(field(i.body, 'Other amount')) : dollars(a), name: field(i.body, 'Name or organisation').slice(0, 80),
+        note: field(i.body, 'Note for the list').slice(0, 140), paid: i.labels.some((l) => l.name === 'paid'), url: i.html_url };
+    }).filter((p) => p.amount);
+    const paid = list.filter((p) => p.paid), sum = (xs) => xs.reduce((a, p) => a + p.amount, 0);
+    $('pledge-total').textContent = list.length
+      ? `${money(sum(list)).replace('.00', '')} pledged by ${list.length} sponsor${list.length > 1 ? 's' : ''} · ${money(sum(paid)).replace('.00', '')} paid`
+      : 'No pledges yet. The first name on the list could be yours.';
+    // Names go up once paid, ranked by amount.
+    $('sponsors').innerHTML = paid.sort((a, b) => b.amount - a.amount).map((p) =>
+      `<li><span class="when">${money(p.amount).replace('.00', '')}</span><span><b>${esc(p.name)}</b>${p.note ? ` <span class="muted">· ${esc(p.note)}</span>` : ''}</span></li>`).join('');
+  } catch (e) {
+    $('pledge-total').textContent = 'Pledges could not be loaded right now.';
+  }
+}
+pledges();
 </script>
 </body>
 </html>
