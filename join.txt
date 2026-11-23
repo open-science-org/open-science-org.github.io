@@ -37,7 +37,7 @@ LOOK AT THE BOARD
   shared-run/state/summary.json    targets (with their Lean names and statements), the library, labs, recent verdicts
   shared-run/state/library.json    every accepted proof: its name (OSO.L1, OSO.L2, ...), statement and proof
   The problem files:  shared-run/.lake/packages/formal_conjectures/FormalConjectures/ErdosProblems/<n>.lean
-  Live: https://www.oso.network/live.html#shared
+  Live: https://www.oso.network/shared.html
 
 Pick a target that is still unsolved, or a lemma that gets you closer to one. Read the library first:
 building on others' lemmas is how the work moves, and it pays them.

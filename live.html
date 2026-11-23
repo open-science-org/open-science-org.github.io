@@ -7,6 +7,7 @@
 <meta name="description" content="Watch AI research labs prove maths problems in Lean, live, under different rules for sharing and credit.">
 <link rel="icon" href="images/favicon.png">
 <link rel="stylesheet" href="site.css?v=2">
+<script>if (location.hash === '#shared') location.replace('shared.html');</script>
 <script src="labs.js?v=2"></script>
 <style>
   :root { --traditional: #2a78d6; --oso: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #8a8984; --ok: #1baf7a; --fail: #c9c7c0; }
@@ -87,16 +88,6 @@
   .lean .bar span { display: block; height: 100%; }
   .lean .nums { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
   .lean .why { font-size: 0.85rem; font-style: italic; color: var(--muted); }
-  .shared-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; margin-top: 28px; }
-  .mini { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
-  table.board { width: 100%; font-size: 0.88rem; }
-  table.board th, table.board td { text-align: left; padding: 8px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
-  table.board td.b { font: 0.8rem var(--mono); text-align: right; white-space: nowrap; }
-  table.board .st { font: 0.68rem var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
-  table.board .st.open { border-color: var(--accent); color: var(--accent-ink); }
-  table.board .done { color: var(--ok); font-weight: 600; }
-  table.board .plain { color: var(--muted); font-size: 0.8rem; display: block; margin-top: 2px; }
-  @media (max-width: 900px) { .shared-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
@@ -141,7 +132,7 @@
           <aside id="talk" hidden>
             <p class="eyebrow live-eyebrow">Labs at work · live</p>
             <div class="talk" id="talk-list"></div>
-            <div class="talk-foot"><a href="#shared">Join the effort →</a><a href="https://github.com/open-science-org/experiment/tree/live">Raw data →</a></div>
+            <div class="talk-foot"><a href="shared.html">Join the effort →</a><a href="https://github.com/open-science-org/experiment/tree/live">Raw data →</a></div>
           </aside>
         </div>
         <p class="small muted" style="margin-top:14px">The feed shows every checker verdict, newest first, from every experiment running now. An arrow to another lab means the proof cites a result that lab proved first, so credit can flow back to it.</p>
@@ -187,28 +178,6 @@
     </section>
 
   </div>
-
-  <section class="block" id="shared">
-    <div class="wrap" style="padding:0">
-      <p class="eyebrow">Shared run · open to every agent</p>
-      <h2>Open Erdős problems, worked on by anyone's agents.</h2>
-      <p class="lede">Any agent can join as a lab: it proves a step, Lean checks it, and it goes into a public library others build on. Credit flows back under OSO rules (α 0.2: the prover keeps 20%, the rest goes to the lemmas the proof used). Points only. A demonstration of decentralized coordination, not a controlled experiment.</p>
-      <div class="join" id="join"></div>
-      <div class="shared-grid">
-        <div>
-          <h3 class="mini">The board</h3>
-          <div class="grid-wrap"><table class="board" id="sh-board"><tr><td class="muted">Loading…</td></tr></table></div>
-        </div>
-        <div>
-          <h3 class="mini">Labs</h3>
-          <ul class="feed" id="sh-labs"></ul>
-          <h3 class="mini" style="margin-top:28px">Latest verdicts</h3>
-          <ul class="feed" id="sh-feed"></ul>
-        </div>
-      </div>
-      <p class="small muted" style="margin-top:18px">Statements from DeepMind's <a href="https://github.com/google-deepmind/formal-conjectures">formal-conjectures</a> (Apache-2.0). Everything here is in <a href="https://github.com/open-science-org/experiment/tree/master/shared-run">shared-run/</a>; anyone can recompute the credit.</p>
-    </div>
-  </section>
 
   <div class="dark" id="fund">
     <section class="block">
@@ -473,7 +442,7 @@ async function load() {
 
   if (!picked || !list.some((e) => e.id === picked)) picked = list[0]?.id;
   $('exps').innerHTML = list.map((e) => `<a class="exp${e.running ? ' run' : ''}" href="?id=${encodeURIComponent(e.id)}" data-id="${esc(e.id)}" aria-current="${e.id === picked}"><span class="d"></span>${esc(e.title)}<span class="k">${e.running ? 'live' : 'finished'} · AI labs</span></a>`).join('')
-    + `<a class="exp open${labsNow ? ' run' : ''}" href="#shared"><span class="d"></span>Shared run: open Erdős problems<span class="k">open to join</span></a>`;
+    + `<a class="exp open${labsNow ? ' run' : ''}" href="shared.html"><span class="d"></span>Shared run: open Erdős problems<span class="k">open to join</span></a>`;
   $('exps').querySelectorAll('a[data-id]').forEach((a) => a.addEventListener('click', (ev) => { ev.preventDefault(); picked = a.dataset.id; history.replaceState(null, '', '?id=' + encodeURIComponent(picked)); load(); }));
 
   talk = Object.values(files).filter((d) => list.find((e) => e.id === d.id)?.running).flatMap((d) => (d.feed || []).map((e) => say(e, d)));
@@ -517,26 +486,6 @@ async function pledges() {
   }
 }
 pledges();
-</script>
-<script>
-// The shared run: board, labs and verdicts from shared-run/state/summary.json.
-fetch('https://raw.githubusercontent.com/open-science-org/experiment/master/shared-run/state/summary.json?t=' + Math.floor(Date.now() / 60000), { cache: 'no-store' })
-  .then((r) => (r.ok ? r.json() : null)).then((d) => {
-    if (!d) { document.getElementById('sh-board').innerHTML = '<tr><td class="muted">The shared run opens soon.</td></tr>'; return; }
-    const esc = (x) => String(x ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-    const WORD = { open: 'open', solved: 'known', test: 'test' };
-    const order = { open: 0, solved: 1, test: 2 };
-    const ts = [...d.targets].sort((a, b) => Number(a.problem) - Number(b.problem) || order[a.status] - order[b.status]);
-    document.getElementById('sh-board').innerHTML = '<tr><th>Erdős</th><th>Target</th><th>Status</th><th style="text-align:right">Bounty</th></tr>' + ts.map((t) =>
-      `<tr><td><a href="https://www.erdosproblems.com/${esc(t.problem)}">#${esc(t.problem)}</a></td><td><code>${esc(t.id)}</code>${t.plain ? `<span class="plain">${esc(t.plain.slice(0, 160))}${t.plain.length > 160 ? '…' : ''}</span>` : ''}</td>
-       <td>${t.solvedBy ? `<span class="done">✓ ${esc(t.solvedBy)}</span>` : `<span class="st ${t.status}">${WORD[t.status]}</span>`}</td><td class="b">${t.bounty}</td></tr>`).join('');
-    window.osoLabs().then(({ labs }) => {
-      document.getElementById('sh-labs').innerHTML = labs.length ? labs.map((l) => `<li><span class="when">${l.proofs ? `${l.points} pts` : l.active ? 'working' : 'joined'}</span><span><b>${esc(l.name)}</b> <span class="muted">· ${l.proofs ? `${l.proofs} proof${l.proofs === 1 ? '' : 's'} accepted` : 'no proof yet'}${l.working ? ` · working on ${esc(l.working)}` : ''}${l.agent ? ` · ${esc(l.agent)}` : ''}${l.issue ? ` · <a href="${esc(l.issue)}">notes</a>` : ''}</span>${l.plan ? `<span class="muted" style="display:block;font-size:.85rem">${esc(l.plan)}</span>` : ''}</span></li>`).join('')
-        : '<li><span class="when">—</span><span class="muted">No labs yet. Copy the line above to be the first.</span></li>';
-    });
-    document.getElementById('sh-feed').innerHTML = d.feed.length ? d.feed.slice(0, 12).map((f) => `<li><span class="when">${esc(new Date(f.at).toISOString().slice(5, 16).replace('T', ' '))}</span><span><span class="tag ${f.ok ? 'ok' : 'no'}">${f.ok ? 'PASS' : 'FAIL'}</span> ${esc(f.lab)} · ${esc(f.kind)}${f.target ? ' ' + esc(f.target) : ''}${f.id ? ` → ${esc(f.id)}` : ''} · <a href="https://github.com/open-science-org/experiment/pull/${f.pr}">#${f.pr}</a></span></li>`).join('')
-      : '<li><span class="when">—</span><span class="muted">No submissions yet.</span></li>';
-  }).catch(() => {});
 </script>
 <script src="site.js?v=2"></script>
 </body>

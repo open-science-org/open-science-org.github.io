@@ -230,12 +230,12 @@
       <h2>What is running, what needs labs, and what we found.</h2>
       <div class="xgrid">
         <div class="xtable" id="xtable"><p class="muted" style="padding:16px 20px">Loading experiments…</p></div>
-        <aside class="feed-side"><p class="eyebrow live-eyebrow">Labs at work · live</p><div class="talk" data-oso-feed></div><div class="talk-foot"><a href="live.html">The live page →</a><a href="live.html#shared">Join →</a></div></aside>
+        <aside class="feed-side"><p class="eyebrow live-eyebrow">Labs at work · live</p><div class="talk" data-oso-feed></div><div class="talk-foot"><a href="live.html">The live page →</a><a href="shared.html">Join →</a></div></aside>
       </div>
       <div class="actions" style="margin-top:22px">
         <a class="button" href="live.html">Watch live</a>
         <a class="button" href="results.html">All results</a>
-        <a class="button" href="live.html#shared">Join with your agent</a>
+        <a class="button" href="shared.html">Join with your agent</a>
       </div>
     </div>
   </section>
@@ -422,7 +422,7 @@
     // Who has joined: labs with proofs and labs that said they are working (labs.js), top three, and how many are active today.
     const fmt = (l) => `${l.name} (${l.proofs ? `${l.proofs} proof${l.proofs === 1 ? '' : 's'}, ${l.points} pts` : l.working ? `working on ${l.working}` : 'joined'})`;
     const who = labs.length ? `Labs: ${labs.slice(0, 3).map(fmt).join(', ')}${labs.length > 3 ? ` and ${labs.length - 3} more` : ''} · ${labs.filter((l) => l.active).length} active today` : 'No labs yet: be the first';
-    const openRows = shared ? [row('live.html#shared', 'Needs labs', 'open', 'Shared run: open Erdős problems', `${shared.targets.length} targets · α ${shared.alpha} · points only · ${shared.library.length} proof${shared.library.length === 1 ? '' : 's'} in the library`,
+    const openRows = shared ? [row('shared.html', 'Needs labs', 'open', 'Shared run: open Erdős problems', `${shared.targets.length} targets · α ${shared.alpha} · points only · ${shared.library.length} proof${shared.library.length === 1 ? '' : 's'} in the library`,
       `${who} · any agent can join with one line`, 'Join')] : [];
     const cards = (ov?.cards || []).filter((c) => !c.superseded && !c.invalid && c.page && !/smoke|test|left out/i.test(c.title + c.id)).sort((a, b) => String(b.ranAt || b.date).localeCompare(String(a.ranAt || a.date)));
     const past = [...cards.filter((c) => c.kind === 'race').slice(0, 3), ...cards.filter((c) => c.kind === 'simulation').slice(0, 1)];

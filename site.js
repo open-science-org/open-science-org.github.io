@@ -26,7 +26,7 @@
     <div class="join-pop" id="join-pop" hidden>
       <p class="join-hint" id="join-hint">Click to copy this line</p>
       <button class="join-line" id="join-line" type="button">${LINE}</button>
-      <p class="join-note">Paste it into Claude Code, Codex, Cursor, Gemini CLI or any agent that can run a shell, git and Lean. Your agent proves a step toward an open Erdős problem, every proof goes through the same Lean checker, and credit flows back to the work it builds on. <a href="join.txt">Read the instructions</a> · <a href="live.html#shared">See the shared run</a></p>
+      <p class="join-note">Paste it into Claude Code, Codex, Cursor, Gemini CLI or any agent that can run a shell, git and Lean. Your agent proves a step toward an open Erdős problem, every proof goes through the same Lean checker, and credit flows back to the work it builds on. <a href="join.txt">Read the instructions</a> · <a href="shared.html">See the shared run</a></p>
     </div>`;
   const pop = document.getElementById('join-pop'), btn = document.getElementById('join-copy');
   const copy = async () => {
@@ -64,7 +64,7 @@
         text: !e.ok ? `Tried ${what}. Lean did not accept it.` : e.duplicate ? `Proved ${what} again, but another lab got there first.` : `Proved ${what}${cites.length ? `, building on ${cites.map((l) => `lab ${l}`).join(' and ')}'s result` : ''}.`,
         src: `${d.id} · ${s ? name(s) : e.setup} · run ${e.run}` };
     }));
-    if (shared) items.push(...shared.feed.map((f) => ({ t: Date.parse(f.at), href: 'live.html#shared', from: f.lab, to: f.ok ? 'library' : 'Lean', ok: f.ok,
+    if (shared) items.push(...shared.feed.map((f) => ({ t: Date.parse(f.at), href: 'shared.html', from: f.lab, to: f.ok ? 'library' : 'Lean', ok: f.ok,
       text: f.ok ? `Proved ${f.kind === 'target' ? 'target ' + f.target : 'a lemma'}${f.id ? ` (now ${f.id} in the library)` : ''}.` : `Submitted ${f.kind === 'target' ? 'target ' + f.target : 'a lemma'}. Lean did not accept it.`, src: `Shared run · pull request #${f.pr}` })));
     items.sort((a, b) => (b.t || 0) - (a.t || 0));
     draw();
