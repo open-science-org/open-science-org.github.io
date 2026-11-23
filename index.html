@@ -122,6 +122,36 @@
   .dial-title { font: 400 1.9rem/1.2 var(--serif); margin: 0 0 12px; }
   .muted { color: var(--muted); }
   @media (max-width: 900px) { .dial-row { grid-template-columns: 1fr; gap: 24px; margin-top: 44px; } }
+  /* Every project is a system */
+  .sys { margin: 8px 0 56px; display: grid; grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1.55fr) 64px minmax(0, 1fr); align-items: center; }
+  .sys-box { border: 1px solid var(--rule); border-radius: 14px; padding: 22px 22px; background: var(--panel); }
+  .sys-label { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+  .sys-box ul { list-style: none; padding: 0; margin: 0; }
+  .sys-box li { font: 400 1.2rem/1.35 var(--serif); padding: 6px 0; border-top: 1px solid var(--rule); }
+  .sys-box li:first-child { border-top: 0; padding-top: 0; }
+  .sys-out { border-color: var(--accent); }
+  .sys-out .sys-label { color: var(--accent-ink); }
+  .sys-core { background: var(--ink-band); border-color: var(--ink-band); color: #ece9e2; padding: 28px 28px 24px; }
+  .sys-core .sys-label { color: #f0a36b; }
+  .sys-core h3 { font: 400 1.6rem/1.2 var(--serif); color: #f6f3ec; margin: 0 0 18px; }
+  .sys-dials { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sys-dials span { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #d6d2c8; border: 1px solid #3a3832; border-radius: 10px; padding: 9px 11px; }
+  .sys-dials i { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #f0a36b; position: relative; }
+  .sys-dials i::after { content: ""; position: absolute; left: 50%; top: 2px; width: 2px; height: 8px; margin-left: -1px; background: #f0a36b; border-radius: 1px; transform-origin: 50% 7px; transform: rotate(var(--a)); }
+  .sys-note { margin: 16px 0 0; font-size: 0.85rem; color: #a9a59b; }
+  .sys-arrow { padding: 0 6px; }
+  .sys-arrow svg { width: 100%; height: 14px; display: block; overflow: visible; }
+  .sys-arrow line { stroke: var(--muted); stroke-width: 2; stroke-dasharray: 4 6; animation: flow 1.2s linear infinite; }
+  .sys-arrow path { fill: var(--muted); }
+  @keyframes flow { to { stroke-dashoffset: -20; } }
+  @media (prefers-reduced-motion: reduce) { .sys-arrow line { animation: none; } }
+  .sys figcaption { grid-column: 1 / -1; margin-top: 16px; font-size: 0.9rem; color: var(--muted); text-align: center; }
+  @media (max-width: 900px) {
+    .sys { grid-template-columns: 1fr; }
+    .sys-arrow { height: 40px; width: 14px; justify-self: center; padding: 6px 0; }
+    .sys-arrow svg { width: 40px; height: 14px; transform: rotate(90deg) translate(13px, 13px); transform-origin: 0 0; }
+    .sys-dials { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -170,6 +200,30 @@
     <div class="wrap" style="padding:0">
       <p class="eyebrow">How it works</p>
       <h2>Pick the return you want. Set the dials. Prove it works before you pay for it.</h2>
+      <figure class="sys" aria-label="Every project is a system: resources go in, a return comes out, and the system in between is how people and agents share work and credit">
+        <div class="sys-box sys-in">
+          <p class="sys-label">Resources in</p>
+          <ul><li>money</li><li>compute</li><li>people's and agents' time</li></ul>
+        </div>
+        <div class="sys-arrow" aria-hidden="true"><svg viewBox="0 0 80 12" preserveAspectRatio="none"><line class="flow" x1="0" y1="6" x2="70" y2="6"/><path d="M68 1 L78 6 L68 11 Z"/></svg></div>
+        <div class="sys-box sys-core">
+          <p class="sys-label">The system</p>
+          <h3>How people and agents share work and credit</h3>
+          <div class="sys-dials">
+            <span><i style="--a:-60deg"></i>credit that flows back</span>
+            <span><i style="--a:10deg"></i>when results go public</span>
+            <span><i style="--a:50deg"></i>how money follows results</span>
+            <span><i style="--a:-20deg"></i>where prizes sit</span>
+          </div>
+          <p class="sys-note">Usually a black box that grows by habit. Here it is a design you can set, simulate and test.</p>
+        </div>
+        <div class="sys-arrow" aria-hidden="true"><svg viewBox="0 0 80 12" preserveAspectRatio="none"><line class="flow" x1="0" y1="6" x2="70" y2="6"/><path d="M68 1 L78 6 L68 11 Z"/></svg></div>
+        <div class="sys-box sys-out">
+          <p class="sys-label">Return out</p>
+          <ul><li>problems solved</li><li>knowledge gained</li><li>value per dollar</li></ul>
+        </div>
+        <figcaption>Every project is a system: resources go in, a return comes out. The same money can buy very different returns, depending on how the work in between is organised.</figcaption>
+      </figure>
       <div class="steps">
         <div class="step"><div class="n">01</div><h3>Pick your goal</h3><p>Fewest dollars per result, or the best odds of reaching deep, hard ideas, in a software project, a research field or anything in between.</p></div>
         <div class="step"><div class="n">02</div><h3>Set the dials</h3><p>How much credit flows back to the work a result used, when results go public, how money follows results, and where prizes sit. The dials decide how much people and agents share.</p></div>
