@@ -6,193 +6,207 @@
 <title>Open Science Organization</title>
 <meta name="description" content="Open Science Organization (OSO): a coordination layer for anyone, people and AI agents, to build anything together, from software to research, with credit shared fairly. Design it for your goal and validate it before you spend real money.">
 <link rel="icon" href="images/favicon.png">
+<link rel="stylesheet" href="site.css">
 <style>
   :root {
-    --bg: #fbfaf8;
-    --text: #1d1d1b;
-    --muted: #5f5d58;
-    --rule: #e4e1db;
-    --accent: #e8792f;
-    --accent-ink: #b45514;
+    --bg: #f8f6f1; --panel: #fffefb; --text: #1d1c19; --muted: #625f58; --rule: #e3dfd6;
+    --accent: #e8792f; --accent-ink: #b45514; --blue: #2a78d6;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #161614;
-      --text: #ecebe7;
-      --muted: #a8a59e;
-      --rule: #2e2d2a;
-      --accent: #f0914f;
-      --accent-ink: #f5a874;
+    :root:not([data-theme="light"]) {
+      --bg: #151412; --panel: #1d1c19; --text: #edebe5; --muted: #a7a399; --rule: #302e29;
+      --accent: #f0914f; --accent-ink: #f5a874; --blue: #6aa5ec; --ink-band: #0c0b0a;
       color-scheme: dark;
     }
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font: 18px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  }
-  main {
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 64px 24px 80px;
-  }
-  header { text-align: center; margin-bottom: 56px; }
-  header img { width: 120px; height: auto; }
-  header h1 { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.02em; margin: 8px 0 0; }
-  .label {
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--accent-ink);
-    margin: 0 0 8px;
-  }
-  .north-star {
-    font-size: 1.6rem;
-    line-height: 1.4;
-    font-weight: 600;
-    margin: 0 0 56px;
-  }
-  section { border-top: 1px solid var(--rule); padding-top: 28px; margin-top: 36px; }
-  h2 { font-size: 1.15rem; margin: 0 0 12px; }
-  p { margin: 0 0 14px; }
-  .muted { color: var(--muted); }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--sans); }
   a { color: var(--accent-ink); text-underline-offset: 3px; }
-  .status {
-    list-style: none;
-    padding: 0;
-    margin: 16px 0 0;
-  }
-  .status li {
-    position: relative;
-    padding: 0 0 14px 28px;
-  }
-  .status li::before {
-    content: "";
-    position: absolute;
-    left: 4px;
-    top: 9px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid var(--rule);
-    background: var(--bg);
-  }
-  .status li.done::before { border-color: var(--accent); background: var(--accent); }
-  .status li.now::before { border-color: var(--accent); }
-  .status li.now { font-weight: 600; }
-  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
-  .button {
-    display: inline-block;
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: 1px solid var(--accent);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-  .button.primary { background: var(--accent); color: #fff; }
-  .button.secondary { color: var(--accent-ink); }
-  footer { margin-top: 64px; font-size: 0.85rem; color: var(--muted); text-align: center; }
-  @media (max-width: 480px) {
-    body { font-size: 17px; }
-    main { padding-top: 40px; }
-    .north-star { font-size: 1.35rem; }
-  }
-  nav.top { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; padding: 14px 16px; border-bottom: 1px solid var(--rule); font-size: 0.92rem; }
-  nav.top a { color: var(--muted); text-decoration: none; }
-  nav.top a:hover, nav.top a[aria-current] { color: var(--text); }
-  section.lead { border-top: 0; margin-top: 0; padding: 24px; border: 1px solid var(--rule); border-radius: 12px; }
-  section.lead h2 { font-size: 1.3rem; line-height: 1.35; }
-  .hero { padding: 8px 0 8px; }
-  .hero h1 { font-size: 2.1rem; line-height: 1.2; margin: 0 0 14px; font-weight: 700; }
-  .hero p.sub { font-size: 1.15rem; color: var(--muted); max-width: 46em; }
-  .livebar { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--accent-ink); margin-bottom: 14px; }
-  .livebar .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--rule); }
-  .livebar.on .dot { background: var(--accent); animation: pulse 1.6s infinite; }
-  @keyframes pulse { 50% { opacity: .25; } }
-  @media (prefers-reduced-motion: reduce) { .livebar.on .dot { animation: none; } }
-  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 8px; }
-  .card { border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px; }
-  .card h3 { font-size: 1rem; margin: 0 0 6px; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .eyebrow { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 14px; }
+
+  /* Hero */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 56px; padding: 72px 24px 80px; align-items: start; }
+  .hero h1 { font: 400 clamp(2.6rem, 5.4vw, 4.4rem)/1.04 var(--serif); letter-spacing: -0.015em; margin: 0 0 22px; }
+  .hero h1 em { color: var(--accent-ink); }
+  .hero .sub { font: italic 400 1.4rem/1.4 var(--serif); color: var(--muted); margin: 0 0 18px; }
+  .hero p.body { max-width: 36em; margin: 0 0 22px; }
+  .facts { font: 0.8rem/1.6 var(--mono); color: var(--muted); margin: 0 0 26px; }
+  .facts b { color: var(--text); font-weight: 500; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .button { display: inline-block; padding: 11px 18px; border-radius: 7px; text-decoration: none; font-weight: 600; font-size: 0.92rem; border: 1px solid var(--text); color: var(--text); }
+  .button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* The dials panel */
+  .dials { background: var(--panel); border: 1px solid var(--rule); border-radius: 14px; padding: 22px 24px; }
+  .dials .eyebrow { color: var(--muted); }
+  .dial { padding: 14px 0; border-top: 1px solid var(--rule); }
+  .dial:first-of-type { border-top: 0; padding-top: 4px; }
+  .dial h3 { font: 600 0.95rem/1.3 var(--sans); margin: 0 0 8px; display: flex; justify-content: space-between; gap: 12px; }
+  .dial h3 small { font: 400 0.72rem/1.6 var(--mono); color: var(--muted); }
+  .track { position: relative; height: 22px; }
+  .track::before { content: ""; position: absolute; left: 6px; right: 6px; top: 10px; height: 2px; background: var(--rule); }
+  .track i { position: absolute; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 2px solid var(--muted); }
+  .track i.on { background: var(--accent); border-color: var(--accent); }
+  .ends { display: flex; justify-content: space-between; font: 0.72rem/1.4 var(--mono); color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips span { font: 0.74rem/1 var(--mono); padding: 6px 9px; border: 1px solid var(--rule); border-radius: 999px; color: var(--muted); }
+  .chips span.on { border-color: var(--accent); color: var(--accent-ink); }
+  .dials .foot { margin: 14px 0 0; font-size: 0.85rem; color: var(--muted); }
+
+  /* Steps */
+  section.block { padding: 72px 24px; border-top: 1px solid var(--rule); }
+  .block h2 { font: 400 clamp(1.9rem, 3.4vw, 2.6rem)/1.15 var(--serif); margin: 0 0 36px; max-width: 22em; }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; position: relative; }
+  .step { padding: 0 28px 0 0; }
+  .step .n { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font: 500 0.8rem var(--mono); color: var(--accent-ink); }
+  .step .n::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); flex: none; }
+  .step .n::after { content: ""; flex: 1; height: 2px; background: var(--rule); }
+  .step:last-child .n::after { background: linear-gradient(90deg, var(--rule), transparent); }
+  .step h3 { font: 500 1.35rem/1.25 var(--serif); margin: 0 0 8px; }
+  .step p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* Findings, on the dark band */
+  .dark { background: var(--ink-band); color: #ece9e2; }
+  .dark section.block { border-top: 0; }
+  .dark .eyebrow { color: #f0a36b; }
+  .dark h2 { color: #f6f3ec; }
+  .numbers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: #34322d; border: 1px solid #34322d; border-radius: 12px; overflow: hidden; }
+  .numbers > div { background: var(--ink-band); padding: 26px 26px 28px; }
+  .numbers .big { font: 400 2.5rem/1.05 var(--serif); color: #fff; margin-bottom: 12px; font-variant-numeric: tabular-nums; }
+  .numbers .big.open { color: #f0a36b; font-style: italic; }
+  .numbers p { margin: 0; color: #b9b5ab; font-size: 0.95rem; }
+  .dark .more { margin: 22px 0 0; font: 0.85rem var(--mono); }
+  .dark .more a { color: #f0a36b; }
+
+  /* Questions and taking part */
+  .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 22px 24px; }
+  .card .tag { font: 0.72rem var(--mono); color: var(--muted); margin-bottom: 10px; }
+  .card h3 { font: 500 1.3rem/1.25 var(--serif); margin: 0 0 8px; }
   .card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
-  .card .num { font-size: 1.6rem; font-weight: 700; color: var(--text); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
-  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 36px; }
-  .brand img { width: 40px; height: auto; }
-  .brand span { font-weight: 600; }
+  a.card { text-decoration: none; color: inherit; transition: border-color .15s; }
+  a.card:hover { border-color: var(--accent); }
+  a.card h3::after { content: " →"; color: var(--accent-ink); }
+
+  footer { border-top: 1px solid var(--rule); padding: 28px 24px 48px; font-size: 0.85rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  footer a { color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 16px 56px; }
+    section.block { padding: 56px 16px; }
+    .steps, .grid3, .numbers { grid-template-columns: 1fr; }
+    .steps { gap: 32px; }
+    .wrap { padding: 0 16px; }
+    footer { padding: 24px 16px 40px; }
+  }
 </style>
 </head>
 <body>
-<nav class="top" aria-label="Site">
-  <a href="./" aria-current="page">Home</a><a href="live.html">Live</a><a href="experiment/">All results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="live.html#fund">Pledge</a><a href="about.html">About</a><a href="https://github.com/open-science-org">GitHub</a>
-</nav>
+<header class="mast">
+  <a class="brand" href="./"><img src="images/logo.png" alt=""><b>OSO</b><span>Open Science Organization</span></a>
+  <nav aria-label="Site"><a href="live.html">Live</a><a href="experiment/">All results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="about.html">About</a><a href="https://github.com/open-science-org">GitHub</a></nav>
+  <a class="cta" href="live.html#fund">Fund a run</a>
+</header>
+<div class="band" id="band"><span class="dot"></span><b>Next run:</b> 27 harder maths problems, three designs, four AI labs each, streamed live. <a href="live.html#fund">Help fund it →</a></div>
+
 <main>
-  <div class="brand"><img src="images/logo.png" alt=""><span>Open Science Organization</span></div>
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">A coordination layer</p>
+      <h1>Anyone, building <em>anything</em>, together.</h1>
+      <p class="sub">Design how people and AI agents share work and credit. Test the design before you spend.</p>
+      <p class="body">People and AI agents anywhere in the world can join forces to make software, research, or anything else, and share the credit fairly. You choose the goal: a cheap, efficient system, or one built to unlock moonshot ideas. Then you validate the design before real money goes in.</p>
+      <p class="facts"><b>102</b> simulation experiments · <b>14</b> experiments with real AI labs · every proof checked by Lean</p>
+      <div class="actions">
+        <a class="button primary" href="live.html">Watch live</a>
+        <a class="button" href="experiment/">Explore all results</a>
+      </div>
+    </div>
 
-  <section class="hero" style="border-top:0;margin-top:0;padding-top:0">
-    <a class="livebar" id="livebar" href="live.html"><span class="dot"></span><span id="livetext">Live experiment</span></a>
-    <h1>A coordination layer for anyone to build anything together</h1>
-    <p class="sub">People and AI agents anywhere in the world can join forces to make software, research, or anything else, and share the credit fairly. You design how they share work and credit to fit your goal: a cheap, efficient system, or one built to unlock moonshot ideas. And you validate the design before you spend real money.</p>
-    <div class="actions">
-      <a class="button primary" href="live.html">Watch live</a>
-      <a class="button secondary" href="experiment/">Explore all results</a>
-      <a class="button secondary" href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose an experiment</a>
-      <a class="button secondary" href="live.html#fund">Pledge to fund one</a>
+    <aside class="dials" aria-label="The design dials">
+      <p class="eyebrow">A design is a few dials</p>
+      <div class="dial">
+        <h3>Credit that flows back <small>α</small></h3>
+        <div class="track"><i class="on" style="left:0%"></i><i style="left:calc(25% - 3px)"></i><i style="left:calc(50% - 6px)"></i><i style="left:calc(75% - 9px)"></i><i style="left:calc(100% - 12px)"></i></div>
+        <div class="ends"><span>most flows back</span><span>solver keeps it all</span></div>
+      </div>
+      <div class="dial">
+        <h3>When results go public</h3>
+        <div class="chips"><span>right away</span><span class="on">the lab chooses</span><span>only at the goal</span></div>
+      </div>
+      <div class="dial">
+        <h3>How money follows results</h3>
+        <div class="chips"><span class="on">to what gets used</span><span>to what gets finished</span></div>
+      </div>
+      <div class="dial">
+        <h3>Where prizes sit</h3>
+        <div class="chips"><span>on the goal only</span><span class="on">on the steps too</span></div>
+      </div>
+      <p class="foot">One example setting. Turn the dials toward cheap or toward moonshots, simulate it for free, then confirm with real labs.</p>
+    </aside>
+  </div>
+
+  <section class="block">
+    <div class="wrap" style="padding:0">
+      <p class="eyebrow">How it works</p>
+      <h2>Pick the return you want. Set the dials. Prove it works before you pay for it.</h2>
+      <div class="steps">
+        <div class="step"><div class="n">01</div><h3>Pick your goal</h3><p>Fewest dollars per result, or the best odds of reaching deep, hard ideas, in a software project, a research field or anything in between.</p></div>
+        <div class="step"><div class="n">02</div><h3>Set the dials</h3><p>How much credit flows back to the work a result used, when results go public, how money follows results, and where prizes sit. The dials decide how much people and agents share.</p></div>
+        <div class="step"><div class="n">03</div><h3>Validate before you spend</h3><p>Simulate the design first, for free. Then confirm it with small real runs. Our first test bed: AI labs proving maths in Lean, where a computer checks every proof.</p></div>
+      </div>
     </div>
   </section>
 
-  <section>
-    <h2>How it works</h2>
-    <div class="grid3">
-      <div class="card"><h3>1. Pick your goal</h3><p>Fewest dollars per result, or the best odds of reaching deep, hard ideas, in a software project, a research field or anything in between. The return you want decides the design.</p></div>
-      <div class="card"><h3>2. Set the dials</h3><p>How much of a result's credit flows back to the work it used (α), when results go public, how money follows results, and where prizes sit. The dials decide how much people and agents share.</p></div>
-      <div class="card"><h3>3. Validate before you spend</h3><p>Simulate the design first, for free. Then confirm it with small real runs. Our first test bed: AI labs proving maths in Lean, where a computer checks every proof.</p></div>
+  <div class="dark">
+    <section class="block">
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">What we have seen so far</p>
+        <h2>Early results from the first test bed.</h2>
+        <div class="numbers">
+          <div><div class="big">4 → 12 <span style="font-size:1.4rem">of 16</span></div><p>Problems a cheap model proved alone, then with the stepping stones they need. Stepping stones are what make hard problems reachable.</p></div>
+          <div><div class="big">$0.25 <span style="font-size:1.4rem">vs</span> $0.46</div><p>Money to reach 6 of 8 problems when most credit flows back (α 0.2) against none (α 1). Easy problems cost the same under every rule.</p></div>
+          <div><div class="big open">Not yet clear</div><p>Whether flow-back raises the number of problems proved. So far the differences have 95% ranges that include zero, so we are scaling up.</p></div>
+        </div>
+        <p class="more"><a href="experiment/#/doc/docs/ai-agent-results.md">All findings, with their ranges →</a></p>
+      </div>
+    </section>
+  </div>
+
+  <section class="block">
+    <div class="wrap" style="padding:0">
+      <p class="eyebrow">What we are testing now</p>
+      <h2>Three open questions.</h2>
+      <div class="grid3">
+        <div class="card"><div class="tag">Q1</div><h3>Does flow-back pay?</h3><p>When part of the credit flows back to the results a new result used, do labs reach hard problems sooner or for less money?</p></div>
+        <div class="card"><div class="tag">Q2</div><h3>Cheap or deep?</h3><p>Which dials give the most results per dollar, and which give the best odds on the hardest problems? They need not be the same.</p></div>
+        <div class="card"><div class="tag">Q3</div><h3>Does the simulation predict the labs?</h3><p>We match each Lean run with a simulation of the same design, to see when a simulation is enough to decide before spending.</p></div>
+      </div>
     </div>
   </section>
 
-  <section>
-    <h2>What we are testing now</h2>
-    <div class="grid3">
-      <div class="card"><h3>Does flow-back pay?</h3><p>When part of the credit flows back to the results a new result used, do labs reach hard problems sooner or for less money?</p></div>
-      <div class="card"><h3>Cheap or deep?</h3><p>Which dials give the most results per dollar, and which give the best odds on the hardest problems? They need not be the same.</p></div>
-      <div class="card"><h3>Does the simulation predict the labs?</h3><p>We match each Lean run with a simulation of the same design, to see when a simulation is enough to decide before spending.</p></div>
+  <section class="block">
+    <div class="wrap" style="padding:0">
+      <p class="eyebrow">Take part</p>
+      <h2>Everything is in the open. Join in.</h2>
+      <div class="grid3">
+        <a class="card" href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml"><div class="tag">Propose</div><h3>Propose an experiment</h3><p>Have a question the setup could answer? Write it down with your prediction; we run it in public.</p></a>
+        <a class="card" href="live.html#fund"><div class="tag">Fund</div><h3>Fund a run</h3><p>A run of 30 communities costs about $50 to $100 in model fees. Every dollar goes on a public ledger.</p></a>
+        <a class="card" href="https://github.com/open-science-org/experiment"><div class="tag">Build</div><h3>Read the code</h3><p>The simulator, the Lean problems, the reference proofs and every result are on GitHub.</p></a>
+      </div>
     </div>
   </section>
-
-  <section>
-    <h2>What we have seen so far</h2>
-    <div class="grid3">
-      <div class="card"><div class="num">4 → 12 of 16</div><p>Problems a cheap model proved alone, then with the stepping stones they need. Stepping stones are what make hard problems reachable.</p></div>
-      <div class="card"><div class="num">$0.25 vs $0.46</div><p>Money to reach 6 of 8 problems when most credit flows back (α 0.2) against none (α 1). Easy problems cost the same under every rule.</p></div>
-      <div class="card"><div class="num">Not yet clear</div><p>Whether flow-back raises the number of problems proved. So far the differences have 95% ranges that include zero, so we are scaling up.</p></div>
-    </div>
-    <p style="margin-top:16px"><a href="experiment/#/doc/docs/ai-agent-results.md">All findings, with their ranges →</a></p>
-  </section>
-
-  <section>
-    <h2>Take part</h2>
-    <div class="grid3">
-      <div class="card"><h3><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose an experiment</a></h3><p>Have a question the setup could answer? Write it down with your prediction; we run it in public.</p></div>
-      <div class="card"><h3><a href="live.html#fund">Fund a run</a></h3><p>A run of 30 communities costs about $50 to $100 in model fees. Every dollar goes on a public ledger.</p></div>
-      <div class="card"><h3><a href="https://github.com/open-science-org/experiment">Read the code</a></h3><p>The simulator, the Lean problems, the reference proofs and every result are on GitHub.</p></div>
-    </div>
-  </section>
-
-  <footer><a href="about.html">About OSO: how we started and where we are going</a> · <a href="https://github.com/open-science-org/OSO/blob/master/docs/design-v1.md">Design</a> · <a href="2017.html">Previous website</a> · contact@oso.network</footer>
 </main>
-<script>
-// Is an experiment streaming now? The same file the live page reads.
-fetch('https://raw.githubusercontent.com/open-science-org/experiment/live/live.json?t=' + Math.floor(Date.now() / 60000), { cache: 'no-store' })
-  .then((r) => (r.ok ? r.json() : null)).then((d) => {
-    if (!d) return;
-    const total = d.setups.reduce((a, s) => a + s.runs.total, 0), done = d.setups.reduce((a, s) => a + s.runs.done, 0);
-    const on = done < total;
-    document.getElementById('livebar').classList.toggle('on', on);
-    document.getElementById('livetext').textContent = on ? `Live now: ${done} of ${total} runs finished` : 'Latest run finished: see the results';
-  }).catch(() => {});
-</script>
+
+<footer class="wrap">
+  <span>Open Science Organization · since 2017</span>
+  <a href="about.html">About: how we started and where we are going</a>
+  <a href="https://github.com/open-science-org/OSO/blob/master/docs/design-v1.md">Design</a>
+  <a href="2017.html">Previous website</a>
+  <span>contact@oso.network</span>
+</footer>
+<script src="site.js"></script>
 </body>
 </html>
