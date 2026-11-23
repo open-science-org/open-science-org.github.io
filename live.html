@@ -139,7 +139,26 @@
   </section>
 
   <div id="data" hidden>
-    <section class="block" style="padding-top:0;border-top:0">
+    <section class="block" style="border-top:0;padding-top:8px">
+      <div class="wrap" style="padding:0">
+        <div class="prog">
+          <div>
+            <p class="eyebrow">Progress</p>
+            <h2>Problems proved for the money spent</h2>
+            <p class="lede">Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.</p>
+            <div class="legend" id="legend"></div>
+            <div class="chart" id="chart"></div>
+          </div>
+          <aside id="talk" hidden>
+            <p class="eyebrow live-eyebrow">Labs at work · live</p>
+            <div class="talk" id="talk-list"></div>
+            <div class="talk-foot"><a href="#shared">Join the effort →</a><a href="https://github.com/open-science-org/experiment/tree/live">Raw data →</a></div>
+          </aside>
+        </div>
+        <p class="small muted" style="margin-top:14px">The feed shows every checker verdict, newest first, from every experiment running now. An arrow to another lab means the proof cites a result that lab proved first, so credit can flow back to it.</p>
+      </div>
+    </section>
+    <section class="block">
       <div class="wrap" style="padding:0"><div class="cards" id="cards"></div></div>
     </section>
 
@@ -168,25 +187,6 @@
       </div>
     </section>
 
-    <section class="block">
-      <div class="wrap" style="padding:0">
-        <div class="prog">
-          <div>
-            <p class="eyebrow">Progress</p>
-            <h2>Problems proved for the money spent</h2>
-            <p class="lede">Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.</p>
-            <div class="legend" id="legend"></div>
-            <div class="chart" id="chart"></div>
-          </div>
-          <aside id="talk" hidden>
-            <p class="eyebrow live-eyebrow">Labs at work · live</p>
-            <div class="talk" id="talk-list"></div>
-            <div class="talk-foot"><a href="#shared">Join the effort →</a><a href="https://github.com/open-science-org/experiment/tree/live">Raw data →</a></div>
-          </aside>
-        </div>
-        <p class="small muted" style="margin-top:14px">The feed shows every checker verdict, newest first, from every experiment running now. An arrow to another lab means the proof cites a result that lab proved first, so credit can flow back to it.</p>
-      </div>
-    </section>
 
     <section class="block">
       <div class="wrap" style="padding:0">
@@ -405,7 +405,11 @@ function dagView(d, col) {
 
 function chart(d, col) {
   const W = 760, H = 320, L = 44, R = 16, T = 12, B = 40;
-  const xmax = Math.max(1e-4, ...d.setups.flatMap((s) => s.curve.map((p) => p[0]))), ymax = Math.max(4, Math.ceil(Math.max(...d.setups.flatMap((s) => s.curve.map((p) => p[1]))) + 0.5));
+  // The money axis grows with the runs: it runs to the most any run has spent so far, not to the whole budget.
+  // A setup's mean at money m: the last point of its curve at or before m.
+  const valAt = (s, m) => (s.curve.filter((p) => p[0] <= m + 1e-12).at(-1) || [0, 0])[1];
+  const spentMax = Math.max(0, ...d.setups.flatMap((s) => s.reps.map((r) => r.spent || 0)));
+  const xmax = Math.max(1e-4, Math.min(d.moneyPerRun, spentMax * 1.05 || d.moneyPerRun)), ymax = Math.max(4, Math.ceil(Math.max(...d.setups.flatMap((s) => s.curve.map((p) => p[1]))) + 0.5));
   const x = (v) => L + (W - L - R) * v / xmax, y = (v) => T + (H - T - B) * (1 - v / ymax);
   let g = '';
   const ystep = ymax > 16 ? 5 : ymax > 8 ? 2 : 1;
@@ -416,7 +420,7 @@ function chart(d, col) {
   g += `<text x="12" y="${(T + H - B) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(T + H - B) / 2})">problems proved</text>`;
   d.setups.forEach((s, i) => {
     if (!s.curve.length) return;
-    const pts = s.curve.map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+    const pts = s.curve.filter(([m]) => m <= xmax).concat([[xmax, valAt(s, xmax)]]).map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
     g += `<polyline points="${pts}" fill="none" stroke="${col[i]}" stroke-width="2" stroke-linejoin="round"/>`;
   });
   g += `<line id="cross" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>`;
@@ -427,7 +431,7 @@ function chart(d, col) {
     const k = Math.max(0, Math.min(40, Math.round((sx - L) / (W - L - R) * 40)));
     const m = xmax * k / 40;
     cross.setAttribute('x1', x(m)); cross.setAttribute('x2', x(m)); cross.setAttribute('visibility', 'visible');
-    tip.innerHTML = `<b>$${m.toFixed(xmax < 0.2 ? 3 : 2)} spent</b><br>` + d.setups.map((s, i) => s.curve.length ? `<span class="swatch" style="display:inline-block;background:${col[i]}"></span> ${esc(name(s))}: ${s.curve[k][1].toFixed(1)}` : '').filter(Boolean).join('<br>');
+    tip.innerHTML = `<b>$${m.toFixed(xmax < 0.2 ? 3 : 2)} spent</b><br>` + d.setups.map((s, i) => s.curve.length ? `<span class="swatch" style="display:inline-block;background:${col[i]}"></span> ${esc(name(s))}: ${valAt(s, m).toFixed(1)}` : '').filter(Boolean).join('<br>');
     tip.style.display = 'block';
     const px = (ev.clientX - r.left), w = tip.offsetWidth;
     tip.style.left = (px + 14 + w > r.width ? px - w - 14 : px + 14) + 'px'; tip.style.top = '8px';
