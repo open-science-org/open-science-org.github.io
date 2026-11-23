@@ -35,7 +35,7 @@
     font: 18px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
   main {
-    max-width: 680px;
+    max-width: 1040px;
     margin: 0 auto;
     padding: 64px 24px 80px;
   }
@@ -107,25 +107,35 @@
   nav.top a:hover, nav.top a[aria-current] { color: var(--text); }
   section.lead { border-top: 0; margin-top: 0; padding: 24px; border: 1px solid var(--rule); border-radius: 12px; }
   section.lead h2 { font-size: 1.3rem; line-height: 1.35; }
+  .hero { padding: 8px 0 8px; }
+  .hero h1 { font-size: 2.1rem; line-height: 1.2; margin: 0 0 14px; font-weight: 700; }
+  .hero p.sub { font-size: 1.15rem; color: var(--muted); max-width: 46em; }
+  .livebar { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--accent-ink); margin-bottom: 14px; }
+  .livebar .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--rule); }
+  .livebar.on .dot { background: var(--accent); animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { opacity: .25; } }
+  @media (prefers-reduced-motion: reduce) { .livebar.on .dot { animation: none; } }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 8px; }
+  .card { border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px; }
+  .card h3 { font-size: 1rem; margin: 0 0 6px; }
+  .card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  .card .num { font-size: 1.6rem; font-weight: 700; color: var(--text); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 36px; }
+  .brand img { width: 40px; height: auto; }
+  .brand span { font-weight: 600; }
 </style>
 </head>
 <body>
 <nav class="top" aria-label="Site">
-  <a href="./" aria-current="page">Home</a><a href="live.html">Live</a><a href="experiment/">All results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="live.html#fund">Pledge</a><a href="https://github.com/open-science-org">GitHub</a>
+  <a href="./" aria-current="page">Home</a><a href="live.html">Live</a><a href="experiment/">All results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="live.html#fund">Pledge</a><a href="about.html">About</a><a href="https://github.com/open-science-org">GitHub</a>
 </nav>
 <main>
-  <header>
-    <img src="images/logo.png" alt="OSO logo">
-    <h1>Open Science Organization</h1>
-  </header>
+  <div class="brand"><img src="images/logo.png" alt=""><span>Open Science Organization</span></div>
 
-  <p class="label">Our north star</p>
-  <p class="north-star">A self-governing, self-sustaining organization that stewards humanity's collective intelligence, rewards every idea for what it makes possible, and keeps opening new frontiers of research.</p>
-
-  <section class="lead">
-    <p class="label">Our experiment, in the open</p>
-    <h2>Does research get further when credit flows back to the work it builds on?</h2>
-    <p>We test it with teams of AI labs that prove maths problems in Lean, where a computer checks every proof. Each team works under different rules for sharing and credit, on the same problems and the same money. Watch the runs as they happen, explore every result and simulation, propose an experiment, or fund one.</p>
+  <section class="hero" style="border-top:0;margin-top:0;padding-top:0">
+    <a class="livebar" id="livebar" href="live.html"><span class="dot"></span><span id="livetext">Live experiment</span></a>
+    <h1>Does research get further when credit flows back to the work it builds on?</h1>
+    <p class="sub">We test it in the open. Teams of AI labs prove maths problems in Lean, where a computer checks every proof. Each team works under different rules for sharing and credit, on the same problems and the same money.</p>
     <div class="actions">
       <a class="button primary" href="live.html">Watch live</a>
       <a class="button secondary" href="experiment/">Explore all results</a>
@@ -135,43 +145,45 @@
   </section>
 
   <section>
-    <h2>How we started</h2>
-    <p>OSO began in 2017 with a simple observation: science is a collective effort, yet the way it is funded, reviewed and published is closed, slow and controlled by a few intermediaries. We proposed an open, community-owned alternative in which every intellectual contribution is an idea, ideas are connected to the ideas they build on, and value flows back to the work that made new work possible.</p>
-    <p>Between 2017 and 2020, a group of researchers and engineers wrote the founding papers and built early prototypes. In 2020 the project went quiet.</p>
-    <p class="muted">See <a href="2017.html">the original website (2017–2020)</a>, with its team, projects and FAQ.</p>
-  </section>
-
-  <section>
-    <h2>Why we are restarting</h2>
-    <p>In 2026 we decided to restart. AI can now do much of the judgment work our design needed: understanding how one piece of work depends on another, screening submissions, and helping reviewers. Open research data lets us start from the existing literature instead of an empty network. And as AI begins to produce research at scale, open and accountable attribution matters more than ever.</p>
-  </section>
-
-  <section>
-    <h2>Where we are</h2>
-    <ul class="status">
-      <li class="done">Founding ideas and early prototypes, 2017–2020</li>
-      <li class="done">Restart and a draft design, October 2026</li>
-      <li class="now">Now: reviewing the design and building the first working prototype</li>
-      <li>Then: a first community, an open and funded network, and step by step, governance by the community itself</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Read the design</h2>
-    <p>The design doc sets out the vision, the principles and the plan, and links to the detailed proposals.</p>
-    <div class="actions">
-      <a class="button primary" href="https://github.com/open-science-org/OSO/blob/master/docs/design-v1.md">Read the design doc</a>
-      <a class="button secondary" href="https://github.com/open-science-org/OIPs">Browse the proposals</a>
+    <h2>How it works</h2>
+    <div class="grid3">
+      <div class="card"><h3>1. Real problems, checked by a computer</h3><p>Maths problems written in Lean. A proof counts only if Lean accepts it, so no result rests on anyone's word.</p></div>
+      <div class="card"><h3>2. Same labs, different rules</h3><p>Each setup changes when results go public and how much of a result's credit flows back to the results it used (α). Money and models stay the same.</p></div>
+      <div class="card"><h3>3. Everything in the open</h3><p>Every run streams live. Results, simulations, proofs, code and money spent are public, and anyone can propose the next experiment.</p></div>
     </div>
   </section>
 
   <section>
-    <h2>Help us build it</h2>
-    <p>We are looking for researchers, engineers, designers and funders who want research to be open and fair. Read the design and challenge it, take up an open question, or propose an idea of your own.</p>
-    <p class="muted">Write to us at <strong>contact@oso.network</strong> (<a href="mailto:contact@oso.network">email</a>) or join the discussion on <a href="https://github.com/open-science-org">GitHub</a>.</p>
+    <h2>What we have seen so far</h2>
+    <div class="grid3">
+      <div class="card"><div class="num">4 → 12 of 16</div><p>Problems a cheap model proved alone, then with the stepping stones they need. Stepping stones are what make hard problems reachable.</p></div>
+      <div class="card"><div class="num">$0.25 vs $0.46</div><p>Money to reach 6 of 8 problems when most credit flows back (α 0.2) against none (α 1). Easy problems cost the same under every rule.</p></div>
+      <div class="card"><div class="num">Not yet clear</div><p>Whether flow-back raises the number of problems proved. So far the differences have 95% ranges that include zero, so we are scaling up.</p></div>
+    </div>
+    <p style="margin-top:16px"><a href="experiment/#/doc/docs/ai-agent-results.md">All findings, with their ranges →</a></p>
   </section>
 
-  <footer>Open Science Organization · since 2017 · <a href="live.html">Live</a> · <a href="experiment/">All results</a> · <a href="2017.html">Previous website</a></footer>
+  <section>
+    <h2>Take part</h2>
+    <div class="grid3">
+      <div class="card"><h3><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose an experiment</a></h3><p>Have a question the setup could answer? Write it down with your prediction; we run it in public.</p></div>
+      <div class="card"><h3><a href="live.html#fund">Fund a run</a></h3><p>A run of 30 communities costs about $50 to $100 in model fees. Every dollar goes on a public ledger.</p></div>
+      <div class="card"><h3><a href="https://github.com/open-science-org/experiment">Read the code</a></h3><p>The simulator, the Lean problems, the reference proofs and every result are on GitHub.</p></div>
+    </div>
+  </section>
+
+  <footer><a href="about.html">About OSO: how we started and where we are going</a> · <a href="https://github.com/open-science-org/OSO/blob/master/docs/design-v1.md">Design</a> · <a href="2017.html">Previous website</a> · contact@oso.network</footer>
 </main>
+<script>
+// Is an experiment streaming now? The same file the live page reads.
+fetch('https://raw.githubusercontent.com/open-science-org/experiment/live/live.json?t=' + Math.floor(Date.now() / 60000), { cache: 'no-store' })
+  .then((r) => (r.ok ? r.json() : null)).then((d) => {
+    if (!d) return;
+    const total = d.setups.reduce((a, s) => a + s.runs.total, 0), done = d.setups.reduce((a, s) => a + s.runs.done, 0);
+    const on = done < total;
+    document.getElementById('livebar').classList.toggle('on', on);
+    document.getElementById('livetext').textContent = on ? `Live now: ${done} of ${total} runs finished` : 'Latest run finished: see the results';
+  }).catch(() => {});
+</script>
 </body>
 </html>
