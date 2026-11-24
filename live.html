@@ -26,6 +26,11 @@
   @keyframes pulse { 50% { opacity: 0.25; } }
   @media (prefers-reduced-motion: reduce) { .pill.on .dot { animation: none; } }
   #updated { margin-top: 18px; }
+  .about { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .about .panel h3 { font: 600 0.95rem var(--sans); margin: 0 0 8px; }
+  .about .panel p, .about .panel li { font-size: 0.9rem; line-height: 1.55; margin: 0 0 8px; }
+  .about .panel ul { padding-left: 18px; margin: 0 0 8px; }
+  .about .panel .k { font: 0.75rem/1.5 var(--mono); color: var(--muted); }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
   .cards:empty { display: none; }
   .cards .card .name { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.95rem; }
@@ -125,6 +130,12 @@
   </section>
 
   <div id="data" hidden>
+    <section class="block" id="about-sec" style="border-top:0;padding-top:8px" hidden>
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">About this run</p>
+        <div class="about" id="about"></div>
+      </div>
+    </section>
     <section class="block" style="border-top:0;padding-top:8px">
       <div class="wrap" style="padding:0">
         <div class="prog">
@@ -246,6 +257,29 @@ function name(s) {
   return a === '1' ? 'Shared library' : `OSO, α ${a}`;
 }
 
+// Who the labs are, what they work on, and what one round is. Older snapshots have no `about`: the block stays hidden.
+function renderAbout(d) {
+  const a = d.about;
+  $('about-sec').hidden = !a;
+  if (!a) return;
+  const n = (x) => Number(x).toLocaleString('en-US');
+  const problem = `<div class="panel"><h3>The problem</h3>
+    ${d.targets.map((t) => `<p><b>${esc(t.id)}</b> ${t.text ? `· ${esc(t.text)}` : ''}<br><span class="k">depth ${t.depth} · bounty ${n(t.bounty)}</span></p>`).join('')}
+    ${a.areas.map((x) => `<p class="k">${esc(x)}</p>`).join('')}
+    <p>Underneath ${d.targets.length === 1 ? 'it' : 'them'}: ${n(a.hidden)} stepping-stone results, hidden. The labs have to find and prove them on their own.</p></div>`;
+  const labs = `<div class="panel"><h3>The labs</h3>
+    <p>${a.labs} AI labs per run, each running ${a.models.map(esc).join(', ')}, with ${money(a.budget)} of model fees each.</p>
+    <p>Each lab is a separate agent. It reads the problems and the library it can see, and decides for itself what to prove next.</p>
+    ${d.setups.map((s) => `<p class="k">${esc(name(s))}: ${esc(s.params)}</p>`).join('')}</div>`;
+  const round = `<div class="panel"><h3>One round</h3>
+    <ul><li>Every lab with money left takes one turn.</li>
+    <li>In its turn it tries a target, or states a new lemma and proves it.</li>
+    <li>Lean checks the proof. After an error the lab gets up to ${a.repairs} repairs.</li>
+    <li>What Lean accepts joins the library; under OSO rules other labs can build on it at once.</li></ul>
+    <p>The run ends after ${a.rounds} rounds, when the money runs out, or when every target is proved${a.mayStop ? ', or when every lab chooses to stop' : '. Labs may not stop early'}.</p></div>`;
+  $('about').innerHTML = problem + labs + round;
+}
+
 function render(d) {
   const running = d.setups.some((s) => s.runs.running > 0 || s.runs.done < s.runs.total);
   $('data').hidden = false; $('idle').hidden = true;
@@ -255,6 +289,7 @@ function render(d) {
   const done = d.setups.reduce((a, s) => a + s.runs.done, 0), total = d.setups.reduce((a, s) => a + s.runs.total, 0);
   $('updated').textContent = `Updated ${ago(d.updatedAt)} · ${done} of ${total} runs finished · ${d.targets.length} problems · ${money(d.moneyPerRun)} per run`;
   const col = colours(d.setups);
+  renderAbout(d);
 
   $('cards').innerHTML = d.setups.map((s, i) => {
     const started = s.reps.filter((r) => r.status !== 'waiting');
