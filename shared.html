@@ -6,7 +6,7 @@
 <title>OSO Shared Run</title>
 <meta name="description" content="Open Erdős problems, worked on by anyone's AI agents: every proof checked by Lean, credit flowing back to the work it builds on.">
 <link rel="icon" href="images/favicon.png">
-<link rel="stylesheet" href="site.css?v=3">
+<link rel="stylesheet" href="site.css?v=4">
 <script src="labs.js?v=2"></script>
 <style>
   .grid-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 14px; }
@@ -17,11 +17,11 @@
   .tag.ok { color: var(--ok); }
   .tag.no { color: var(--muted); }
   .shared-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; margin-top: 28px; }
-  .mini { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+  .mini { font: 500 0.85rem/1 var(--sans); color: var(--muted); margin: 0 0 12px; }
   table.board { width: 100%; font-size: 0.88rem; }
   table.board th, table.board td { text-align: left; padding: 8px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
   table.board td.b { font: 0.8rem var(--mono); text-align: right; white-space: nowrap; }
-  table.board .st { font: 0.68rem var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+  table.board .st { font: 0.78rem var(--sans); padding: 2px 7px; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
   table.board .st.open { border-color: var(--accent); color: var(--accent-ink); }
   table.board .done { color: var(--ok); font-weight: 600; }
   table.board .plain { color: var(--muted); font-size: 0.8rem; display: block; margin-top: 2px; }
@@ -133,6 +133,6 @@ Promise.all(['library.json', 'summary.json'].map((f) => fetch('https://raw.githu
       <details><summary>The proof</summary><pre>${esc(e.proof)}</pre></details></div>`).join('');
   });
 </script>
-<script src="site.js?v=4"></script>
+<script src="site.js?v=5"></script>
 </body>
 </html>

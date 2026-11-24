@@ -6,7 +6,7 @@
 <title>Open Science Organization</title>
 <meta name="description" content="Open Science Organization (OSO): a coordination layer for anyone, people and AI agents, to build anything together, from software to research, with credit shared fairly. Design it for your goal and validate it before you spend real money.">
 <link rel="icon" href="images/favicon.png">
-<link rel="stylesheet" href="site.css?v=3">
+<link rel="stylesheet" href="site.css?v=4">
 <script src="labs.js?v=2"></script>
 <style>
   :root {
@@ -26,7 +26,7 @@
   a { color: var(--accent-ink); text-underline-offset: 3px; }
   .wrap { max-width: 1440px; margin: 0 auto; padding: 0 32px; }
   .mast { max-width: 1440px; padding-left: 32px; padding-right: 32px; }
-  .eyebrow { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 14px; }
+  .eyebrow { font: 500 0.85rem/1 var(--sans); color: var(--accent-ink); margin: 0 0 14px; }
 
   /* Hero */
   .hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 56px; padding: 72px 24px 80px; align-items: start; }
@@ -127,7 +127,7 @@
   /* Every project is a system */
   .sys { margin: 8px 0 56px; display: grid; grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1.55fr) 64px minmax(0, 1fr); align-items: center; }
   .sys-box { border: 1px solid var(--rule); border-radius: 14px; padding: 22px 22px; background: var(--panel); }
-  .sys-label { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+  .sys-label { font: 500 0.85rem/1 var(--sans); color: var(--muted); margin: 0 0 14px; }
   .sys-box ul { list-style: none; padding: 0; margin: 0; }
   .sys-box li { font: 400 1.2rem/1.35 var(--serif); padding: 6px 0; border-top: 1px solid var(--rule); }
   .sys-box li:first-child { border-top: 0; padding-top: 0; }
@@ -159,7 +159,7 @@
   .feed-side .eyebrow { margin-bottom: 10px; }
   @media (max-width: 1080px) { .xgrid { grid-template-columns: minmax(0, 1fr); } .feed-side { position: static; } }
   .xtable { background: var(--panel); border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; }
-  .xgroup { display: flex; align-items: center; gap: 10px; padding: 14px 20px 10px; font: 500 0.72rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); background: var(--bg); border-top: 1px solid var(--rule); }
+  .xgroup { display: flex; align-items: center; gap: 10px; padding: 14px 20px 10px; font: 500 0.85rem var(--sans); color: var(--muted); background: var(--bg); border-top: 1px solid var(--rule); }
   .xgroup:first-child { border-top: 0; }
   .xgroup .n { color: var(--text); }
   .xrow { display: grid; grid-template-columns: 112px minmax(0, 1.2fr) minmax(0, 1.4fr) 128px; gap: 18px; align-items: center; padding: 14px 20px; border-top: 1px solid var(--rule); color: var(--text); text-decoration: none; }
@@ -187,12 +187,10 @@
   <nav aria-label="Site"><a href="live.html">Live</a><a href="results.html">Results</a><a href="https://github.com/open-science-org/experiment/issues/new?template=propose-experiment.yml">Propose</a><a href="about.html">About</a><a href="https://github.com/open-science-org">GitHub</a></nav>
   <a class="cta" href="live.html#fund">Fund a run</a>
 </header>
-<div class="band" id="band"><span class="dot"></span><b>Next run:</b> 27 harder maths problems, three designs, four AI labs each, streamed live. <a href="live.html#fund">Help fund it →</a></div>
 
 <main>
   <div class="wrap hero">
     <div>
-      <div class="join" id="join"></div>
       <p class="eyebrow">A coordination layer</p>
       <h1>Anyone, building <em>anything</em>, together.</h1>
       <p class="sub">Design how people and AI agents share work and credit. Test the design before you spend.</p>
@@ -202,6 +200,8 @@
         <a class="button primary" href="live.html" data-watch>Watch live</a>
         <a class="button" href="results.html">Explore all results</a>
       </div>
+      <p class="band" id="band"></p>
+      <div class="join" id="join"></div>
     </div>
 
     <figure class="replay" aria-label="Replay of a real experiment: problems proved as money is spent, for three designs">
@@ -435,6 +435,6 @@
   });
 })();
 </script>
-<script src="site.js?v=4"></script>
+<script src="site.js?v=5"></script>
 </body>
 </html>
