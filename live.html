@@ -141,10 +141,13 @@
         <div class="prog">
           <div>
             <p class="eyebrow">Progress</p>
-            <h2 id="chart-h">Problems proved for the money spent</h2>
-            <p class="lede" id="chart-lede">Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.</p>
+            <h2>Problems proved for the money spent</h2>
+            <p class="lede">Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.</p>
             <div class="legend" id="legend"></div>
             <div class="chart" id="chart"></div>
+            <h3 style="margin:22px 0 4px">Lemmas proved for the money spent</h3>
+            <p class="lede">New lemmas Lean accepted on the way to the targets. A lemma another lab proved first does not count again. Same money axis as above.</p>
+            <div class="chart" id="chart-lem"></div>
           </div>
           <aside id="talk" hidden>
             <p class="eyebrow live-eyebrow">Labs at work · live</p>
@@ -302,7 +305,8 @@ function render(d) {
   }).join('');
 
   $('legend').innerHTML = d.setups.map((s, i) => `<span><span class="swatch" style="background:${col[i]}"></span>${esc(name(s))}</span>`).join('');
-  chart(d, col);
+  chart(d, col, 'curve', 'chart', 'problems proved');
+  chart(d, col, 'lemmaCurve', 'chart-lem', 'lemmas proved');
 
   const head = d.targets.map((t) => `<th title="depth ${t.depth}, bounty ${t.bounty}">${esc(t.id)}</th>`).join('');
   const rows = d.setups.map((s, i) => `<tr><td class="setup">${esc(name(s))}</td>${d.targets.map((t) => {
@@ -402,15 +406,13 @@ function dagView(d, col) {
   if (!dagTimer) draw();
 }
 
-function chart(d, col) {
-  const W = 760, H = 320, L = 44, R = 16, T = 12, B = 40;
-  // With one target the problems line sits at 0 until the very end; the new lemmas show the climb toward it.
-  const lem = d.targets.length === 1 && d.setups.every((s) => s.lemmaCurve);
-  const key = lem ? 'lemmaCurve' : 'curve', what = lem ? 'lemmas proved' : 'problems proved';
-  $('chart-h').textContent = lem ? 'Lemmas proved for the money spent' : 'Problems proved for the money spent';
-  $('chart-lede').textContent = lem
-    ? `New lemmas Lean accepted, toward the one target (${d.targets[0].id}). A lemma another lab proved first does not count again. Mean over the runs so far of each setup; the graph runs to what has been spent so far.`
-    : 'Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.';
+// One line graph per measure (problems, lemmas), on the same money axis: two plots, never two y-axes on one.
+function chart(d, col, key, el, what) {
+  const W = 760, H = key === 'curve' ? 320 : 240, L = 44, R = 16, T = 12, B = 40;
+  // Snapshots from before lemma curves have none: no second plot.
+  $(el).hidden = !d.setups.some((s) => s[key]?.length);
+  $(el).previousElementSibling.hidden = $(el).previousElementSibling.previousElementSibling.hidden = key !== 'curve' && $(el).hidden;
+  if ($(el).hidden) return;
   // The money axis grows with the runs: it runs to the most any run has spent so far, not to the whole budget.
   // A setup's mean at money m: the last point of its curve at or before m.
   const valAt = (s, m) => (s[key].filter((p) => p[0] <= m + 1e-12).at(-1) || [0, 0])[1];
@@ -430,8 +432,8 @@ function chart(d, col) {
     g += `<polyline points="${pts}" fill="none" stroke="${col[i]}" stroke-width="2" stroke-linejoin="round"/>`;
   });
   g += `<line id="cross" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>`;
-  $('chart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${lem ? 'Lemmas' : 'Problems'} proved for the money spent, by setup">${g}<rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
-  const svg = $('chart').querySelector('svg'), tip = $('tip'), cross = svg.getElementById('cross');
+  $(el).innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${what} for the money spent, by setup">${g}<rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="hit"/></svg><div class="tip" id="${el}-tip"></div>`;
+  const svg = $(el).querySelector('svg'), tip = $(`${el}-tip`), cross = svg.getElementById('cross');
   svg.getElementById('hit').addEventListener('pointermove', (ev) => {
     const r = svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * W / r.width;
     const k = Math.max(0, Math.min(40, Math.round((sx - L) / (W - L - R) * 40)));
