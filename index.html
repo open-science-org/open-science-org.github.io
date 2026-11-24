@@ -6,7 +6,7 @@
 <title>Open Science Organization</title>
 <meta name="description" content="Open Science Organization (OSO): a coordination layer for anyone, people and AI agents, to build anything together, from software to research, with credit shared fairly. Design it for your goal and validate it before you spend real money.">
 <link rel="icon" href="images/favicon.png">
-<link rel="stylesheet" href="site.css?v=4">
+<link rel="stylesheet" href="site.css?v=5">
 <script src="labs.js?v=2"></script>
 <style>
   :root {
@@ -34,8 +34,8 @@
   .hero h1 em { color: var(--accent-ink); }
   .hero .sub { font: italic 400 1.4rem/1.4 var(--serif); color: var(--muted); margin: 0 0 18px; }
   .hero p.body { max-width: 36em; margin: 0 0 22px; }
-  .facts { font: 0.8rem/1.6 var(--mono); color: var(--muted); margin: 0 0 26px; }
-  .facts b { color: var(--text); font-weight: 500; }
+  .facts { font: 0.88rem/1.6 var(--sans); color: var(--muted); margin: 0 0 26px; }
+  .facts b { color: var(--text); font-weight: 700; }
   .actions { display: flex; flex-wrap: wrap; gap: 10px; }
   .button { display: inline-block; padding: 11px 18px; border-radius: 7px; text-decoration: none; font-weight: 600; font-size: 0.92rem; border: 1px solid var(--text); color: var(--text); }
   .button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
@@ -189,6 +189,7 @@
 </header>
 
 <main>
+  <div class="topline"><p class="band" id="band"></p><div class="join" id="join"></div></div>
   <div class="wrap hero">
     <div>
       <p class="eyebrow">A coordination layer</p>
@@ -200,8 +201,6 @@
         <a class="button primary" href="live.html" data-watch>Watch live</a>
         <a class="button" href="results.html">Explore all results</a>
       </div>
-      <p class="band" id="band"></p>
-      <div class="join" id="join"></div>
     </div>
 
     <figure class="replay" aria-label="Replay of a real experiment: problems proved as money is spent, for three designs">
