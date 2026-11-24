@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>try { const t = localStorage.getItem("oso-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OSO Results</title>
 <meta name="description" content="Every OSO result in one place: experiments with real AI labs proving maths in Lean, and simulations of research systems, each with its chart, question and answer.">
 <link rel="icon" href="images/favicon.png">
-<link rel="stylesheet" href="site.css?v=5">
+<link rel="stylesheet" href="site.css?v=6">
 <style>
   .start { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
   .bar { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--rule); }

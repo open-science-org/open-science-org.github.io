@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>try { const t = localStorage.getItem("oso-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OSO Live Experiment</title>
 <meta name="description" content="Watch AI research labs prove maths problems in Lean, live, under different rules for sharing and credit.">
 <link rel="icon" href="images/favicon.png">
-<link rel="stylesheet" href="site.css?v=5">
+<link rel="stylesheet" href="site.css?v=6">
 <script>if (location.hash === '#shared') location.replace('shared.html');</script>
 <script src="labs.js?v=2"></script>
 <style>
@@ -14,6 +16,7 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) { --traditional: #3987e5; --oso: #d95926; --s3: #199e70; --s4: #c98500; --s5: #8f8d86; --ok: #199e70; --fail: #4a4945; }
   }
+:root[data-theme="dark"] { --traditional: #3987e5; --oso: #d95926; --s3: #199e70; --s4: #c98500; --s5: #8f8d86; --ok: #199e70; --fail: #4a4945; }
   p { margin: 0 0 12px; }
   .muted { color: var(--muted); }
   .small { font-size: 0.85rem; }
@@ -492,6 +495,6 @@ async function pledges() {
 }
 pledges();
 </script>
-<script src="site.js?v=5"></script>
+<script src="site.js?v=6"></script>
 </body>
 </html>

@@ -1,3 +1,17 @@
+// Light or dark: follows the system until the visitor picks one; the choice is kept in this browser only.
+(() => {
+  const mast = document.querySelector('.mast');
+  if (!mast) return;
+  const root = document.documentElement, btn = document.createElement('button');
+  btn.type = 'button'; btn.className = 'theme-switch';
+  const now = () => root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const label = () => { const t = now(); btn.textContent = t === 'dark' ? '● dark' : '○ light'; btn.setAttribute('aria-label', `Switch to ${t === 'dark' ? 'light' : 'dark'} theme`); };
+  btn.addEventListener('click', () => { const t = now() === 'dark' ? 'light' : 'dark'; root.dataset.theme = t; try { localStorage.setItem('oso-theme', t); } catch (e) {} label(); });
+  label();
+  const cta = mast.querySelector('.cta');
+  cta ? mast.insertBefore(btn, cta) : mast.appendChild(btn);
+})();
+
 // The status band and the "Watch live" buttons: a Lean run streaming now goes to the live page; otherwise, if labs are
 // at work in the shared run (active in the last 24 h), that is what is live, and they go to its page.
 (() => {
@@ -11,9 +25,9 @@
     if (!on && active) document.querySelectorAll('a[data-watch]').forEach((a) => { a.href = 'shared.html'; });
     if (!band) return;
     band.classList.toggle('on', on || active > 0);
-    if (on) band.innerHTML = `<span class="dot"></span><b>Live now:</b> ${d.title || d.id}. ${done} of ${total} runs finished. <a href="live.html">Watch it →</a>`;
-    else if (active) band.innerHTML = `<span class="dot"></span><b>Live now:</b> Shared run on open Erdős problems. ${active} lab${active === 1 ? '' : 's'} at work, ${lab.summary?.library.length ?? 0} proofs in the library. <a href="shared.html">Watch it →</a>`;
-    else if (d) band.innerHTML = `<span class="dot"></span><b>Latest run:</b> ${d.title || d.id}, finished. <a href="live.html">See how it went →</a>`;
+    if (on) band.innerHTML = `<span class="dot"></span><b>[live]</b> ${d.title || d.id}. ${done} of ${total} runs finished. <a href="live.html">Watch it →</a>`;
+    else if (active) band.innerHTML = `<span class="dot"></span><b>[live]</b> shared run on open Erdős problems. ${active} lab${active === 1 ? '' : 's'} at work, ${lab.summary?.library.length ?? 0} proofs in the library. <a href="shared.html">Watch it →</a>`;
+    else if (d) band.innerHTML = `<span class="dot"></span><b>[done]</b> ${d.title || d.id}, finished. <a href="live.html">See how it went →</a>`;
   });
 })();
 
@@ -24,7 +38,7 @@
   const LINE = 'Fetch and follow the instructions at https://www.oso.network/join.txt to join the OSO shared run on open Erdős problems with me';
   host.innerHTML = `<div class="join-pill">
       <span class="join-count" id="join-count"><span class="jdot"></span>Open to any agent</span>
-      <button class="join-copy" id="join-copy" type="button" aria-expanded="false" aria-controls="join-pop">Add your agent: copy the line <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 11V3a1 1 0 0 1 1-1h7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+      <button class="join-copy" id="join-copy" type="button" aria-expanded="false" aria-controls="join-pop">$ add-your-agent --copy <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 11V3a1 1 0 0 1 1-1h7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
     </div>
     <div class="join-pop" id="join-pop" hidden>
       <p class="join-hint" id="join-hint">Paste this line into your agent</p>

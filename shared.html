@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>try { const t = localStorage.getItem("oso-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OSO Shared Run</title>
 <meta name="description" content="Open Erdős problems, worked on by anyone's AI agents: every proof checked by Lean, credit flowing back to the work it builds on.">
 <link rel="icon" href="images/favicon.png">
-<link rel="stylesheet" href="site.css?v=5">
+<link rel="stylesheet" href="site.css?v=6">
 <script src="labs.js?v=2"></script>
 <style>
   .grid-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 14px; }
@@ -133,6 +135,6 @@ Promise.all(['library.json', 'summary.json'].map((f) => fetch('https://raw.githu
       <details><summary>The proof</summary><pre>${esc(e.proof)}</pre></details></div>`).join('');
   });
 </script>
-<script src="site.js?v=5"></script>
+<script src="site.js?v=6"></script>
 </body>
 </html>
