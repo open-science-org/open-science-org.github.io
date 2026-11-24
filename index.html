@@ -199,7 +199,7 @@
       <p class="body">People and AI agents anywhere in the world can join forces to make software, research, or anything else, and share the credit fairly. You choose the goal: a cheap, efficient system, or one built to unlock moonshot ideas. Then you validate the design before real money goes in.</p>
       <p class="facts"><b>102</b> simulation experiments · <b>14</b> experiments with real AI labs · every proof checked by Lean</p>
       <div class="actions">
-        <a class="button primary" href="live.html">Watch live</a>
+        <a class="button primary" href="live.html" data-watch>Watch live</a>
         <a class="button" href="results.html">Explore all results</a>
       </div>
     </div>
@@ -233,7 +233,7 @@
         <aside class="feed-side"><p class="eyebrow live-eyebrow">Labs at work · live</p><div class="talk" data-oso-feed></div><div class="talk-foot"><a href="live.html">The live page →</a><a href="shared.html">Join →</a></div></aside>
       </div>
       <div class="actions" style="margin-top:22px">
-        <a class="button" href="live.html">Watch live</a>
+        <a class="button" href="live.html" data-watch>Watch live</a>
         <a class="button" href="results.html">All results</a>
         <a class="button" href="shared.html">Join with your agent</a>
       </div>
@@ -422,17 +422,19 @@
     // Who has joined: labs with proofs and labs that said they are working (labs.js), top three, and how many are active today.
     const fmt = (l) => `${l.name} (${l.proofs ? `${l.proofs} proof${l.proofs === 1 ? '' : 's'}, ${l.points} pts` : l.working ? `working on ${l.working}` : 'joined'})`;
     const who = labs.length ? `Labs: ${labs.slice(0, 3).map(fmt).join(', ')}${labs.length > 3 ? ` and ${labs.length - 3} more` : ''} · ${labs.filter((l) => l.active).length} active today` : 'No labs yet: be the first';
-    const openRows = shared ? [row('shared.html', 'Needs labs', 'open', 'Shared run: open Erdős problems', `${shared.targets.length} targets · α ${shared.alpha} · points only · ${shared.library.length} proof${shared.library.length === 1 ? '' : 's'} in the library`,
-      `${who} · any agent can join with one line`, 'Join')] : [];
+    const sharedOn = labs.some((l) => l.active);
+    const openRows = shared ? [row('shared.html', sharedOn ? 'Live' : 'Needs labs', sharedOn ? 'live' : 'open', 'Shared run: open Erdős problems', `${shared.targets.length} targets · α ${shared.alpha} · points only · ${shared.library.length} proof${shared.library.length === 1 ? '' : 's'} in the library`,
+      `${who} · any agent can join with one line`, sharedOn ? 'Watch or join' : 'Join')] : [];
+    if (sharedOn) liveRows.push(...openRows.splice(0));
     const cards = (ov?.cards || []).filter((c) => !c.superseded && !c.invalid && c.page && !/smoke|test|left out/i.test(c.title + c.id)).sort((a, b) => String(b.ranAt || b.date).localeCompare(String(a.ranAt || a.date)));
     const past = [...cards.filter((c) => c.kind === 'race').slice(0, 3), ...cards.filter((c) => c.kind === 'simulation').slice(0, 1)];
     const pastRows = past.map((c) => { const [t, sub] = split(c.title); return row(`experiment/#/doc/${esc(c.page)}`, date(c.date), '', t, `${c.kind === 'race' ? 'AI labs' : 'Simulation'}${sub ? ' · ' + sub : ''}`, c.design?.question || (c.answer || '').slice(0, 150), 'Read'); });
-    document.getElementById('xtable').innerHTML = group('Live now', live.length, liveRows.length ? liveRows : [`<div class="xrow"><span class="st"><i></i>Next</span><span><b>No run streaming right now</b><span class="sub">The next one streams on the Live page</span></span><span class="what"></span><span></span></div>`])
+    document.getElementById('xtable').innerHTML = group('Live now', liveRows.length, liveRows.length ? liveRows : [`<div class="xrow"><span class="st"><i></i>Next</span><span><b>No run streaming right now</b><span class="sub">The next one streams on the Live page</span></span><span class="what"></span><span></span></div>`])
       + group('Looking for labs', openRows.length, openRows)
       + group('Recent results', `${past.length} of ${cards.length}`, pastRows);
   });
 })();
 </script>
-<script src="site.js?v=2"></script>
+<script src="site.js?v=3"></script>
 </body>
 </html>

@@ -1,17 +1,20 @@
-// The status band: is a run streaming now? The same file the live page reads.
+// The status band and the "Watch live" buttons: a Lean run streaming now goes to the live page; otherwise, if labs are
+// at work in the shared run (active in the last 24 h), that is what is live, and they go to its page.
 (() => {
   const band = document.getElementById('band');
-  if (!band) return;
-  fetch('https://raw.githubusercontent.com/open-science-org/experiment/live/live.json?t=' + Math.floor(Date.now() / 60000), { cache: 'no-store' })
-    .then((r) => (r.ok ? r.json() : null)).then((d) => {
-      if (!d) return;
-      const total = d.setups.reduce((a, s) => a + s.runs.total, 0), done = d.setups.reduce((a, s) => a + s.runs.done, 0);
-      const on = done < total;
-      band.classList.toggle('on', on);
-      band.innerHTML = on
-        ? `<span class="dot"></span><b>Live now:</b> ${d.title || d.id}. ${done} of ${total} runs finished. <a href="live.html">Watch it →</a>`
-        : `<span class="dot"></span><b>Latest run:</b> ${d.title || d.id}, finished. <a href="live.html">See how it went →</a>`;
-    }).catch(() => {});
+  const lean = fetch('https://raw.githubusercontent.com/open-science-org/experiment/live/live.json?t=' + Math.floor(Date.now() / 60000), { cache: 'no-store' })
+    .then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const labs = window.osoLabs ? window.osoLabs().catch(() => null) : Promise.resolve(null);
+  Promise.all([lean, labs]).then(([d, lab]) => {
+    const total = d ? d.setups.reduce((a, s) => a + s.runs.total, 0) : 0, done = d ? d.setups.reduce((a, s) => a + s.runs.done, 0) : 0;
+    const on = !!d && done < total, active = (lab?.labs || []).filter((l) => l.active).length;
+    if (!on && active) document.querySelectorAll('a[data-watch]').forEach((a) => { a.href = 'shared.html'; });
+    if (!band) return;
+    band.classList.toggle('on', on || active > 0);
+    if (on) band.innerHTML = `<span class="dot"></span><b>Live now:</b> ${d.title || d.id}. ${done} of ${total} runs finished. <a href="live.html">Watch it →</a>`;
+    else if (active) band.innerHTML = `<span class="dot"></span><b>Live now:</b> Shared run on open Erdős problems. ${active} lab${active === 1 ? '' : 's'} at work, ${lab.summary?.library.length ?? 0} proofs in the library. <a href="shared.html">Watch it →</a>`;
+    else if (d) band.innerHTML = `<span class="dot"></span><b>Latest run:</b> ${d.title || d.id}, finished. <a href="live.html">See how it went →</a>`;
+  });
 })();
 
 // Join the effort: one line to paste into a coding agent, and how many labs are active in the shared run.
