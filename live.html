@@ -141,8 +141,8 @@
         <div class="prog">
           <div>
             <p class="eyebrow">Progress</p>
-            <h2>Problems proved for the money spent</h2>
-            <p class="lede">Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.</p>
+            <h2 id="chart-h">Problems proved for the money spent</h2>
+            <p class="lede" id="chart-lede">Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.</p>
             <div class="legend" id="legend"></div>
             <div class="chart" id="chart"></div>
           </div>
@@ -404,11 +404,18 @@ function dagView(d, col) {
 
 function chart(d, col) {
   const W = 760, H = 320, L = 44, R = 16, T = 12, B = 40;
+  // With one target the problems line sits at 0 until the very end; the new lemmas show the climb toward it.
+  const lem = d.targets.length === 1 && d.setups.every((s) => s.lemmaCurve);
+  const key = lem ? 'lemmaCurve' : 'curve', what = lem ? 'lemmas proved' : 'problems proved';
+  $('chart-h').textContent = lem ? 'Lemmas proved for the money spent' : 'Problems proved for the money spent';
+  $('chart-lede').textContent = lem
+    ? `New lemmas Lean accepted, toward the one target (${d.targets[0].id}). A lemma another lab proved first does not count again. Mean over the runs so far of each setup; the graph runs to what has been spent so far.`
+    : 'Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.';
   // The money axis grows with the runs: it runs to the most any run has spent so far, not to the whole budget.
   // A setup's mean at money m: the last point of its curve at or before m.
-  const valAt = (s, m) => (s.curve.filter((p) => p[0] <= m + 1e-12).at(-1) || [0, 0])[1];
+  const valAt = (s, m) => (s[key].filter((p) => p[0] <= m + 1e-12).at(-1) || [0, 0])[1];
   const spentMax = Math.max(0, ...d.setups.flatMap((s) => s.reps.map((r) => r.spent || 0)));
-  const xmax = Math.max(1e-4, Math.min(d.moneyPerRun, spentMax * 1.05 || d.moneyPerRun)), ymax = Math.max(4, Math.ceil(Math.max(...d.setups.flatMap((s) => s.curve.map((p) => p[1]))) + 0.5));
+  const xmax = Math.max(1e-4, Math.min(d.moneyPerRun, spentMax * 1.05 || d.moneyPerRun)), ymax = Math.max(4, Math.ceil(Math.max(...d.setups.flatMap((s) => s[key].map((p) => p[1]))) + 0.5));
   const x = (v) => L + (W - L - R) * v / xmax, y = (v) => T + (H - T - B) * (1 - v / ymax);
   let g = '';
   const ystep = ymax > 16 ? 5 : ymax > 8 ? 2 : 1;
@@ -416,21 +423,21 @@ function chart(d, col) {
   const fmt = (v) => '$' + v.toFixed(xmax < 0.2 ? 3 : 2);
   for (let k = 0; k <= 4; k++) { const v = xmax * k / 4; g += `<text x="${x(v)}" y="${H - B + 18}" text-anchor="middle">${fmt(v)}</text>`; }
   g += `<text x="${(L + W - R) / 2}" y="${H - 4}" text-anchor="middle">money spent per run, so far (of ${money(d.moneyPerRun)})</text>`;
-  g += `<text x="12" y="${(T + H - B) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(T + H - B) / 2})">problems proved</text>`;
+  g += `<text x="12" y="${(T + H - B) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(T + H - B) / 2})">${what}</text>`;
   d.setups.forEach((s, i) => {
-    if (!s.curve.length) return;
-    const pts = s.curve.filter(([m]) => m <= xmax).concat([[xmax, valAt(s, xmax)]]).map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+    if (!s[key].length) return;
+    const pts = s[key].filter(([m]) => m <= xmax).concat([[xmax, valAt(s, xmax)]]).map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
     g += `<polyline points="${pts}" fill="none" stroke="${col[i]}" stroke-width="2" stroke-linejoin="round"/>`;
   });
   g += `<line id="cross" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>`;
-  $('chart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Problems proved for the money spent, by setup">${g}<rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
+  $('chart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${lem ? 'Lemmas' : 'Problems'} proved for the money spent, by setup">${g}<rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
   const svg = $('chart').querySelector('svg'), tip = $('tip'), cross = svg.getElementById('cross');
   svg.getElementById('hit').addEventListener('pointermove', (ev) => {
     const r = svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * W / r.width;
     const k = Math.max(0, Math.min(40, Math.round((sx - L) / (W - L - R) * 40)));
     const m = xmax * k / 40;
     cross.setAttribute('x1', x(m)); cross.setAttribute('x2', x(m)); cross.setAttribute('visibility', 'visible');
-    tip.innerHTML = `<b>$${m.toFixed(xmax < 0.2 ? 3 : 2)} spent</b><br>` + d.setups.map((s, i) => s.curve.length ? `<span class="swatch" style="display:inline-block;background:${col[i]}"></span> ${esc(name(s))}: ${valAt(s, m).toFixed(1)}` : '').filter(Boolean).join('<br>');
+    tip.innerHTML = `<b>$${m.toFixed(xmax < 0.2 ? 3 : 2)} spent</b><br>` + d.setups.map((s, i) => s[key].length ? `<span class="swatch" style="display:inline-block;background:${col[i]}"></span> ${esc(name(s))}: ${valAt(s, m).toFixed(1)}` : '').filter(Boolean).join('<br>');
     tip.style.display = 'block';
     const px = (ev.clientX - r.left), w = tip.offsetWidth;
     tip.style.left = (px + 14 + w > r.width ? px - w - 14 : px + 14) + 'px'; tip.style.top = '8px';
