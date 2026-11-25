@@ -26,6 +26,16 @@
   @keyframes pulse { 50% { opacity: 0.25; } }
   @media (prefers-reduced-motion: reduce) { .pill.on .dot { animation: none; } }
   #updated { margin-top: 18px; }
+  .turnflow svg.tf { display: block; width: 100%; max-width: 560px; height: auto; }
+  .tf rect { fill: var(--panel); stroke: var(--rule); stroke-width: 1.2; }
+  .tf .key rect { stroke: var(--text); }
+  .tf .ok rect { stroke: var(--ok); stroke-width: 1.6; }
+  .tf .fail rect { stroke-dasharray: 4 3; stroke: var(--muted); }
+  .tf text { fill: var(--muted); font: 12.5px var(--head); }
+  .tf text.b { fill: var(--text); font-weight: 600; font-size: 13.5px; }
+  .tf text.sm { font-size: 11.5px; }
+  .tf .ar { fill: none; stroke: var(--muted); stroke-width: 1.4; }
+  .tf .ah { fill: var(--muted); }
   .about { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
   .about .panel h3 { font: 600 0.95rem var(--sans); margin: 0 0 8px; }
   .about .panel p, .about .panel li { font-size: 0.9rem; line-height: 1.55; margin: 0 0 8px; }
@@ -134,6 +144,11 @@
       <div class="wrap" style="padding:0">
         <p class="eyebrow">About this run</p>
         <div class="about" id="about"></div>
+        <div class="turnflow">
+          <p class="eyebrow" style="margin-top:28px">How one turn works</p>
+          <p class="lede" style="margin-bottom:14px">What every lab does in every round. Each reply is a model call that costs money; Lean, not a model, decides what is proved.</p>
+          <svg class="tf" viewBox="0 0 530 616" role="img" aria-labelledby="tf-title tf-desc"><title id="tf-title">How one turn works</title><desc id="tf-desc">Each round every lab with money left gets a prompt with the rules, targets, library and budget, in a fresh conversation. It replies with one action and a Lean proof, paid for by its tokens. Lean checks it. If accepted, the result joins the library, public at once under OSO and the shared library or kept until a target under traditional rules. If rejected and repairs and money are left, Lean's errors go back and the lab tries again; otherwise the turn fails. Then the next round starts.</desc><defs><marker id="tf-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah"/></marker></defs><g class=""><rect x="40" y="0" width="300" height="70" rx="8"/><text class="b" x="54" y="22">Round starts</text><text class="m" x="54" y="40">Every lab with money left takes</text><text class="m" x="54" y="56">one turn; all labs at the same time.</text></g><path class="ar" d="M190 70 L190 88" marker-end="url(#tf-arr)"/><g class=""><rect x="40" y="90" width="300" height="102" rx="8"/><text class="b" x="54" y="112">The lab gets its prompt</text><text class="m" x="54" y="130">The rules, the targets, the library it</text><text class="m" x="54" y="146">can cite and its budget left. A fresh</text><text class="m" x="54" y="162">conversation: it does not see its own</text><text class="m" x="54" y="178">earlier turns.</text></g><path class="ar" d="M190 192 L190 210" marker-end="url(#tf-arr)"/><g class=""><rect x="40" y="212" width="300" height="102" rx="8"/><text class="b" x="54" y="234">The lab replies</text><text class="m" x="54" y="252">One action (prove a target, or a new</text><text class="m" x="54" y="268">lemma) and its Lean proof. Its tokens</text><text class="m" x="54" y="284">are paid from its money, even if the</text><text class="m" x="54" y="300">reply is cut off and empty.</text></g><path class="ar" d="M190 314 L190 332" marker-end="url(#tf-arr)"/><g class="key"><rect x="40" y="334" width="300" height="40" rx="8"/><text class="b" x="190" y="360" text-anchor="middle">Lean checks the proof</text></g><path class="ar" d="M340 354 L368 354" marker-end="url(#tf-arr)"/><text class="m sm" x="355" y="347" text-anchor="middle">yes</text><g class="ok"><rect x="370" y="307.0" width="150" height="134" rx="8"/><text class="b" x="384" y="329.0">Accepted</text><text class="m" x="384" y="347.0">It joins the library:</text><text class="m" x="384" y="363.0">public at once (OSO,</text><text class="m" x="384" y="379.0">shared library), or</text><text class="m" x="384" y="395.0">kept until its lab</text><text class="m" x="384" y="411.0">proves a target</text><text class="m" x="384" y="427.0">(traditional).</text></g><path class="ar" d="M190 374 L190 396" marker-end="url(#tf-arr)"/><text class="m sm" x="199" y="389">rejected</text><g class=""><rect x="40" y="398" width="300" height="54" rx="8"/><text class="b" x="54" y="420">Repairs left, and money left?</text><text class="m" x="54" y="438">At most <tspan id="tf-rep">2</tspan> repairs a turn: <tspan id="tf-rep3">3</tspan> replies.</text></g><path class="ar" d="M40 425 L20 425 L20 263 L38 263" marker-end="url(#tf-arr)"/><text class="m sm" transform="translate(13 344) rotate(-90)" text-anchor="middle">yes: Lean's errors go back</text><path class="ar" d="M190 452 L190 474" marker-end="url(#tf-arr)"/><text class="m sm" x="199" y="467">no</text><g class="fail"><rect x="40" y="476" width="300" height="40" rx="8"/><text class="b" x="190" y="502" text-anchor="middle">Turn failed: nothing joins the library</text></g><path class="ar" d="M190 516 L190 540" marker-end="url(#tf-arr)"/><path class="ar" d="M445 441 L445 540" marker-end="url(#tf-arr)"/><g class=""><rect x="40" y="542" width="480" height="70" rx="8"/><text class="b" x="54" y="564">Turn ends · next round</text><text class="m" x="54" y="582">The run ends when every lab's money is spent,</text><text class="m" x="54" y="598">after the last round, or when every target is proved.</text></g></svg>
+        </div>
       </div>
     </section>
     <section class="block" style="border-top:0;padding-top:8px">
@@ -288,6 +303,7 @@ function renderAbout(d) {
     <li>What Lean accepts joins the library; under OSO rules other labs can build on it at once.</li></ul>
     <p>The run ends after ${a.rounds} rounds, when the money runs out, or when every target is proved${a.mayStop ? ', or when every lab chooses to stop' : '. Labs may not stop early'}.</p></div>`;
   $('about').innerHTML = problem + labs + round;
+  if (Number.isFinite(a.repairs)) { $('tf-rep').textContent = a.repairs; $('tf-rep3').textContent = a.repairs + 1; }
 }
 
 // Lab colours, in a fixed order (lab 1 is always the first); hover names the lab, so colour is never alone.
