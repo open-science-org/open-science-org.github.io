@@ -279,6 +279,9 @@ function colours(setups) {
 }
 // Plain names from the OSO parameters.
 function name(s) {
+  return baseName(s) + (s.earlier ? ' (earlier run)' : '');
+}
+function baseName(s) {
   const p = s.label;
   if (/at target/.test(p)) return 'Traditional';
   const a = (p.match(/α=([\d.]+)/) || [])[1];
@@ -488,6 +491,7 @@ function chart(d, col, key, el, what, opt = {}) {
   if ($(el).hidden) return;
   // The money axis grows with the runs: it runs to the most any run has spent so far, not to the whole budget.
   // A setup's mean at money m: the last point of its curve at or before m.
+  const own = (s) => Math.max(0, ...s.reps.map((r) => r.spent || 0));
   const valAt = (s, m) => (s[key].filter((p) => p[0] <= m + 1e-12).at(-1) || [0, 0])[1];
   const spentMax = Math.max(0, ...d.setups.flatMap((s) => s.reps.map((r) => r.spent || 0)));
   // The problems axis runs to the number of problems; others to a round number above the highest value.
@@ -510,7 +514,9 @@ function chart(d, col, key, el, what, opt = {}) {
   }));
   d.setups.forEach((s, i) => {
     if (!s[key].length) return;
-    const pts = s[key].filter(([m]) => m <= xmax).concat([[xmax, valAt(s, xmax)]]).map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+    // A setup's line ends at the most its runs have spent: one that has spent less is not drawn as stalled.
+    const end = Math.min(xmax, own(s));
+    const pts = s[key].filter(([m]) => m <= end).concat([[end, valAt(s, end)]]).map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
     g += `<polyline points="${pts}" fill="none" stroke="${col[i]}" stroke-width="2" stroke-linejoin="round"/>`;
   });
   g += `<line id="cross" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>`;
@@ -521,7 +527,7 @@ function chart(d, col, key, el, what, opt = {}) {
     const k = Math.max(0, Math.min(40, Math.round((sx - L) / (W - L - R) * 40)));
     const m = xmax * k / 40;
     cross.setAttribute('x1', x(m)); cross.setAttribute('x2', x(m)); cross.setAttribute('visibility', 'visible');
-    tip.innerHTML = `<b>$${m.toFixed(xmax < 0.2 ? 3 : 2)} spent</b><br>` + d.setups.map((s, i) => s[key].length ? `<span class="swatch" style="display:inline-block;background:${col[i]}"></span> ${esc(name(s))}: ${valAt(s, m).toFixed(1)}` : '').filter(Boolean).join('<br>');
+    tip.innerHTML = `<b>$${m.toFixed(xmax < 0.2 ? 3 : 2)} spent</b><br>` + d.setups.map((s, i) => s[key].length && m <= own(s) + 1e-12 ? `<span class="swatch" style="display:inline-block;background:${col[i]}"></span> ${esc(name(s))}: ${valAt(s, m).toFixed(1)}` : '').filter(Boolean).join('<br>');
     tip.style.display = 'block';
     const px = (ev.clientX - r.left), w = tip.offsetWidth;
     tip.style.left = (px + 14 + w > r.width ? px - w - 14 : px + 14) + 'px'; tip.style.top = '8px';
