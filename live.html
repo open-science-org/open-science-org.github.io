@@ -112,6 +112,13 @@
   .lean .why { font-size: 0.85rem; font-style: italic; color: var(--muted); }
   .sharednow { margin: 10px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--panel); border: 1px solid var(--rule); font-size: 0.92rem; }
   .sharednow .d { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #2fa36b; margin-right: 8px; }
+  .writeup { max-width: 52em; }
+  .writeup p, .writeup li { line-height: 1.6; }
+  .writeup .tw { overflow-x: auto; margin: 18px 0; }
+  .writeup table { border-collapse: collapse; font: 0.88rem/1.4 var(--sans); }
+  .writeup th, .writeup td { border-bottom: 1px solid var(--rule); padding: 7px 14px 7px 0; text-align: left; vertical-align: top; }
+  .writeup th { color: var(--muted); font-weight: 600; }
+  .writeup a { color: var(--accent-ink); }
 </style>
 </head>
 <body>
@@ -218,6 +225,15 @@
         <h2>Which problems each setup proved</h2>
         <p class="lede">Number of runs that proved each problem. Problems go from easiest to hardest; the bounty doubles with each step of depth.</p>
         <div class="grid-wrap" id="grid"></div>
+      </div>
+    </section>
+
+    <section class="block" id="results-sec" hidden>
+      <div class="wrap" style="padding:0">
+        <p class="eyebrow">Results</p>
+        <h2 id="results-h"></h2>
+        <p class="lede">The write-up of this experiment, from our <a href="https://github.com/open-science-org/experiment/blob/master/docs/ai-agent-results.md">results</a>. Numbers come from the saved runs.</p>
+        <div class="writeup" id="results-body"></div>
       </div>
     </section>
 
@@ -342,6 +358,9 @@ function render(d) {
   $('data').hidden = false; $('idle').hidden = true;
   $('pill').classList.toggle('on', running);
   $('state').textContent = running ? 'Live' : 'Finished';
+  // A finished experiment's write-up, once it is written; the HTML comes from our own results doc.
+  $('results-sec').hidden = running || !d.results;
+  if (!running && d.results) { $('results-h').textContent = d.results.heading; $('results-body').innerHTML = d.results.html.replace(/<table>/g, '<div class="tw"><table>').replace(/<\/table>/g, '</table></div>'); }
   $('progresslede').textContent = running ? 'Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.'
     : "Mean over each setup's runs. Each run had the same money; each line ends where that setup stopped spending.";
   // A short title (the name before the colon); the setups, money and date on a small line under it.
