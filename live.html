@@ -119,6 +119,11 @@
   .writeup th, .writeup td { border-bottom: 1px solid var(--rule); padding: 7px 14px 7px 0; text-align: left; vertical-align: top; }
   .writeup th { color: var(--muted); font-weight: 600; }
   .writeup a { color: var(--accent-ink); }
+  .answer { max-width: 52em; margin: 0 0 18px; padding: 14px 18px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 10px 10px 0; line-height: 1.6; }
+  .answer a { color: var(--accent-ink); white-space: nowrap; }
+  .daginfo { min-height: 3.2em; max-width: 60em; margin: 8px 0 12px; padding: 10px 14px; background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; line-height: 1.5; }
+  .daginfo .k { color: var(--muted); font-size: 0.88em; white-space: nowrap; }
+  .daginfo code { font-size: 0.85em; overflow-wrap: anywhere; }
 </style>
 </head>
 <body>
@@ -134,6 +139,7 @@
     <p class="facts" id="setupline" hidden></p>
     <p class="sub">Teams of AI labs prove maths problems in Lean, where a computer checks every proof.</p>
     <p class="body" id="question" hidden></p>
+    <div class="answer" id="answer" hidden></div>
     <p class="body">Each team works under different rules: when results go public, and how much of a result's credit flows back to the results it used (α). Everything here is what the checker decided, nothing an AI said about itself.</p>
     <p class="facts" id="updated"></p>
     <nav class="exps" id="exps" aria-label="Experiments"></nav>
@@ -204,6 +210,7 @@
           <span id="lab-key"></span>
         </div>
         <div class="rounds"><button type="button" id="r-play">▶ Play</button><input type="range" id="r-slider" min="0" max="1" value="1" aria-label="Round"><span class="now" id="r-now"></span><button type="button" id="r-live">Latest</button></div>
+        <p class="daginfo" id="daginfo">Point at a star to see its problem and bounty.</p>
         <div class="panels" id="panels"></div>
       </div>
     </section>
@@ -329,7 +336,8 @@ function renderAbout(d) {
   if (!a) return;
   const n = (x) => Number(x).toLocaleString('en-US');
   const problem = `<div class="panel"><h3>The problem</h3>
-    ${d.targets.map((t) => `<p><b>${esc(t.id)}</b> ${t.text ? `· ${esc(t.text)}` : ''}<br><span class="k">depth ${t.depth} · bounty ${n(t.bounty)}</span></p>`).join('')}
+    ${d.targets.length <= 3 ? d.targets.map((t) => `<p><b>${esc(t.id)}</b> ${t.text ? `· ${esc(t.text)}` : ''}<br><span class="k">depth ${t.depth} · bounty ${n(t.bounty)}</span></p>`).join('')
+      : `<p>${d.targets.length} problems, depth ${Math.min(...d.targets.map((t) => t.depth))} to ${Math.max(...d.targets.map((t) => t.depth))}, bounties ${n(Math.min(...d.targets.map((t) => t.bounty)))} to ${n(Math.max(...d.targets.map((t) => t.bounty)))}. Each problem's statement, depth and bounty: point at its star in <a href="#dag-sec">the map below ↓</a>.</p>`}
     ${a.areas.map((x) => `<p class="k">${esc(x)}</p>`).join('')}
     <p>Underneath ${d.targets.length === 1 ? 'it' : 'them'}: ${n(a.hidden)} stepping-stone results, hidden. The labs have to find and prove them on their own.</p></div>`;
   const labs = `<div class="panel"><h3>The labs</h3>
@@ -371,6 +379,9 @@ function render(d) {
   // The question this experiment asks; OSO's main question is on the About page.
   $('question').hidden = !d.question;
   $('question').innerHTML = d.question ? `<b>This experiment asks:</b> ${esc(d.question.replace(/ \[[A-D]\]$/, ''))}` : '';
+  // A finished experiment's answer, right under its question.
+  $('answer').hidden = running || !d.answer;
+  $('answer').innerHTML = !running && d.answer ? `<b>Answer:</b> ${esc(d.answer)}${d.results ? ' <a href="#results-sec">Full results ↓</a>' : ''}` : '';
   const done = d.setups.reduce((a, s) => a + s.runs.done, 0), total = d.setups.reduce((a, s) => a + s.runs.total, 0);
   $('updated').textContent = `Updated ${ago(d.updatedAt)} · ${done} of ${total} runs finished · ${d.targets.length} problems · ${money(d.moneyPerRun)} per run`;
   const col = colours(d.setups);
@@ -434,6 +445,7 @@ function dagLayout(d) {
   return { depths, pos, COLW, L, T, W: L * 2 + (depths.length - 1) * COLW, H: T + H0 + 6 };
 }
 function dagView(d, col) {
+  const tgt = new Map((d.targets || []).map((t) => [t.id, t]));
   $('dag-sec').hidden = !d.dag;
   if (!d.dag) return;
   const maxRound = Math.max(1, ...d.setups.flatMap((s) => s.reps.map((r) => r.round || 0)));
@@ -486,7 +498,7 @@ function dagView(d, col) {
         g += `<g class="n" data-id="${esc(n.id)}" transform="translate(${p.x},${p.y})">`
           + (c ? `<circle r="10.5" fill="none" stroke="${ink}" stroke-width="1.5"${c[0] ? '' : ' stroke-dasharray="2.5 2.5"'}/>` : '')
           + `<path d="${STAR}" fill="${f ? ink : 'var(--panel)'}" fill-opacity="${f ? (0.3 + 0.7 * f).toFixed(2) : 1}" stroke="${f ? ink : 'var(--text)'}" stroke-width="1.2"/>`
-          + `<title>${esc(n.id)}: depth ${n.depth}. By round ${R}, proved in ${Math.round(f * reps.length)} of ${reps.length} runs${c ? `; tried this round: ${c[0]} accepted, ${c[1]} not` : ''}</title></g>`;
+          + `<title>${esc(n.id)}${tgt.get(n.id)?.text ? ` · ${esc(tgt.get(n.id).text)}` : ''}\nDepth ${n.depth} · bounty ${(tgt.get(n.id)?.bounty ?? 0).toLocaleString('en-US')}. By round ${R}, proved in ${Math.round(f * reps.length)} of ${reps.length} runs${c ? `; tried this round: ${c[0]} accepted, ${c[1]} not` : ''}</title></g>`;
       }
       if (laneRows) {
         g += `<text class="col" x="${lay.L}" y="${lay.H + 8}">lab lemmas off our route${reps.length > 1 ? ' (run 1)' : ''}: ${off.length}</text>`;
@@ -504,6 +516,9 @@ function dagView(d, col) {
     $('panels').querySelectorAll('.n').forEach((el) => {
       el.addEventListener('pointerenter', () => {
         const id = el.dataset.id, keep = under(id); keep.add(id);
+        const t = tgt.get(id), m = byId.get(id);
+        $('daginfo').innerHTML = t ? `<b>${esc(t.id)}</b>${t.text ? ` · ${esc(t.text)}` : ''}${t.statement ? `<br><code>${esc(t.statement)}</code>` : ''}<br><span class="k">depth ${t.depth} · bounty ${Number(t.bounty).toLocaleString('en-US')} · ${keep.size - 1} steps under it</span>`
+          : `<b>Step ${esc(id)}</b> <span class="k">depth ${m?.depth ?? '?'} · ${keep.size - 1} steps under it</span>`;
         $('panels').querySelectorAll('.n').forEach((x) => x.classList.toggle('dim', !keep.has(x.dataset.id)));
         $('panels').querySelectorAll('.e').forEach((e) => e.classList.toggle('hi', keep.has(e.dataset.to) && keep.has(e.dataset.from)));
       });
