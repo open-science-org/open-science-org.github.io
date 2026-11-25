@@ -44,6 +44,10 @@
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
   .cards:empty { display: none; }
   .cards .card .name { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.95rem; }
+  /* The hero uses the page's width: a short title, and text across the page. */
+  .page-hero h1#title { font-size: clamp(2rem, 3.6vw, 3rem); max-width: none; margin-bottom: 10px; }
+  .page-hero #setupline { margin: 0 0 22px; }
+  .page-hero .sub, .page-hero p.body { max-width: 72em; }
   .swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
   .cards .card .big { font: 400 2.2rem/1.1 var(--serif); margin: 10px 0 4px; font-variant-numeric: tabular-nums; }
   .cards .card .small { font: 0.75rem/1.5 var(--mono); color: var(--muted); }
@@ -120,6 +124,7 @@
   <div class="wrap page-hero">
     <p class="eyebrow pill" id="pill"><span class="dot"></span><span id="state">Loading…</span></p>
     <h1 id="title">Watch the experiment, <em>live</em>.</h1>
+    <p class="facts" id="setupline" hidden></p>
     <p class="sub">Teams of AI labs prove maths problems in Lean, where a computer checks every proof.</p>
     <p class="body" id="question" hidden></p>
     <p class="body">Each team works under different rules: when results go public, and how much of a result's credit flows back to the results it used (α). Everything here is what the checker decided, nothing an AI said about itself.</p>
@@ -337,7 +342,11 @@ function render(d) {
   $('data').hidden = false; $('idle').hidden = true;
   $('pill').classList.toggle('on', running);
   $('state').textContent = running ? 'Live' : 'Finished';
-  $('title').textContent = d.title;
+  // A short title (the name before the colon); the setups, money and date on a small line under it.
+  const cut = d.title.indexOf(': ');
+  $('title').textContent = cut > 0 ? d.title.slice(0, cut) : d.title;
+  $('setupline').hidden = cut <= 0;
+  $('setupline').textContent = cut > 0 ? d.title.slice(cut + 2) : '';
   // The question this experiment asks; OSO's main question is on the About page.
   $('question').hidden = !d.question;
   $('question').innerHTML = d.question ? `<b>This experiment asks:</b> ${esc(d.question.replace(/ \[[A-D]\]$/, ''))}` : '';
@@ -592,7 +601,7 @@ async function load() {
 
   if (!picked || !list.some((e) => e.id === picked)) picked = list[0]?.id;
   const sharedLink = `<a class="exp open${labsNow ? ' run' : ''}" href="shared.html"><span class="d"></span>Shared run: open Erdős problems<span class="k">${labsNow ? `live · ${labsNow} lab${labsNow === 1 ? '' : 's'} at work` : 'open to join'}</span></a>`;
-  $('exps').innerHTML = (labsNow ? sharedLink : '') + list.map((e) => `<a class="exp${e.running ? ' run' : ''}" href="?id=${encodeURIComponent(e.id)}" data-id="${esc(e.id)}" aria-current="${e.id === picked}"><span class="d"></span>${esc(e.title)}<span class="k">${e.running ? 'live' : 'finished'} · AI labs</span></a>`).join('')
+  $('exps').innerHTML = (labsNow ? sharedLink : '') + list.map((e) => `<a class="exp${e.running ? ' run' : ''}" href="?id=${encodeURIComponent(e.id)}" data-id="${esc(e.id)}" aria-current="${e.id === picked}"><span class="d"></span>${esc(e.title.split(': ')[0])}<span class="k">${e.running ? 'live' : 'finished'} · AI labs</span></a>`).join('')
     + (labsNow ? '' : sharedLink);
   $('sharednow').hidden = !(labsNow && !list.some((e) => e.running));
   $('exps').querySelectorAll('a[data-id]').forEach((a) => a.addEventListener('click', (ev) => { ev.preventDefault(); picked = a.dataset.id; history.replaceState(null, '', '?id=' + encodeURIComponent(picked)); load(); }));
