@@ -283,6 +283,14 @@ function name(s) {
   return baseName(s) + (s.earlier ? ' (earlier run)' : '');
 }
 function baseName(s) {
+  // What else a setup changes besides the OSO parameters (E1: the instruction, whether earnings are shown).
+  const extra = (/told to prove/.test(s.label) ? ', told to prove' : '') + (/earnings hidden/.test(s.label) ? ', earnings hidden' : '');
+  return coreName(s) + extra;
+}
+// A setup whose earnings are hidden is drawn dashed, in its setup's colour.
+const dashed = (s) => /earnings hidden/.test(s.label);
+const swatch = (s, c, extra = '') => `<span class="swatch" style="${extra}${dashed(s) ? `background:transparent;border:2px dashed ${c};box-sizing:border-box` : `background:${c}`}"></span>`;
+function coreName(s) {
   const p = s.label;
   if (/at target/.test(p)) return 'Traditional';
   const a = (p.match(/α=([\d.]+)/) || [])[1];
@@ -342,13 +350,13 @@ function render(d) {
     const started = s.reps.filter((r) => r.status !== 'waiting');
     const mean = started.length ? started.reduce((a, r) => a + r.targets.length, 0) / started.length : 0;
     const spent = started.length ? started.reduce((a, r) => a + r.spent, 0) / started.length : 0;
-    return `<div class="card"><div class="name"><span class="swatch" style="background:${col[i]}"></span>${esc(name(s))}</div>
+    return `<div class="card"><div class="name">${swatch(s, col[i])}${esc(name(s))}</div>
       <div class="big">${mean.toFixed(1)} <span class="muted small">of ${d.targets.length} proved</span></div>
       <div class="muted small">${money(spent)} spent a run · ${s.runs.done} done, ${s.runs.running} running of ${s.runs.total}</div>
       <div class="muted small">${esc(s.params)}</div></div>`;
   }).join('');
 
-  $('legend').innerHTML = d.setups.map((s, i) => `<span><span class="swatch" style="background:${col[i]}"></span>${esc(name(s))}</span>`).join('');
+  $('legend').innerHTML = d.setups.map((s, i) => `<span>${swatch(s, col[i])}${esc(name(s))}</span>`).join('');
   chart(d, col, 'curve', 'chart', 'problems proved');
   chart(d, col, 'lemmaCurve', 'chart-lem', 'lemmas proved');
   // Hidden steps proved, from each run's matched steps (scripts/match-steps.ts) and its money by round.
@@ -456,7 +464,7 @@ function dagView(d, col) {
           g += `<circle cx="${lay.L + c * lay.COLW}" cy="${lay.H + 18 + j * 8}" r="2.6" fill="none" stroke="${LAB[(e.lab - 1) % LAB.length]}" stroke-width="1.2"><title>${esc(e.n)}: lab ${e.lab}, round ${e.round}, off our route\n${esc(e.s || '')}</title></circle>`;
         });
       }
-      return `<div class="panel"><h3><span class="swatch" style="background:${ink}"></span>${esc(name(s))}</h3>
+      return `<div class="panel"><h3>${swatch(s, ink)}${esc(name(s))}</h3>
         <div class="stats"><div>Money spent<b>$${spent.toFixed(2)} <small>/ $${d.moneyPerRun.toFixed(2)}</small></b></div><div>Targets proved<b>${solved.toFixed(1)} <small>/ ${d.targets.length}</small></b></div><div>Deepest proved<b>${deepest} <small>/ ${lay.depths.at(-1)}</small></b></div></div>
         <p class="this">${ok + no ? `This round: ${ok + no} tr${ok + no === 1 ? 'y' : 'ies'} at targets, ${ok} accepted` : 'This round: no tries at targets'}</p>
         <svg viewBox="0 0 ${lay.W} ${H}" role="img" aria-label="${esc(name(s))}: steps and targets proved by round ${R}">${g}</svg></div>`;
@@ -514,14 +522,14 @@ function chart(d, col, key, el, what, opt = {}) {
   // Each run faint behind the mean, where the runs are known (opt.runs: the key of each setup's per-run points).
   if (opt.runs) d.setups.forEach((s, i) => (s[opt.runs] || []).forEach((pts) => {
     if (pts.length < 2 || !s[key].length) return;
-    g += `<polyline points="${pts.filter(([m]) => m <= xmax).map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ')}" fill="none" stroke="${col[i]}" stroke-width="1" stroke-opacity=".3" stroke-linejoin="round"/>`;
+    g += `<polyline points="${pts.filter(([m]) => m <= xmax).map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ')}" fill="none" stroke="${col[i]}" stroke-width="1" stroke-opacity=".3" stroke-linejoin="round"${dashed(s) ? ' stroke-dasharray="5 4"' : ''}/>`;
   }));
   d.setups.forEach((s, i) => {
     if (!s[key].length) return;
     // A setup's line ends at the most its runs have spent: one that has spent less is not drawn as stalled.
     const end = Math.min(xmax, own(s));
     const pts = s[key].filter(([m]) => m <= end).concat([[end, valAt(s, end)]]).map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
-    g += `<polyline points="${pts}" fill="none" stroke="${col[i]}" stroke-width="2" stroke-linejoin="round"/>`;
+    g += `<polyline points="${pts}" fill="none" stroke="${col[i]}" stroke-width="2" stroke-linejoin="round"${dashed(s) ? ' stroke-dasharray="7 5"' : ''}/>`;
   });
   g += `<line id="cross" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>`;
   $(el).innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${what} for the money spent, by setup">${g}<rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="hit"/></svg><div class="tip" id="${el}-tip"></div>`;
@@ -531,7 +539,7 @@ function chart(d, col, key, el, what, opt = {}) {
     const k = Math.max(0, Math.min(40, Math.round((sx - L) / (W - L - R) * 40)));
     const m = xmax * k / 40;
     cross.setAttribute('x1', x(m)); cross.setAttribute('x2', x(m)); cross.setAttribute('visibility', 'visible');
-    tip.innerHTML = `<b>$${m.toFixed(xmax < 0.2 ? 3 : 2)} spent</b><br>` + d.setups.map((s, i) => s[key].length && m <= own(s) + 1e-12 ? `<span class="swatch" style="display:inline-block;background:${col[i]}"></span> ${esc(name(s))}: ${valAt(s, m).toFixed(1)}` : '').filter(Boolean).join('<br>');
+    tip.innerHTML = `<b>$${m.toFixed(xmax < 0.2 ? 3 : 2)} spent</b><br>` + d.setups.map((s, i) => s[key].length && m <= own(s) + 1e-12 ? `${swatch(s, col[i], 'display:inline-block;')} ${esc(name(s))}: ${valAt(s, m).toFixed(1)}` : '').filter(Boolean).join('<br>');
     tip.style.display = 'block';
     const px = (ev.clientX - r.left), w = tip.offsetWidth;
     tip.style.left = (px + 14 + w > r.width ? px - w - 14 : px + 14) + 'px'; tip.style.top = '8px';
