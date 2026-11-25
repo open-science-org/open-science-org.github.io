@@ -121,7 +121,7 @@
     <p class="eyebrow pill" id="pill"><span class="dot"></span><span id="state">Loading…</span></p>
     <h1 id="title">Watch the experiment, <em>live</em>.</h1>
     <p class="sub">Teams of AI labs prove maths problems in Lean, where a computer checks every proof.</p>
-    <p class="body"><b>The question:</b> given a collection of intelligent entities, limited resources, and a set of objectives, what organizational structure maximizes the collective intelligence of the system? <a href="index.html#question">More →</a></p>
+    <p class="body" id="question" hidden></p>
     <p class="body">Each team works under different rules: when results go public, and how much of a result's credit flows back to the results it used (α). Everything here is what the checker decided, nothing an AI said about itself.</p>
     <p class="facts" id="updated"></p>
     <nav class="exps" id="exps" aria-label="Experiments"></nav>
@@ -330,6 +330,9 @@ function render(d) {
   $('pill').classList.toggle('on', running);
   $('state').textContent = running ? 'Live' : 'Finished';
   $('title').textContent = d.title;
+  // The question this experiment asks; OSO's main question is on the About page.
+  $('question').hidden = !d.question;
+  $('question').innerHTML = d.question ? `<b>This experiment asks:</b> ${esc(d.question.replace(/ \[[A-D]\]$/, ''))}` : '';
   const done = d.setups.reduce((a, s) => a + s.runs.done, 0), total = d.setups.reduce((a, s) => a + s.runs.total, 0);
   $('updated').textContent = `Updated ${ago(d.updatedAt)} · ${done} of ${total} runs finished · ${d.targets.length} problems · ${money(d.moneyPerRun)} per run`;
   const col = colours(d.setups);
