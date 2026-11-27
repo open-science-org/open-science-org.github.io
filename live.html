@@ -177,9 +177,11 @@
             <div class="chart" id="chart"></div>
             <h3 style="margin:22px 0 4px">Lemmas accepted for the money spent</h3>
             <p class="lede">Every lemma Lean accepted. <strong>More is not better: this can include repeated work.</strong> Lean refuses only a word-for-word repeat of a lemma the lab could already cite. The same fact in another form counts again, and under traditional rules a lab cannot see the others' lemmas, so several labs prove the same basics. For how far a setup got, see hidden steps below. Same money axis as above.</p>
+            <div class="legend" id="legend-lem"></div>
             <div class="chart" id="chart-lem"></div>
             <h3 style="margin:22px 0 4px">Hidden steps proved for the money spent</h3>
             <p class="lede">Steps of our known proof (hidden from the labs) that a lab lemma gives, checked by Lean. Labs may take other routes, so this counts only steps proved in the same form. Bold: mean over runs; faint: each run. Same money axis as above.</p>
+            <div class="legend" id="legend-steps"></div>
             <div class="chart" id="chart-steps"></div>
           </div>
           <aside id="talk" hidden>
@@ -397,7 +399,8 @@ function render(d) {
       <div class="muted small">${esc(s.params)}</div></div>`;
   }).join('');
 
-  $('legend').innerHTML = d.setups.map((s, i) => `<span>${swatch(s, col[i])}${esc(name(s))}</span>`).join('');
+  const legendHtml = d.setups.map((s, i) => `<span>${swatch(s, col[i])}${esc(name(s))}</span>`).join('');
+  for (const id of ['legend', 'legend-lem', 'legend-steps']) $(id).innerHTML = legendHtml;
   chart(d, col, 'curve', 'chart', 'problems proved');
   chart(d, col, 'lemmaCurve', 'chart-lem', 'lemmas accepted (may repeat)');
   // Hidden steps proved, from each run's matched steps (scripts/match-steps.ts) and its money by round.
