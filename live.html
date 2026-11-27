@@ -175,8 +175,8 @@
             <p class="lede" id="progresslede">Mean over the runs so far of each setup. Each run has the same money; the graph runs to what has been spent so far.</p>
             <div class="legend" id="legend"></div>
             <div class="chart" id="chart"></div>
-            <h3 style="margin:22px 0 4px">Lemmas accepted for the money spent</h3>
-            <p class="lede">Every lemma Lean accepted. <strong>More is not better: this can include repeated work.</strong> Lean refuses only a word-for-word repeat of a lemma the lab could already cite. The same fact in another form counts again, and under traditional rules a lab cannot see the others' lemmas, so several labs prove the same basics. For how far a setup got, see hidden steps below. Same money axis as above.</p>
+            <h3 style="margin:22px 0 4px">Unique lemmas proved for the money spent</h3>
+            <p class="lede">Each statement counts once, the first time any lab in the run proves it; renaming the variables does not make it new. The same fact stated another way still counts again, so more is not always better. Under traditional rules each lab sees only its own library, so its prompts are shorter and its turns cheaper: it gets more turns for the same money. For how far a setup got, see hidden steps below. Same money axis as above.</p>
             <div class="legend" id="legend-lem"></div>
             <div class="chart" id="chart-lem"></div>
             <h3 style="margin:22px 0 4px">Hidden steps proved for the money spent</h3>
@@ -402,7 +402,7 @@ function render(d) {
   const legendHtml = d.setups.map((s, i) => `<span>${swatch(s, col[i])}${esc(name(s))}</span>`).join('');
   for (const id of ['legend', 'legend-lem', 'legend-steps']) $(id).innerHTML = legendHtml;
   chart(d, col, 'curve', 'chart', 'problems proved');
-  chart(d, col, 'lemmaCurve', 'chart-lem', 'lemmas accepted (may repeat)');
+  chart(d, col, 'lemmaCurve', 'chart-lem', 'unique lemmas proved');
   // Hidden steps proved, from each run's matched steps (scripts/match-steps.ts) and its money by round.
   const hidden = (d.dag || []).filter((n) => !n.posted).length;
   for (const s of d.setups) {
